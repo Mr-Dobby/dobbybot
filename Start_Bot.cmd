@@ -1,0 +1,2 @@
+nodemon Index.js
+Pause

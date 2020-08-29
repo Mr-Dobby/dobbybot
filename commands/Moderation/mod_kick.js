@@ -7,16 +7,16 @@ module.exports.run = async (bot, message, args, client) => {
   let currPrefix = await Servers.findOne( { guildID: message.guild.id } )
 
   let logName = await Logs.findOne( { guildID: message.guild.id } )
-  const logchannel = bot.channels.get(logName.incidentLog)
+  const logchannel = bot.channels.cache.get(logName.incidentLog)
 
-  const Failure = bot.emojis.get("697388354689433611");
-  const Sucess = bot.emojis.get("697388354668462110");
+  const Failure = bot.emojis.cache.get("697388354689433611");
+  const Sucess = bot.emojis.cache.get("697388354668462110");
   
-  var noPermsEmbed = new Discord.RichEmbed()
+  var noPermsEmbed = new Discord.MessageEmbed()
       .setDescription(`${Failure} Kicking members requires you to have \`KICK MEMBERS\` permissions.`)
       .setColor("#ff0000")
     
-  var noPermsEmbedBot = new Discord.RichEmbed()
+  var noPermsEmbedBot = new Discord.MessageEmbed()
       .setDescription(`${Failure} Kicking members requires me to have \`KICK MEMBERS\` permissions.`)
       .setColor("#ff0000")
 
@@ -28,7 +28,7 @@ module.exports.run = async (bot, message, args, client) => {
     return message.channel.send(noPermsEmbed);
   }
 
-            const kickErrorEmbed = new Discord.RichEmbed()
+            const kickErrorEmbed = new Discord.MessageEmbed()
                   .setColor("#ff4f4f")
                   .setTitle(`\`Command: ${currPrefix.prefix}kick\` | Alias: \`gtfo\``)
                   .addField("**Description:**", "Kick a user out of the server.")
@@ -36,24 +36,24 @@ module.exports.run = async (bot, message, args, client) => {
                   .addField("**Example:**", `${currPrefix.prefix}kick @Mr.Dobby#0001 Spam`)
                   .setFooter("<> = Required, [] = Optional")
 
-            const kickPermErrorModEmbed = new Discord.RichEmbed()
+            const kickPermErrorModEmbed = new Discord.MessageEmbed()
                   .setColor("#ff0000")
-                  .setAuthor(`${message.author.tag} | Permission Error`, message.author.displayAvatarURL)
+                  .setAuthor(`${message.author.tag} | Permission Error`, message.author.displayAvatarURL({ dynamic: true }))
                   .setDescription(`${Failure} Member is a Moderator.`)
         
-            const kickPermErrorAdminEmbed = new Discord.RichEmbed()
+            const kickPermErrorAdminEmbed = new Discord.MessageEmbed()
                   .setColor("#ff0000")
-                  .setAuthor(`${message.author.tag} | Permission Error`, message.author.displayAvatarURL)
+                  .setAuthor(`${message.author.tag} | Permission Error`, message.author.displayAvatarURL({ dynamic: true }))
                   .setDescription(`${Failure} Member is an Administrator.`)
         
-            const kickPermErrorOwnerEmbed = new Discord.RichEmbed()
+            const kickPermErrorOwnerEmbed = new Discord.MessageEmbed()
                   .setColor("#ff0000")
-                  .setAuthor(`${message.author.tag} | Stupidity Error`, message.author.displayAvatarURL)
+                  .setAuthor(`${message.author.tag} | Stupidity Error`, message.author.displayAvatarURL({ dynamic: true }))
                   .setDescription(`${Failure} This is the server owner, nice try tho.`)
 
         if (logchannel) {
 
-        let kUser = message.guild.member(message.mentions.users.last() || message.mentions.users.first() || message.guild.members.get(args[0]));
+        let kUser = message.guild.member(message.mentions.users.last() || message.mentions.users.first() || message.guild.members.cache.get(args[0]));
         if (!kUser) return message.channel.send(kickErrorEmbed);
 
         if (kUser.highestRole.position >= message.member.highestRole.position) {
@@ -75,23 +75,23 @@ module.exports.run = async (bot, message, args, client) => {
         let kReason = args.join(" ").slice(22);
         if (!kReason) kReason = "No reason given.";
 
-            let kickEmbed = new Discord.RichEmbed()
+            let kickEmbed = new Discord.MessageEmbed()
                 .setColor("#7aff7a")
-                .setAuthor('Successfully kicked!', kUser.user.displayAvatarURL)
+                .setAuthor('Successfully kicked!', kUser.user.displayAvatarURL({ dynamic: true }))
                 .setDescription(`${Sucess} <@${kUser.user.id}> has been kicked`)
 
-            let kickEmbedLog = new Discord.RichEmbed()
-                .setAuthor(`${kUser.user.tag} | Kick 🔨`, kUser.user.displayAvatarURL)
+            let kickEmbedLog = new Discord.MessageEmbed()
+                .setAuthor(`${kUser.user.tag} | Kick`, kUser.user.displayAvatarURL({ dynamic: true }))
                 .setDescription(`\`${currPrefix.prefix}kick <@User> [Reason]\``)
                 .setColor("#ff4f4f")
-                .addField("User", `${kUser.user.tag}\n<@${kUser.id}>`, true)
-                .addField("Moderator", `${message.author.tag}\n<@${message.author.id}>`, true)
+                .addField("User", `<@${kUser.id}>`, true)
+                .addField("Moderator", `<@${message.author.id}>`, true)
                 .addField("Reason", kReason)
                 .setFooter(`ID: ${kUser.user.id}`)
                 .setTimestamp()
 
-            let BuhByeEmbed = new Discord.RichEmbed()
-                .setAuthor(`${kUser.user.tag}, you were kicked from the ${message.guild.name} server`, kUser.user.displayAvatarURL)
+            let BuhByeEmbed = new Discord.MessageEmbed()
+                .setAuthor(`${kUser.user.tag}, you were kicked from the ${message.guild.name} server`, kUser.user.displayAvatarURL({ dynamic: true }))
                 .setColor("#ff4f4f")
                 .addField("Reason", kReason)
                 .setFooter(`Your ID: ${kUser.user.id}`)
@@ -115,7 +115,7 @@ module.exports.run = async (bot, message, args, client) => {
         let kUser = message.guild.member(message.mentions.users.last() || message.mentions.users.first());
         if (!kUser) return message.channel.send(kickErrorEmbed);
         
-        let botRole = message.guild.roles.find(r => r.name === "Dobby Bot");
+        let botRole = message.guild.roles.cache.find(r => r.name === "Dobby Bot");
         if (kUser.highestRole.position <= botRole.position) {
             return await message.channel.send(`My highest role needs to be higher than their highest.`);
         }
@@ -139,13 +139,13 @@ module.exports.run = async (bot, message, args, client) => {
         let kReason = args.join(" ").slice(22);
         if (!kReason) kReason = "No reason given.";
 
-            let kickEmbed = new Discord.RichEmbed()
+            let kickEmbed = new Discord.MessageEmbed()
                 .setColor("#7aff7a")
-                .setAuthor('Successfully kicked!', kUser.user.displayAvatarURL)
+                .setAuthor('Successfully kicked!', kUser.user.displayAvatarURL({ dynamic: true }))
                 .setDescription(`<@${kUser.user.id}> has been kicked`)
 
-            let BuhByeEmbed = new Discord.RichEmbed()
-                .setAuthor(`**${kUser.user.tag}**, you were kicked from **${message.guild.name}**`, kUser.user.displayAvatarURL)
+            let BuhByeEmbed = new Discord.MessageEmbed()
+                .setAuthor(`**${kUser.user.tag}**, you were kicked from **${message.guild.name}**`, kUser.user.displayAvatarURL({ dynamic: true }))
                 .setColor("#ff4f4f")
                 .addField("Reason", kReason)
                 .setFooter(`ID: ${kUser.user.id}`)

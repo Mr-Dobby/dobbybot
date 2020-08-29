@@ -6,48 +6,49 @@ module.exports.run = async (bot, message, args, client) => {
 
   let currPrefix = await Servers.findOne( { guildID: message.guild.id } )
 
-    const Failure = bot.emojis.get("697388354689433611");
-    const Sucess = bot.emojis.get("697388354668462110");
+    const Failure = bot.emojis.cache.get("697388354689433611");
+    const Sucess = bot.emojis.cache.get("697388354668462110");
 
     const ticketNumber = args[0];
-    const ticketChannel = message.guild.channels.find(c => c.name == `ticket-${ticketNumber}`);
+    const ticketChannel = message.guild.channels.cache.find(c => c.name == `ticket-${ticketNumber}`);
     const logName = await Logs.findOne( { guildID: message.guild.id } );
-    const logchannel = bot.channels.get(logName.serverLog);
+    if (!logName) { return; }
+    const logchannel = bot.channels.cache.get(logName.serverLog);
 
-    let noLogs = new Discord.RichEmbed()
-        .setAuthor(`${message.author.tag} | No Log Channel`, message.author.displayAvatarURL)
+    let noLogs = new Discord.MessageEmbed()
+        .setAuthor(`${message.author.tag} | No Log Channel`, message.author.displayAvatarURL({ dynamic: true }))
         .setDescription(`${Failure} Reqiures a \`Server log\` or \`Action log\` channel. Set one with \`${currPrefix.prefix}set\``)
         .setColor("#ff4f4f")
 
     if (!logchannel) return message.channel.send(noLogs)
 
-    let TicketEmbedLog = new Discord.RichEmbed()
-        .setAuthor(`${message.author.tag} | Ticket Closed 🔒`, message.author.displayAvatarURL)
+    let TicketEmbedLog = new Discord.MessageEmbed()
+        .setAuthor(`${message.author.tag} | Ticket Closed 🔒`, message.author.displayAvatarURL({ dynamic: true }))
         .setDescription(`\`${currPrefix.prefix}close <Ticket ID>\``)
         .setColor("#ffc500")
-        .addField("Closed by Moderator", `${message.author.tag}\n<@${message.author.id}>`, true)
+        .addField("Closed by Moderator", `<@${message.author.id}>`, true)
         .setFooter(`Ticket ID: ${ticketNumber}`)
         .setTimestamp()
 
-    let TicketClosedEmbed = new Discord.RichEmbed()
-        .setAuthor(`${message.author.tag} | Close Ticket`, message.author.displayAvatarURL)
+    let TicketClosedEmbed = new Discord.MessageEmbed()
+        .setAuthor(`${message.author.tag} | Close Ticket`, message.author.displayAvatarURL({ dynamic: true }))
         .setDescription(`${Sucess} <@${message.author.id}> you successfully closed \`ticket #${ticketNumber}\`!`)
         .setColor("#ffc500")
 
-    let CloseTicketErrorEmbed = new Discord.RichEmbed()
-        .setAuthor(`${message.author.tag} | Close Ticket`, message.author.displayAvatarURL)
+    let CloseTicketErrorEmbed = new Discord.MessageEmbed()
+        .setAuthor(`${message.author.tag} | Close Ticket`, message.author.displayAvatarURL({ dynamic: true }))
         .setDescription(`${Failure} Command usage: \`${currPrefix.prefix}close <Ticket ID>\``)
         .setColor("#ffc500")
 
-    let OnlyStaff = new Discord.RichEmbed()
-        .setAuthor(`${message.author.tag} | Close Ticket`, message.author.displayAvatarURL)
+    let OnlyStaff = new Discord.MessageEmbed()
+        .setAuthor(`${message.author.tag} | Close Ticket`, message.author.displayAvatarURL({ dynamic: true }))
         .setDescription(`${Failure} <@${message.author.id}> only staff can close tickets`)
         .setColor("#ffc500")
 
     if (!message.member.hasPermission("MANAGE_MESSAGES")) return message.channel.send(OnlyStaff)
     if (ticketChannel) {
         try {
-            await message.author.send(TicketClosedEmbed);
+            await message.member.send(TicketClosedEmbed);
             await ticketChannel.delete();
             await logchannel.send(TicketEmbedLog)
                 } catch(e) {

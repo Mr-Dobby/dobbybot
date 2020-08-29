@@ -15,9 +15,9 @@ module.exports.run = async (bot, message, args, client) => {
       return message.channel.send('You need `MANAGE MESSAGES` permission')
     }
 
-    const Failure = bot.emojis.get("697388354689433611");
+    const Failure = bot.emojis.cache.get("697388354689433611");
 
-    const warningsErrorEmbed = new Discord.RichEmbed()
+    const warningsErrorEmbed = new Discord.MessageEmbed()
         .setColor("#ff4f4f")
         .setTitle(`\`Command: ${currPrefix.prefix}warnings\``)
         .addField("**Description:**", "Check how many warnings a member has for the server.")
@@ -25,16 +25,16 @@ module.exports.run = async (bot, message, args, client) => {
         .addField("**Example:**", `${currPrefix.prefix}warnings @Mr.Dobby#0001`)
         .setFooter("<> = Required, [] = Optional")
 
-    let member = message.guild.member(message.mentions.users.last() || message.mentions.users.first() || message.guild.members.get(args[0]));
+    let member = message.guild.member(message.mentions.users.last() || message.mentions.users.first() || message.guild.members.cache.get(args[0]));
     if (!member) return message.channel.send(warningsErrorEmbed)
 
-    const NoWarnsEmbed = new Discord.RichEmbed()
+    const NoWarnsEmbed = new Discord.MessageEmbed()
         .setColor("#ff0000")
-        .setAuthor(`${message.author.tag} | Warnings`, message.author.displayAvatarURL)
+        .setAuthor(`${message.author.tag} | Warnings`, message.author.displayAvatarURL({ dynamic: true }))
         .setDescription(`${Failure} <@${member.user.id}> has no warns.`)
 
-    const Embed1 = new Discord.RichEmbed()
-        .setAuthor(`${member.user.tag} | Warnings`, member.user.displayAvatarURL)
+    const Embed1 = new Discord.MessageEmbed()
+        .setAuthor(`${member.user.tag} | Warnings`, member.user.displayAvatarURL({ dynamic: true }))
 
     Warns.find(
       {

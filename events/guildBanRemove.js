@@ -4,16 +4,16 @@ const Logs = require('../lib/logs');
 
 bot.on("guildBanRemove", async (guild, user) => {
 
-    let fire = bot.emojis.get("687436596391182344")
+    let fire = bot.emojis.cache.get("687436596391182344")
     let logName = await Logs.findOne( { guildID: guild.id } )
-    const logchannel = bot.channels.get(logName.serverLog)
+    const logchannel = bot.channels.cache.get(logName.serverLog)
     if (!logchannel) return;
     if (!logchannel.permissionsFor(guild.me).has('VIEW_CHANNEL')) return;
     if (!logchannel.permissionsFor(guild.me).has('ADMINISTRATOR')) return;
     let banCount = (await guild.fetchBans()).size;
 
-    const embed = new Discord.RichEmbed()
-    .setAuthor(`${user.tag} | Unbanned`, user.displayAvatarURL)
+    const embed = new Discord.MessageEmbed()
+    .setAuthor(`${user.tag} | Unbanned`, user.displayAvatarURL({ dynamic: true }))
     .setColor("#7aff7a")
     .setThumbnail("https://cdn.discordapp.com/attachments/682717976771821646/691316470243786852/Unbanned.png")
     .setDescription(`${user} is now unbanned ${fire}`)

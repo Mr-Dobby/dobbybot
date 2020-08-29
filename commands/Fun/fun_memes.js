@@ -27,7 +27,7 @@ module.exports.run = async (bot, message, args) => {
     let subreddit = reddit[Math.floor(Math.random() * reddit.length)];
 
     puppy(subreddit).then(url => {
-          var rmemes = new Discord.RichEmbed()
+          var rmemes = new Discord.MessageEmbed()
           .setTitle(`Reddit Meme, (${url})`)
           .setDescription("Random pic or gif from subreddit memes.")
           .setImage(url)

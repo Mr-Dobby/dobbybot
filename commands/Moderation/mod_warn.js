@@ -20,28 +20,28 @@ module.exports.run = async (bot, message, args, client) => {
     return message.channel.send('You need `MANAGE MESSAGES` permission')
   }
 
-  const Failure = bot.emojis.get("697388354689433611");
-  const Sucess = bot.emojis.get("697388354668462110");
+  const Failure = bot.emojis.cache.get("697388354689433611");
+  const Sucess = bot.emojis.cache.get("697388354668462110");
 
-  let member = message.guild.member(message.mentions.users.last() || message.mentions.users.first() || message.guild.members.get(args[0]));
+  let member = message.guild.member(message.mentions.users.last() || message.mentions.users.first() || message.guild.members.cache.get(args[0]));
   let reason = args.slice(1).join(" ");
 
-  const warnPermErrorModEmbed = new Discord.RichEmbed()
+  const warnPermErrorModEmbed = new Discord.MessageEmbed()
       .setColor("#ff0000")
-      .setAuthor(`${message.author.tag} | Permission Error`, message.author.displayAvatarURL)
+      .setAuthor(`${message.author.tag} | Permission Error`, message.author.displayAvatarURL({ dynamic: true }))
       .setDescription(`${Failure} Member is a Moderator.`)
 
-  const warnPermErrorAdminEmbed = new Discord.RichEmbed()
+  const warnPermErrorAdminEmbed = new Discord.MessageEmbed()
       .setColor("#ff0000")
-      .setAuthor(`${message.author.tag} | Permission Error`, message.author.displayAvatarURL)
+      .setAuthor(`${message.author.tag} | Permission Error`, message.author.displayAvatarURL({ dynamic: true }))
       .setDescription(`${Failure} Member is an Administrator.`)
 
-  const warnPermErrorOwnerEmbed = new Discord.RichEmbed()
+  const warnPermErrorOwnerEmbed = new Discord.MessageEmbed()
       .setColor("#ff0000")
-      .setAuthor(`${message.author.tag} | Stupidity Error`, message.author.displayAvatarURL)
+      .setAuthor(`${message.author.tag} | Stupidity Error`, message.author.displayAvatarURL({ dynamic: true }))
       .setDescription(`${Failure} This is the server owner, nice try tho.`)
 
-  const warnErrorEmbed = new Discord.RichEmbed()
+  const warnErrorEmbed = new Discord.MessageEmbed()
       .setColor("#ff0000")
       .setTitle(`\`Command: ${currPrefix.prefix}warn\``)
       .addField("**Description:**", "Log a warning for a user.")
@@ -49,9 +49,9 @@ module.exports.run = async (bot, message, args, client) => {
       .addField("**Example:**", `${currPrefix.prefix}warn @Mr.Dobby#0001 He was toxic`)
       .setFooter("<> = Required, [] = Optional")
 
-  const warnSuccessEmbed = new Discord.RichEmbed()
+  const warnSuccessEmbed = new Discord.MessageEmbed()
       .setColor("#ff4f4f")
-      .setAuthor('Successfully warned!', member.user.displayAvatarURL)
+      .setAuthor('Successfully warned!', member.user.displayAvatarURL({ dynamic: true }))
       .setDescription(`${Sucess} <@${member.user.id}> has been warned`)
 
   if (member.id === message.author.id) return;
@@ -61,7 +61,7 @@ module.exports.run = async (bot, message, args, client) => {
   if (!member) return message.channel.send(warnErrorEmbed)
   if (!reason) reason = `No reason given.`;
 
-  const warnEmbed2Member = new Discord.RichEmbed()
+  const warnEmbed2Member = new Discord.MessageEmbed()
       .setColor("#ff4f4f")
       .setDescription(`<@${member.user.id}> you were warned in **${message.guild.name}**\nWarned for: ${reason}`)
 

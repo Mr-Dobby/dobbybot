@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const Canvas = require("canvas");
+//const Canvas = require("canvas");
 
 const applyText = (Canvas, text) => {
 	const ctx = Canvas.getContext('2d');
@@ -46,10 +46,10 @@ module.exports.run = async (bot, message, args) => {
   
     const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
 
-    const fire = bot.emojis.get("687436596391182344")
+    const fire = bot.emojis.cache.get("687436596391182344")
     const RandomColour = ("000000" + Math.random().toString(16).slice(2, 8).toUpperCase()).slice(-6);
 
-    const NewMembeEmbed = new Discord.RichEmbed()
+    const NewMembeEmbed = new Discord.MessageEmbed()
     .setColor(RandomColour)
     .setDescription(`Welcoming a new arriving member, <@${message.author.id}> ${fire}`)
     .attachFile(attachment)

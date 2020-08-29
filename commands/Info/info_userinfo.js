@@ -1,12 +1,20 @@
 const Discord = require("discord.js");
-const Servers = require("../../lib/mongodb");
 const moment = require("moment");
 
 module.exports.run = async (bot, message, args, client) => {
 
-  let currPrefix = await Servers.findOne( { guildID: message.guild.id } )
+  const Failure = bot.emojis.cache.get("697388354689433611");
+  const Sucess = bot.emojis.cache.get("697388354668462110");
 
-      let user = message.guild.member(message.mentions.users.last() || message.guild.members.get(args[0]) || message.author);
+  var noPermsEmbedBot = new Discord.MessageEmbed()
+      .setDescription(`${Failure} To see all member info, I requires \`ADMINISTRATOR\` permissions.`)
+      .setColor("#ff0000")
+
+    if (!message.guild.me.hasPermission("ADMINISTRATOR")) {
+        return message.channel.send(noPermsEmbedBot)
+    }
+
+      let user = message.guild.member(message.mentions.users.last() || message.guild.members.cache.get(args[0]) || message.author);
 
         // The maths behind Account Creation & Joined Guild
         function checkDays(date) {
@@ -16,75 +24,82 @@ module.exports.run = async (bot, message, args, client) => {
             return days + (days == 1 ? " day" : " days") + " ago";
         };
 
+        function duration(ms) {
+            const sec = Math.floor((ms / 1000) % 60).toString()
+            const min = Math.floor((ms / (1000 * 60)) % 60).toString()
+            const hrs = Math.floor((ms / (1000 * 60 * 60)) % 60).toString()
+            const days = Math.floor((ms / (1000 * 60 * 60 * 24)) % 60).toString()
+            return `${days.padStart(1, '0')} days, ${hrs.padStart(2, '0')} hours, ${min.padStart(2, '0')} minutes`
+        };
+
       var permissions = [];
 
       if (user.hasPermission("ADMINISTRATOR")) {
-          permissions.push("• Administrator");
+          permissions.push("Administrator");
       }
 
       if (user.hasPermission("KICK_MEMBERS")) {
-          permissions.push("• Kick Members");
+          permissions.push("Kick Members");
       }
       
       if (user.hasPermission("BAN_MEMBERS")) {
-          permissions.push("• Ban Members");
+          permissions.push("Ban Members");
       }
   
       if (user.hasPermission("MANAGE_MESSAGES")) {
-          permissions.push("• Manage Messages");
+          permissions.push("Manage Messages");
       }
       
       if (user.hasPermission("MANAGE_CHANNELS")) {
-          permissions.push("• Manage Channels");
+          permissions.push("Manage Channels");
       }
 
       if (user.hasPermission("MANAGE_ROLES")) {
-          permissions.push("• Manage Roles");
+          permissions.push("Manage Roles");
       }
       
       if (user.hasPermission("MENTION_EVERYONE")) {
-          permissions.push("• Mention Everyone");
+          permissions.push("Mention Everyone");
       }
   
       if (user.hasPermission("MANAGE_NICKNAMES")) {
-          permissions.push("• Manage Nicknames");
+          permissions.push("Manage Nicknames");
       }
   
       if (user.hasPermission("MANAGE_WEBHOOKS")) {
-          permissions.push("• Manage Webhooks");
+          permissions.push("Manage Webhooks");
       }
   
       if (user.hasPermission("MANAGE_EMOJIS")) {
-          permissions.push("• Manage Emojis");
+          permissions.push("Manage Emojis");
       }
 
       if (user.hasPermission("MUTE_MEMBERS")) {
-          permissions.push("• Server Mute");
+          permissions.push("Server Mute");
       }
 
       if (user.hasPermission("DEAFEN_MEMBERS")) {
-          permissions.push("• Server Deafen");
+          permissions.push("Server Deafen");
       }
 
       if (user.hasPermission("MOVE_MEMBERS")) {
-          permissions.push("• Move Members");
+          permissions.push("Move Members");
       }
   
       if (permissions.length == 0) {
           permissions.push("• No Key Permissions Found");
       }
 
-      let Online = bot.emojis.get("691958418180800553");
-      let Idle = bot.emojis.get("691958427496480824");
-      let DnD = bot.emojis.get("691958436539400233");
-      let Offline = bot.emojis.get("691961517050036225");
-      let Bot = bot.emojis.get("686870651620950040");
+      let Online = bot.emojis.cache.get("691958418180800553");
+      let Idle = bot.emojis.cache.get("691958427496480824");
+      let DnD = bot.emojis.cache.get("691958436539400233");
+      let Offline = bot.emojis.cache.get("691961517050036225");
+      let Bot = bot.emojis.cache.get("686870651620950040");
 
-      // The "self-wrote" status
       let status = {
             "online"   : `${Online} Online`,
             "idle"     : `${Idle} Idle/AFK`,
-            "dnd"      : `${DnD} Do Not Disturb!`,
+            "dnd"      : `${DnD} DnD!`,
             "offline"  : `${Offline} Offline`
       };
 
@@ -101,42 +116,41 @@ module.exports.run = async (bot, message, args, client) => {
           serverPerms = "Member"
         }
 
-      let userRoles = user.roles.filter(r => r.id !== message.guild.id).sort((a, b) => b.position - a.position).map(g => g.toString()).join(" ");
+      let userRoles = user.roles.cache.filter(r => r.id !== message.guild.id).sort((a, b) => b.position - a.position).map(g => g.toString()).join(" ");
       if (!userRoles) userRoles = `No roles assigned.`
 
-      let roleCount = `${user.roles.filter(r => r.id !== message.guild.id).map(roles => `\`${roles.name}\``).length}`
+      let roleCount = `${user.roles.cache.filter(r => r.id !== message.guild.id).map(roles => `\`${roles.name}\``).length}`
       if (!roleCount) roleCount = "0"
 
       moment.locale("en-gb");
       let created = moment(user.user.createdAt).format('L');
       let joined = moment(user.joinedAt).format('L');
 
-      let UREmbed = new Discord.RichEmbed()
+      let UREmbed = new Discord.MessageEmbed()
           .setDescription(`Roles [${roleCount}]\n${userRoles}`)
           .setColor("#010000")
 
       //  var highestRole = member.highestRole.id !== '@everyone' ? member.highestRole.id : 'User doesn\'t have any roles';
 
-      message.channel.send({embed: {
+      await message.channel.send({embed: {
 
-            author: { name: `${user.user.tag} | Information`, icon_url: user.user.displayAvatarURL },
-            thumbnail: { url: user.user.displayAvatarURL },
-            description: `<@${user.user.id}>`,
+            author: { name: `${user.user.tag} | Information`, icon_url: user.user.displayAvatarURL({ dynamic: true }) },
+            thumbnail: { url: user.user.displayAvatarURL({ dynamic: true }) },
+            description: `<@${user.user.id}> | ID: ${user.user.id}`,
             color: 0x01000,
             fields: [
-              { name: `➞ Status`, value: `• ${user.presence.game.name.toString() ? user.presence.game.name.toString() : 'None'}`, inline: true },
+
+              { name: `➞ Online Time`, value: `• ${duration(user.user.client.uptime)}`, inline: true },
               { name: `➞ Status`, value: `• ${status[user.presence.status]}`, inline: true },
               { name: `➞ Server Position`, value: `• ${serverPerms}`, inline: true },
               { name: `➞ Account created`, value: `• ${created}\n• ${checkDays(user.user.createdAt)}\n`, inline: true },
               { name: `➞ Joined the server`, value: `• ${joined}\n• ${checkDays(user.joinedAt)}`, inline: true },
-              { name: `➞ Key Permissions`, value: `${permissions.join(' ')}`, inline: false }
+              { name: `➞ Special Permissions`, value: `${permissions.join(', ')}`, inline: false }
 
-          ],
-          timestamp: new Date(),
-          footer: { text: `ID: ${user.user.id} | -userinfo @user`},
+          ]
         }
      })
-     message.channel.send(UREmbed)
+     await message.channel.send(UREmbed)
 
 }
 
@@ -150,8 +164,8 @@ module.exports.help = {
 /*
 OLD EMBED:
       // The userinfo Embed itself.
-      let userURL = user.user.displayAvatarURL;
-      let userEmbed = new Discord.RichEmbed()
+      let userURL = user.user.displayAvatarURL({ dynamic: true });
+      let userEmbed = new Discord.MessageEmbed()
             .setTitle("User Information :bust_in_silhouette:")
             .setDescription("**-userinfo @User**")
             .setColor("#010000")
@@ -171,7 +185,7 @@ OLD EMBED:
 EMBEDS SHOWCASE!
 
 EMBED #1:
-const embed = new Discord.RichEmbed()
+const embed = new Discord.MessageEmbed()
   .setTitle("This is your title, it can hold 256 characters")
   .setAuthor("Author Name", "https://i.imgur.com/lm8s41J.png")
   .setColor(0x00AE86)
@@ -180,7 +194,7 @@ const embed = new Discord.RichEmbed()
   .setImage("http://i.imgur.com/yVpymuV.png")
   .setThumbnail("http://i.imgur.com/p2qNFag.png")
   .setTimestamp()
-  .setURL("https://discord.js.org/#/docs/main/indev/class/RichEmbed")
+  .setURL("https://discord.js.org/#/docs/main/indev/class/MessageEmbed")
   .addField("This is a field title, it can hold 256 characters",
     "This is a field value, it can hold 1024 characters.")
   .addField("Inline Field", "They can also be inline.", true)

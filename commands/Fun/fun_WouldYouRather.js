@@ -3,9 +3,9 @@ let question = require("../../storage/WouldYouRather.json")
 
 module.exports.run = async (bot, message, args) => {
 
-    var result = question[Math.floor(Math.random()*question.length)]
+    var result = question[Math.floor(Math.random() * question.length)]
     let RandomColour = Math.floor(Math.random() * Math.floor(16777215));
-    let embed = new Discord.RichEmbed()
+    let embed = new Discord.MessageEmbed()
     .setColor(RandomColour)
     .setDescription(result)
 

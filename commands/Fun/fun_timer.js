@@ -6,13 +6,13 @@ module.exports.run = async (bot, message, args, client) => {
 
   let currPrefix = await Servers.findOne( { guildID: message.guild.id } )
 
-      let errorTimeEmbed = new Discord.RichEmbed()
+      let errorTimeEmbed = new Discord.MessageEmbed()
           .setColor("#FF0000")
           .setTitle(":x: You need to specify when the timer goes off! :x:")
           .setDescription(`Examples:\n\`${currPrefix}timer 10s\`\n\`${currPrefix}timer 1m\`\n\`currPrefixtimer 1h\``)
           .setTimestamp()
 
-      let errorArgumentEmbed = new Discord.RichEmbed()
+      let errorArgumentEmbed = new Discord.MessageEmbed()
           .setColor("#FF0000")
           .setTitle(":x: You need to specify an argument :x:")
           .setDescription(`Examples:\n\`${currPrefix}timer 1h Gotta work in an hour!`)
@@ -24,7 +24,7 @@ module.exports.run = async (bot, message, args, client) => {
         let argument = args.slice(1).join(" ");
         if (!argument) return  message.channel.send(errorArgumentEmbed)
 
-      let embed = new Discord.RichEmbed()
+      let embed = new Discord.MessageEmbed()
           .setDescription(`Okay, I'll count down, and let you know when the time is up!\n Keep an eye on your **DMs!**`)
           .setFooter(`Timer is set to ${ms(ms(timer), { long: true})}`)
           .setColor("#30FF00")

@@ -30,7 +30,7 @@ bot.on('presenceUpdate', async (oldPresence, newPresence) => {
     let oldStreamingStatus = oldMember.presence.game ? oldMember.presence.game.streaming : false;
     let newStreamingStatus = newMember.presence.game ? newMember.presence.game.streaming : false;
   
-    let streamingEmbed = new Discord.RichEmbed()
+    let streamingEmbed = new Discord.MessageEmbed()
     .setColor("#6441A4")
     .setAuthor(`Streamer ${newMember.user.username}`)
     .setThumbnail(`${newMember.user.displayAvatarURL}`)
@@ -48,23 +48,22 @@ bot.on('presenceUpdate', async (oldPresence, newPresence) => {
     }
   
     */
-  
-    if (oldPresence.presence.status !== newPresence.presence.status) {
+    /*
+    if (oldPresence !== newPresence) {
   
       if (oldPresence.guild.id === '521602207406227476') {
           
-        oldPresence.guild.channels.get(options.total).setName(`Total Elves: ${oldPresence.guild.memberCount}`); // You can change this text, but still keep ${guild.memberCount}, as it defines total members.
-        oldPresence.guild.channels.get(options.users).setName(`Online Elves: ${oldPresence.guild.members.filter(a => a.presence.status !== 'offline').filter(member => !member.user.bot).size}`); // This text is also changeable, still keep the code in ${}
-        oldPresence.guild.channels.get(options.boosters).setName(`Boosting Elves: ${oldPresence.guild.premiumSubscriptionCount}`)
-        oldPresence.guild.channels.get(options.bots).setName(`Bots: ${oldPresence.guild.members.filter((m) => m.user.bot).size}`); // This text is also changeable, still keep the code in ${}
+        oldPresence.guild.channels.cache.get(options.total).setName(`Total Elves: ${oldPresence.guild.memberCount}`); // You can change this text, but still keep ${guild.memberCount}, as it defines total members.
+        oldPresence.guild.channels.cache.get(options.users).setName(`Online Elves: ${oldPresence.guild.members.filter(a => a.presence.status !== 'offline').filter(member => !member.user.bot).size}`); // This text is also changeable, still keep the code in ${}
+        oldPresence.guild.channels.cache.get(options.boosters).setName(`Boosting Elves: ${oldPresence.guild.premiumSubscriptionCount}`)
+        oldPresence.guild.channels.cache.get(options.bots).setName(`Bots: ${oldPresence.guild.members.filter((m) => m.user.bot).size}`); // This text is also changeable, still keep the code in ${}
         
     } else if (oldPresence.guild.id === "554048310436954122") {
   
-        oldPresence.guild.channels.get(options1.total).setName(`Total Cuties: ${oldPresence.guild.memberCount} ❤️`); // You can change this text, but still keep ${guild.memberCount}, as it defines total members.
-        oldPresence.guild.channels.get(options1.users).setName(`Online Cuties: ${oldPresence.guild.members.filter(a => a.presence.status !== 'offline').filter(member => !member.user.bot).size} ❤️`); // This text is also changeable, still keep the code in ${}
-        oldPresence.guild.channels.get(options1.bots).setName(`Bots: ${oldPresence.guild.members.filter((m) => m.user.bot).size}`); // This text is also changeable, still keep the code in ${}
+        oldPresence.guild.channels.cache.get(options1.total).setName(`Total Cuties: ${oldPresence.guild.memberCount} ❤️`); // You can change this text, but still keep ${guild.memberCount}, as it defines total members.
+        oldPresence.guild.channels.cache.get(options1.users).setName(`Online Cuties: ${oldPresence.guild.members.filter(a => a.presence.status !== 'offline').filter(member => !member.user.bot).size} ❤️`); // This text is also changeable, still keep the code in ${}
+        oldPresence.guild.channels.cache.get(options1.bots).setName(`Bots: ${oldPresence.guild.members.filter((m) => m.user.bot).size}`); // This text is also changeable, still keep the code in ${}
 
       } 
-    }
-  
-  });
+    }*/
+});

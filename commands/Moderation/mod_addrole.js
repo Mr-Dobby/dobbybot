@@ -9,14 +9,14 @@ module.exports.run = async (bot, message, args, client) => {
   let logName = await Logs.findOne( { guildID: message.guild.id } )
   const logchannel = bot.channels.get(logName.incidentLog)
 
-  const Failure = bot.emojis.get("697388354689433611");
-  const Sucess = bot.emojis.get("697388354668462110");
+  const Failure = bot.emojis.cache.get("697388354689433611");
+  const Sucess = bot.emojis.cache.get("697388354668462110");
 
-  var noPermsEmbed = new Discord.RichEmbed()
+  var noPermsEmbed = new Discord.MessageEmbed()
       .setDescription(`${Failure} Creating a role requires you to have \`MANAGE ROLES\` permissions.`)
       .setColor("#ff0000")
     
-  var noPermsEmbedBot = new Discord.RichEmbed()
+  var noPermsEmbedBot = new Discord.MessageEmbed()
       .setDescription(`${Failure} Creating a role requires me to have \`MANAGE ROLES\` permissions.`)
       .setColor("#ff0000")
 
@@ -30,7 +30,7 @@ module.exports.run = async (bot, message, args, client) => {
 
   if (logchannel) {
 
-    const addRoleErrorEmbed = new Discord.RichEmbed()
+    const addRoleErrorEmbed = new Discord.MessageEmbed()
         .setColor("#ff4f4f")
         .setTitle(`\`Command: ${currPrefix.prefix}addrole\` | Alias: \`makerole\``)
         .addField("**Description:**", "Creates, and gives a user a role.")
@@ -38,18 +38,18 @@ module.exports.run = async (bot, message, args, client) => {
         .addField("**Example:**", `${currPrefix.prefix}addrole @Mr.Dobby#0001 Members`)
         .setFooter("<> = Required | [] = Optional")
 
-        let rMember = message.guild.member(message.mentions.users.last()) || message.guild.members.get(args[0]);
+        let rMember = message.guild.member(message.mentions.users.last()) || message.guild.members.cache.get(args[0]);
         if (!rMember) return message.channel.send(addRoleErrorEmbed);
 
         let roleName = args.join(" ").slice(22)
         if (!roleName) return message.channel.send(addRoleErrorEmbed);
 
-        let botRole = message.guild.roles.find(r => r.name === "Dobby Bot");
+        let botRole = message.guild.roles.cache.find(r => r.name === "Dobby Bot");
         if (rMember.highestRole.position <= botRole.position) {
           return await message.channel.send(`My highest role needs to be higher than their highest.`);
         }
 
-        let gRole = message.guild.roles.find(r => r.name === roleName);
+        let gRole = message.guild.roles.cache.find(r => r.name === roleName);
         if (!gRole) {
           try {
             gRole = await message.guild.createRole({
@@ -72,13 +72,13 @@ module.exports.run = async (bot, message, args, client) => {
           return;
         }
 
-        const addroleEmbed = new Discord.RichEmbed()
-              .setAuthor(`${rMember.user.tag} | Added role ✔️`, rMember.user.displayAvatarURL)
+        const addroleEmbed = new Discord.MessageEmbed()
+              .setAuthor(`${rMember.user.tag} | Added role`, rMember.user.displayAvatarURL({ dynamic: true }))
               .setDescription(`\`${currPrefix.prefix}addrole\` | Aliases: \`makerole\``)
               .setColor("#4fff7f")
               .addField("Created role", `${roleName}`, true)
               .addField(`User given the role`, `${rMember.user.tag} | <@${rMember.id}>`)
-              .addField("Moderator", `${message.author.tag} | <@${message.author.id}>`, true)
+              .addField("Moderator", `<@${message.author.id}>`, true)
               .setFooter(`ID: ${rMember.user.id}`)
               .setTimestamp();
 
@@ -87,18 +87,18 @@ module.exports.run = async (bot, message, args, client) => {
 
     } else {
 
-        let rMember = message.guild.member(message.mentions.users.last()) || message.guild.members.get(args[0]);
+        let rMember = message.guild.member(message.mentions.users.last()) || message.guild.members.cache.get(args[0]);
         if (!rMember) return message.channel.send(addRoleErrorEmbed);
 
         let roleName = args.join(" ").slice(22)
         if (!roleName) return message.channel.send(addRoleErrorEmbed);
 
-        let botRole = message.guild.roles.find(r => r.name === "Dobby Bot");
+        let botRole = message.guild.roles.cache.find(r => r.name === "Dobby Bot");
         if (rMember.highestRole.position <= botRole.position) {
           return await message.channel.send(`My highest role needs to be higher than their highest.`);
         }
 
-        let gRole = message.guild.roles.find(r => r.name === roleName);
+        let gRole = message.guild.roles.cache.find(r => r.name === roleName);
         if (!gRole) {
           try {
             gRole = await message.guild.createRole({

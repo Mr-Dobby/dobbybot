@@ -175,7 +175,7 @@ const meme_imgs = [
       message.delete();
 
       const RandomColour = ("000000" + Math.random().toString(16).slice(2, 8).toUpperCase()).slice(-6);
-      const embed = new Discord.RichEmbed()
+      const embed = new Discord.MessageEmbed()
           .setColor(RandomColour)
           .setImage(meme_imgs[Math.floor(Math.random() * meme_imgs.length)])
 

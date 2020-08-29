@@ -8,17 +8,17 @@ bot.on("messageUpdate", async (oldMessage, newMessage) => {
       return;
     }
 
-    let fire = bot.emojis.get("687436596391182344")
+    let fire = bot.emojis.cache.get("687436596391182344")
     let logName = await Logs.findOne( { guildID: oldMessage.guild.id } )
-    const logchannel = bot.channels.get(logName.serverLog)
+    const logchannel = bot.channels.cache.get(logName.serverLog)
     let oldMessages = oldMessage.content;
+    let newMessages = newMessage.content
     if (!oldMessage.content) return;
     if (!newMessage.content) return;
-    let newMessages = (await newMessage.channel.fetchMessage(newMessage.id)).content;
     let JumpToMsg = newMessage.url;
 
-    let messageUpdateEmbed = new Discord.RichEmbed()
-    .setAuthor(`${newMessage.author.tag} | Message update`, newMessage.author.displayAvatarURL)
+    let messageUpdateEmbed = new Discord.MessageEmbed()
+    .setAuthor(`${newMessage.author.tag} | Message update`, newMessage.author.displayAvatarURL({ dynamic: true }))
     .setColor("#ff0000")
     .setDescription(`Message sent by <@${newMessage.author.id}> edited in <#${newMessage.channel.id}> ${fire}\n⟶ [Jump To Message](${JumpToMsg}) ⟵`)
     .addField("Original message", oldMessages, true)

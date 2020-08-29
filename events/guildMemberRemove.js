@@ -22,16 +22,16 @@ bot.on("guildMemberRemove", async (member) => {
     const bannedUser = banList.find(user => user.id === member.id);
     if (bannedUser) return;
 
-    let fire = bot.emojis.get("687436596391182344")
+    let fire = bot.emojis.cache.get("687436596391182344")
     let logName = await Logs.findOne( { guildID: member.guild.id } )
-    const logchannel = bot.channels.get(logName.serverLog)
+    const logchannel = bot.channels.cache.get(logName.serverLog)
   
   if (member.bot) return;
 
-          const userLeftEmbed = new Discord.RichEmbed()
+          const userLeftEmbed = new Discord.MessageEmbed()
               .setColor("#ff0000")
-              .setAuthor(`${member.user.tag} | Left the server`, `${member.user.displayAvatarURL}`)
-              .setThumbnail(`${member.user.displayAvatarURL}`)
+              .setAuthor(`${member.user.tag} | Left the server`, `${member.user.displayAvatarURL({ dynamic: true })}`)
+              .setThumbnail(`${member.user.displayAvatarURL({ dynamic: true })}`)
               .setDescription(`${member} has taken their leave ${fire}`)
               .setFooter(`Member ID: ${member.id} • ${member.guild.memberCount} Members`)
               .setTimestamp()

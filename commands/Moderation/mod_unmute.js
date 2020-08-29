@@ -4,19 +4,19 @@ const Logs = require("../../lib/logs");
 
 module.exports.run = async (bot, message, args, client) => {
 
-  let currPrefix = await Servers.findOne( { guildID: message.guild.id } )
+  let currPrefix = await Servers.cache.getOne( { guildID: message.guild.id } )
 
   let logName = await Logs.findOne( { guildID: message.guild.id } )
-  const logchannel = bot.channels.get(logName.incidentLog)
+  const logchannel = bot.channels.cache.get(logName.incidentLog)
 
-  const Failure = bot.emojis.get("697388354689433611");
-  const Sucess = bot.emojis.get("697388354668462110");
+  const Failure = bot.emojis.cache.get("697388354689433611");
+  const Sucess = bot.emojis.cache.get("697388354668462110");
 
-  var noPermsEmbed = new Discord.RichEmbed()
+  var noPermsEmbed = new Discord.MessageEmbed()
       .setDescription(`${Failure} Unmuting a member requires you to have \`MANAGE MESSAGE\` and \`MUTE MEMBERS\` permissions.`)
       .setColor("#ff0000")
     
-  var noPermsEmbedBot = new Discord.RichEmbed()
+  var noPermsEmbedBot = new Discord.MessageEmbed()
       .setDescription(`${Failure} Unmuting a member requires me to have \`MANAGE MESSAGE\` and \`MANAGE ROLES\` permissions.`)
       .setColor("#ff0000")
 
@@ -30,7 +30,7 @@ module.exports.run = async (bot, message, args, client) => {
 
       if (!logchannel) {
 
-      const unmuteErrorEmbed = new Discord.RichEmbed()
+      const unmuteErrorEmbed = new Discord.MessageEmbed()
             .setColor("#ff4f4f")
             .setTitle(`\`Command: ${currPrefix.prefix}unmute\``)
             .addField("**Description:**", "Unmute a user. Allow them to text chat & voice talk again.")
@@ -39,34 +39,34 @@ module.exports.run = async (bot, message, args, client) => {
             .setFooter("<> = Required, [] = Optional")
             .setTimestamp()
 
-            let member = message.guild.member(message.mentions.users.last() || message.mentions.users.first() || message.guild.members.get(args[0]));
+            let member = message.guild.member(message.mentions.users.last() || message.mentions.users.first() || message.guild.members.cache.get(args[0]));
             if (!member) return message.channel.send(unmuteErrorEmbed);
 
             let reason = args.slice(1).join(" ");
             if (!reason) reason = "No reason given."
 
-            let muterole = message.guild.roles.find(r => r.name === "🔇 Muted")
+            let muterole = message.guild.roles.cache.find(r => r.name === "🔇 Muted")
             if (!muterole) return message.channel.send("`🔇 Muted` role not found, so they can't have been muted by me.").then(message => message.delete(5000))
 
-      const NotEvenMutedEmbed = new Discord.RichEmbed()
+      const NotEvenMutedEmbed = new Discord.MessageEmbed()
             .setColor("#ff0000")
-            .setAuthor(`${member.user.tag} | Unmute`, member.user.displayAvatarURL)
+            .setAuthor(`${member.user.tag} | Unmute`, member.user.displayAvatarURL({ dynamic: true }))
             .setDescription(`${member} is not even muted`)
 
-      const unmuteEmbed = new Discord.RichEmbed()
+      const unmuteEmbed = new Discord.MessageEmbed()
             .setColor("#7aff7a")
             .setAuthor('Successfully unmuted!', member.user.avatarURL)
             .setDescription(`<@${member.user.id}> has been unmuted`)
 
-      let Embed2Member = new Discord.RichEmbed()
+      let Embed2Member = new Discord.MessageEmbed()
             .setColor("#7aff7a")
             .setDescription(`Unmuted in ${message.guild}`)
             .addField("Moderator", `${message.author.tag} | <@${message.author.id}>`, true)
             .addField(`Unmute reason: `, `**${reason}**`, false)
 
-    if (!member.roles.has(muterole.id)) return message.channel.send(NotEvenMutedEmbed);
+    if (!member.roles.cache.has(muterole.id)) return message.channel.send(NotEvenMutedEmbed);
 
-    await(member.removeRole(muterole.id));
+    await(member.roles.remove(muterole.id));
     message.channel.send(unmuteEmbed);
 
       try {
@@ -77,7 +77,7 @@ module.exports.run = async (bot, message, args, client) => {
 
 } else {
 
-      const unmuteErrorEmbed = new Discord.RichEmbed()
+      const unmuteErrorEmbed = new Discord.MessageEmbed()
             .setColor("#ff4f4f")
             .setTitle(`\`Command: ${currPrefix.prefix}unmute\``)
             .addField("**Description:**", "Unmute a user. Allow them to text chat & voice talk again.")
@@ -86,45 +86,44 @@ module.exports.run = async (bot, message, args, client) => {
             .setFooter("<> = Required, [] = Optional")
             .setTimestamp()
 
-
-      let member = message.guild.member(message.mentions.users.last() || message.mentions.users.first() || message.guild.members.get(args[0]));
+      let member = message.guild.member(message.mentions.users.last() || message.mentions.users.first() || message.guild.members.cache.get(args[0]));
       if (!member) return message.channel.send(unmuteErrorEmbed);
 
       let reason = args.slice(1).join(" ");
       if (!reason) reason = "No reason given."
 
-      let muterole = message.guild.roles.find(r => r.name === "🔇 Muted")
+      let muterole = message.guild.roles.cache.cache.get(r => r.name === "🔇 Muted")
       if (!muterole) return message.channel.send("`🔇 Muted` role not found, so they can't have been muted by me.")
 
-const NotEvenMutedEmbed = new Discord.RichEmbed()
+const NotEvenMutedEmbed = new Discord.MessageEmbed()
       .setColor("#ff0000")
-      .setAuthor(`${member.user.tag} | Unmute`, member.user.displayAvatarURL)
+      .setAuthor(`${member.user.tag} | Unmute`, member.user.displayAvatarURL({ dynamic: true }))
       .setDescription(`${Failure} ${member} is not even muted`)
 
-const unmuteEmbed = new Discord.RichEmbed()
+const unmuteEmbed = new Discord.MessageEmbed()
       .setColor("#7aff7a")
       .setAuthor('Successfully unmuted!', member.user.avatarURL)
       .setDescription(`${Sucess} <@${member.user.id}> has been unmuted`)
 
-const unmuteEmbedLog = new Discord.RichEmbed()
-      .setAuthor(`${member.user.tag} | Unmute 🔉`, member.user.displayAvatarURL)
+const unmuteEmbedLog = new Discord.MessageEmbed()
+      .setAuthor(`${member.user.tag} | Unmute`, member.user.displayAvatarURL({ dynamic: true }))
       .setDescription(`\`${currPrefix.prefix}unmute <@User> [Reason]\``)
       .setColor("#7aff7a")
-      .addField('User:', `${member.user.tag}\n<@${member.id}>`, true)
-      .addField('Moderator:', `${message.author.tag}\n<@${message.author.id}>`, true)
+      .addField('User:', `<@${member.id}>`, true)
+      .addField('Moderator:', `<@${message.author.id}>`, true)
       .addField('Reason:', reason, false)
       .setFooter(`ID: ${member.user.id}`)
       .setTimestamp()
 
-let Embed2Member = new Discord.RichEmbed()
+let Embed2Member = new Discord.MessageEmbed()
       .setColor("#7aff7a")
-      .setAuthor(`Unmuted in ${message.guild}`, member.user.displayAvatarURL)
+      .setAuthor(`Unmuted in ${message.guild}`, member.user.displayAvatarURL({ dynamic: true }))
       .setDescription(`Reason: ${reason}`, false)
       .setTimestamp()
 
-if (!member.roles.has(muterole.id)) return message.channel.send(NotEvenMutedEmbed);
+if (!member.roles.cache.has(muterole.id)) return message.channel.send(NotEvenMutedEmbed);
 
-await (member.removeRole(muterole.id));
+await (member.roles.remove(muterole.id));
 await message.channel.send(unmuteEmbed);
 await logchannel.send(unmuteEmbedLog)
 

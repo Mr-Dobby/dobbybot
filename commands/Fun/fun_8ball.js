@@ -81,7 +81,7 @@ module.exports.run = async(client, message, args) => {
     let question = args.join(" ")
     if (!question) return message.channel.send(`You need to ask me a question, sir or ma'am or loser <@${message.author.id}>, in order to roll the 8Ball.`)
 
-    var embed = new Discord.RichEmbed()
+    var embed = new Discord.MessageEmbed()
     .setAuthor('8ball','http://www.pngmart.com/files/3/8-Ball-Pool-PNG-Photos.png')
     .setThumbnail('https://vignette.wikia.nocookie.net/uncyclopedia/images/4/40/8ball.png/revision/latest?cb=20131030182451')
     .setDescription(`${choices[Math.floor(Math.random() * choices.length)]}`)

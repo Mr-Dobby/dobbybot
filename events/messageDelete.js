@@ -10,12 +10,12 @@ bot.on("messageDelete", async (messageDelete) => {
     let deletedMessage = messageDelete.content;
     if (!deletedMessage) return;
     if (deletedMessage.startsWith(currPrefix.prefix)) return;
-    let fire = bot.emojis.get("687436596391182344")
+    let fire = bot.emojis.cache.get("687436596391182344")
     let logName = await Logs.findOne( { guildID: messageDelete.guild.id } )
-    const logchannel = bot.channels.get(logName.serverLog)
+    const logchannel = bot.channels.cache.get(logName.serverLog)
 
-    let messageDeleteEmbed = new Discord.RichEmbed()
-    .setAuthor(`${messageDelete.author.tag} | Message delete`, messageDelete.author.displayAvatarURL)
+    let messageDeleteEmbed = new Discord.MessageEmbed()
+    .setAuthor(`${messageDelete.author.tag} | Message delete`, messageDelete.author.displayAvatarURL({ dynamic: true }))
     .setColor("#ff0000")
     .setDescription(`Message sent by <@${messageDelete.author.id}> deleted in <#${messageDelete.channel.id}> ${fire}`)
     .addField("Message content", deletedMessage)

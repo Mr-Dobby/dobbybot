@@ -1,13 +1,13 @@
 const Discord = require("discord.js");
 const commando = require('discord.js-commando');
 //const Pornsearch = require('pornsearch');
+const Servers = require("../../lib/mongodb");
 
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (bot, message, args, client) => {
 
-  if (!message.channel.nsfw) {
-      message.react('💢');
-      return message.channel.send(":underage: You need to be in an NSFW channel to use this command.\nCheck `-nsfwhuh`").then(message => {message.delete(5000)})
-    }
+  let currPrefix = await Servers.findOne( { guildID: message.guild.id } )
+  
+    if (!message.channel.nsfw) return message.channel.send(`:underage: You need to be in an NSFW channel to use this command.\nCheck \`${currPrefix.prefix}nsfwhuh\``).then(message => message.delete({ timeout: 5000 }))
 
     return message.channel.send("Command Disabled.")
 
@@ -22,7 +22,7 @@ module.exports.run = async (bot, message, args) => {
           try {
               Searcher.videos()
                 .then(videos => {
-                    let embed = new Discord.RichEmbed()
+                    let embed = new Discord.MessageEmbed()
                         .setAuthor(`${message.author.tag} | Porn search`, message.author.displayAvatarURL)
                         .setDescription(`**${videos[1].title}** [URL](${videos[1].url})`)
                         //.setThumbnail(videos[1].thumbnail)

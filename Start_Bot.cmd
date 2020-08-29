@@ -1,2 +1,2 @@
-nodemon Index.js
+nodemon shard.js
 Pause

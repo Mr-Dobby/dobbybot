@@ -12,9 +12,9 @@ module.exports.run = async (bot, message, args, client) => {
                 resp = math.evaluate(args.join(' '));
             } catch (error) {
 
-              const mathEmbed = new Discord.RichEmbed()
+              const mathEmbed = new Discord.MessageEmbed()
                 .setColor("#010000")
-                .setAuthor(`${message.author.tag} | Calculator`, message.author.displayAvatarURL)
+                .setAuthor(`${message.author.tag} | Calculator`, message.author.displayAvatarURL({ dynamic: true }))
                 .addField('Input', `\`\`\`\n${args.join(' ')}\`\`\``)
                 .addField('Result', `\`\`\`diff\n- Something went wrong. Try something else.\`\`\``)
     
@@ -22,9 +22,9 @@ module.exports.run = async (bot, message, args, client) => {
 
             }
 
-              const mathEmbed = new Discord.RichEmbed()
+              const mathEmbed = new Discord.MessageEmbed()
                 .setColor("#010000")
-                .setAuthor(`${message.author.tag} | Calculator`, message.author.displayAvatarURL)
+                .setAuthor(`${message.author.tag} | Calculator`, message.author.displayAvatarURL({ dynamic: true }))
                 .addField('Input', `\`\`\`\n${args.join(' ')}\`\`\``)
                 .addField('Result', `\`\`\`js\n${resp}\`\`\``)
 

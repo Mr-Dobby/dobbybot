@@ -1,10 +1,12 @@
 const {bot} = require('../index');
+const Discord = require("discord.js");
 const config = require("../storage/config.json");
 const antispam = require("better-discord-antispam");
 const Config = require('../lib/mongodb');
 const Raid = require('../lib/raid');
 const Logs = require("../lib/logs");
 const Ticket = require("../lib/ticketsys");
+const Servers = require("../lib/mongodb");
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/Dobby_Bot', {
     useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }, (err) => {
@@ -35,7 +37,7 @@ antispam(bot, {
     mutedRole: "🔇 Muted", // Here you put the name of the role that should not let people write/speak or anything else in your server. If there is no role set, by default, the module will attempt to create the role for you & set it correctly for every channel in your server. It will be named "muted".
     timeMuted: 1000 * 600, // This is how much time member X will be muted. if not set, default would be 10 min.
 });
-
+/*
     setInterval(async () => {
 
         const statusList = [
@@ -46,7 +48,7 @@ antispam(bot, {
     //      { name: 'with my owner', type: 'PLAYING'},
     //      { name: '-help', type: 'PLAYING'},
     //      { name: '-help', type: 'WATCHING'},
-          { name: 'Без тебя я не я | -help', type: 'LISTENING'}
+          { name: `-help`, type: 'LISTENING'}
         ]
       
           const index = Math.floor(Math.random() * statusList.length + 1) - 1;
@@ -56,11 +58,13 @@ antispam(bot, {
           })
           bot.user.setStatus('online') // Can be 'online', 'idle', 'dnd', or 'invisible'
       
-        }, 300000); // 5 Minutes
+        }, 1000000); // 5 Minutes = 300000
+*/
+        await bot.user.setActivity('-help', { type: 'LISTENING'} );
+        bot.user.setStatus('online');
+        bot.guilds.cache.keyArray().forEach(async (id) => {
 
-    bot.guilds.keyArray().forEach(async (id) => {
-
-        Config.findOne({
+        await Config.findOne({
             guildID: id
         }, (err, guild) => {
             if (err) console.error(err);
@@ -77,7 +81,7 @@ antispam(bot, {
             }
         });
 
-        Raid.findOne({
+        await Raid.findOne({
             guildID: id
         }, (err, guild) => {
             if (err) console.error(err);
@@ -86,7 +90,8 @@ antispam(bot, {
                 const RaidFunc = new Raid({
 
                     guildID: id,
-                    raid: false
+                    raid: false,
+                    ignoredChannels: "`Not set`"
 
                 })
 
@@ -94,7 +99,7 @@ antispam(bot, {
             }
         });
 
-        Logs.findOne({
+        await Logs.findOne({
             guildID: id
         }, (err, guild) => {
             if (err) console.error(err);
@@ -114,7 +119,7 @@ antispam(bot, {
             }
         });
 
-        Ticket.findOne({
+        await Ticket.findOne({
             guildID: id
         }, (err, guild) => {
             if (err) console.error(err);
@@ -131,5 +136,22 @@ antispam(bot, {
                 return ticketSys.save();
             }
         });
-    });
+
+        await Servers.findOne({
+            guildID: id
+        }, (err, guild) => {
+            if (err) console.error(err);
+            
+            if (!guild) {
+                const newServers = new Servers({
+
+                    guildID: id,
+                    prefix: "-"
+            
+                });
+
+                return newServers.save();
+            }
+        });
+    }); 
 });

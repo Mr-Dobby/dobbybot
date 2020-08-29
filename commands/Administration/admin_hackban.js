@@ -7,15 +7,15 @@ module.exports.run = async (bot, message, args, client) => {
   let currPrefix = await Servers.findOne( { guildID: message.guild.id } )
 
   let logName = await Logs.findOne( { guildID: message.guild.id } )
-  const logchannel = bot.channels.get(logName.incidentLog)
-  const Failure = bot.emojis.get("697388354689433611");
-  const Sucess = bot.emojis.get("697388354668462110");
+  const logchannel = bot.channels.cache.get(logName.incidentLog)
+  const Failure = bot.emojis.cache.get("697388354689433611");
+  const Sucess = bot.emojis.cache.get("697388354668462110");
 
-  var noPermsEmbed = new Discord.RichEmbed()
+  var noPermsEmbed = new Discord.MessageEmbed()
       .setDescription(`${Failure} Hackban requires you to have \`ADMINISTRATOR\` permissions.`)
       .setColor("#ff0000")
     
-  var noPermsEmbedBot = new Discord.RichEmbed()
+  var noPermsEmbedBot = new Discord.MessageEmbed()
       .setDescription(`${Failure} Hackban requires me to have \`ADMINISTRATOR\` permissions.`)
       .setColor("#ff0000")
 
@@ -29,21 +29,21 @@ module.exports.run = async (bot, message, args, client) => {
 
   if (!logchannel) {
 
-    let noIDErrorhackbanEmbed = new Discord.RichEmbed()
+    let noIDErrorhackbanEmbed = new Discord.MessageEmbed()
         .setColor("#ff0000")
         .setTitle(`\`Command: ${currPrefix.prefix}hackban\``)
-        .addField("**Description:**", "Ban a user via ID, __before they join__.\nOr __after they left__, of course")
-        .addField("**Command usage:**", `\`${currPrefix.prefix}hackban <ID>\``, false)
-        .addField("**Example:**", `\`${currPrefix.prefix}hackban 12345678987654321\``, false)
-        .setFooter("<> = Required | [] = Optional")
+        .addField("**Description:**", "Ban a user, __before they join__. That, or __after they left__")
+        .addField("**Command usage:**", `${currPrefix.prefix}hackban <ID>`, false)
+        .addField("**Example:**", `${currPrefix.prefix}hackban 12345678987654321`, false) 
+        .setFooter("<> = Required, [] = Optional")
 
   let banid = args.join(' ');
   if (!banid) return message.channel.send(noIDErrorhackbanEmbed)
 
-  let hackbanEmbed = new Discord.RichEmbed()
-        .setColor("#ff0000")
-        .setAuthor(`Successfully hackbanned`)
-        .setDescription(`${Sucess} Hackbanned \`${banid}\``)
+  let hackbanEmbed = new Discord.MessageEmbed()
+      .setColor("#ff0000")
+      .setAuthor(`Successfully hackbanned`)
+      .setDescription(`${Sucess} Hackbanned \`${banid}\``)
 
   if (banid === "570525775351119872") {
     return message.channel.send("Not gonna harm myself with this command, fella.")
@@ -61,29 +61,30 @@ module.exports.run = async (bot, message, args, client) => {
     return message.channel.send("Imagine trying to hackban yourself.. ")
   }
 
-  let DidYouKnow = new Discord.RichEmbed()
-  .setDescription("Did you know you could log these actions?\nTry out `-logging`")
-
-  message.delete();
+  let DidYouKnow = new Discord.MessageEmbed()
+      .setDescription(`Did you know you can log these actions?\nTry out \`${currPrefix.prefix}logging\``)
   
-      bot.fetchUser(banid).then(id => {
-        message.guild.ban(id).catch(err => {
+      await bot.users.fetch(banid).then(async () => {
+        await message.guild.members.ban(banid).catch(err => {
 
-          let unhackbanEmbedFail = new Discord.RichEmbed()
-          .setColor("#ff0000")
-          .setAuthor(`Failed to unhackban`)
-          .setDescription(`${Failure} Failed to unhackban\nError: ${err}`)
+          let unhackbanEmbedFail = new Discord.MessageEmbed()
+              .setColor("#ff0000")
+              .setAuthor(`Failed to unhackban`)
+              .setDescription(`${Failure} Failed to unhackban\nError: ${err}`)
 
           message.channel.send(unhackbanEmbedFail)
         })
+
+        message.delete();
         message.channel.send(hackbanEmbed)
-        message.channel.send(DidYouKnow).then(message => message.delete(5000))
+        message.channel.send(DidYouKnow).then(message => message.delete({ timeout: 10000 }))
+
    }).catch(err => {
 
-    let unhackbanEmbedFail = new Discord.RichEmbed()
-      .setColor("#ff0000")
-      .setAuthor(`${message.author.tag} | Hackban Error`, message.author.displayAvatarURL)
-      .setDescription(`${Failure} This user is either not "hackbanable" or this isn't a user's ID.`)
+    let unhackbanEmbedFail = new Discord.MessageEmbed()
+        .setColor("#ff0000")
+        .setAuthor(`${message.author.tag} | Hackban Error`, message.author.displayAvatarURL({ dynamic: true }))
+        .setDescription(`${Failure} This user is either not "hackbanable" or this isn't a user's ID.`)
 
     message.channel.send(unhackbanEmbedFail)
     
@@ -91,16 +92,15 @@ module.exports.run = async (bot, message, args, client) => {
 
   } else {
 
-let banid = args.join(' ');
-    
-let noIDErrorhackbanEmbed = new Discord.RichEmbed()
-    .setColor("#ff0000")
-    .setTitle(`\`Command: ${currPrefix.prefix}hackban\``)
-    .addField("**Description:**", "Ban a user via ID, __before they join__.\nOr __after they left__, of course")
-    .addField("**Command usage:**", `\`${currPrefix.prefix}hackban <ID>\``, false)
-    .addField("**Example:**", `\`${currPrefix.prefix}hackban 12345678987654321\``, false)
-    .setFooter("<> = Required | [] = Optional")
-    
+    let noIDErrorhackbanEmbed = new Discord.MessageEmbed()
+        .setColor("#ff0000")
+        .setTitle(`\`Command: ${currPrefix.prefix}hackban\``)
+        .addField("**Description:**", "Ban a user, __before they join__. That, or __after they left__")
+        .addField("**Command usage:**", `${currPrefix.prefix}hackban <ID>`, false)
+        .addField("**Example:**", `${currPrefix.prefix}hackban 12345678987654321`, false)
+        .setFooter("<> = Required, [] = Optional")
+
+  let banid = args.join(' ')    
   if (!banid) return message.channel.send(noIDErrorhackbanEmbed)
 
   if (banid === "570525775351119872") {
@@ -109,67 +109,64 @@ let noIDErrorhackbanEmbed = new Discord.RichEmbed()
   
   //Check if given ID is a number (isNaN = Is Not a Number | Default = true;)
   if (isNaN(banid)) {
-      return message.channel.send("An ID of a user is a string of **18 numbers**. You can hop into Developer Mode, Right-Click a user, and select `Copy ID`, and simply paste it within the `-hackban` command.")
+      return message.channel.send("An ID of a user is a string of **X numbers**. You can hop into Developer Mode, Right-Click a user, and select `Copy ID`, and simply paste it within the `-hackban` command.")
   }
   
   if (banid === message.author.id) {
       return message.channel.send("Imagine trying to hackban yourself.. ")
   }
 
-  const banPermErrorAdminEmbed = new Discord.RichEmbed()
-    .setColor("#ff0000")
-    .setAuthor(`${message.author.tag} | Hackban Error`, message.author.displayAvatarURL)
-    .setDescription(`${Failure} Member is an Administrator for this server.`)
+  const banPermErrorAdminEmbed = new Discord.MessageEmbed()
+        .setColor("#ff0000")
+        .setAuthor(`${message.author.tag} | Hackban Error`, message.author.displayAvatarURL({ dynamic: true }))
+        .setDescription(`${Failure} Member is an Administrator for this server.`)
 
-    if (message.guild.members.get(banid) && message.guild.members.get(banid).hasPermission("ADMINISTRATOR")) {
+    if (message.guild.members.cache.get(banid) && message.guild.members.cache.get(banid).hasPermission("ADMINISTRATOR")) {
 
       return message.channel.send(banPermErrorAdminEmbed)
 
   } else {
 
-message.delete();
+  await bot.users.fetch(banid).then(async () => {
+    await message.guild.members.ban(banid).catch(err => {
 
-  bot.fetchUser(banid).then(async (id) => {
-    await message.guild.ban(id).catch(err => {
-
-      let unhackbanEmbedFail = new Discord.RichEmbed()
-        .setColor("#ff0000")
-        .setAuthor(`${message.author.tag} | Hackban Error`, message.author.displayAvatarURL)
-        .setDescription(`${Failure} This user is either not "hackbanable" or it's not a user ID.`)
+      let unhackbanEmbedFail = new Discord.MessageEmbed()
+          .setColor("#ff0000")
+          .setAuthor(`${message.author.tag} | Hackban Error`, message.author.displayAvatarURL({ dynamic: true }))
+          .setDescription(`${Failure} Failed to hackban user.`)
 
       message.channel.send(unhackbanEmbedFail)
       
     })
 
-const banList = await message.guild.fetchBans();
+const bannedUser = await message.guild.fetchBan(banid);
 
-const bannedUser = await banList.find(user => user.id === banid);
-
-let hackbanEmbed = new Discord.RichEmbed()
+let hackbanEmbed = new Discord.MessageEmbed()
     .setColor("#ff0000")
-    .setAuthor(`Successfully hackbanned`, bannedUser.displayAvatarURL)
-    .setDescription(`${Sucess} Hackbanned ${bannedUser}`)
+    .setAuthor(`Successfully hackbanned`, bannedUser.user.displayAvatarURL({ dynamic: true }))
+    .setDescription(`${Sucess} Hackbanned <@${bannedUser.user.id}>`)
 
-let hackbanEmbedLog = new Discord.RichEmbed()
-    .setAuthor(`${bannedUser.tag} | Hackban 🚫`, bannedUser.displayAvatarURL)
+let hackbanEmbedLog = new Discord.MessageEmbed()
+    .setAuthor(`${bannedUser.user.tag} | Hackban`, bannedUser.user.displayAvatarURL({ dynamic: true }))
     .setDescription(`\`${currPrefix.prefix}hackban <ID>\``)
     .setColor("#ff0000")
     .addField("Hackbanned user", `<@${banid}>`, true)
-    .addField("Administrator", `<@${message.author.id}>\n${message.author.tag}`, true)
+    .addField("Administrator", `<@${message.author.id}>`, true)
     .setFooter(`ID: ${banid}`)
     .setTimestamp()
 
-    message.channel.send(hackbanEmbed)
+    await message.delete();
+    await message.channel.send(hackbanEmbed)
     await logchannel.send(hackbanEmbedLog)
     }).catch(err => {
 
-      let unhackbanEmbedFail = new Discord.RichEmbed()
+      let unhackbanEmbedFail = new Discord.MessageEmbed()
         .setColor("#ff0000")
-        .setAuthor(`${message.author.tag} | Hackban Error`, message.author.displayAvatarURL)
+        .setAuthor(`${message.author.tag} | Hackban Error`, message.author.displayAvatarURL({ dynamic: true }))
         .setDescription(`${Failure} This user is either not "hackbanable" or it's not a user ID.`)
 
       message.channel.send(unhackbanEmbedFail)
-      
+
     })
   }
 }

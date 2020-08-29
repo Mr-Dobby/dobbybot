@@ -12,9 +12,9 @@ const Ticket = require('../lib/ticketsys');
 
 bot.on("guildDelete", async (guild) => {
 
-    await Config.deleteMany( { guildID: guild.id } )
-    await Raid.deleteMany( { guildID: guild.id } )
-    await Logs.deleteMany( { guildID: guild.id } )
-    await Ticket.deleteMany( { guildID: guild.id } )
+    await Config.findOneAndDelete( { guildID: guild.id } );
+    await Raid.findOneAndDelete( { guildID: guild.id } );
+    await Logs.findOneAndDelete( { guildID: guild.id } );
+    await Ticket.findOneAndDelete( { guildID: guild.id } );
 
 });

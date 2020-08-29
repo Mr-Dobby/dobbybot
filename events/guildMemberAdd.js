@@ -3,8 +3,8 @@ const {bot} = require('../index');
 const Raid = require('../lib/raid');
 const Servers = require("../lib/mongodb");
 const Logs = require("../lib/logs");
-const Canvas = require("canvas");
-
+//const Canvas = require("canvas");
+/*
 const applyText = (Canvas, text) => {
 	const ctx = Canvas.getContext('2d');
 	let fontSize = 80;
@@ -15,7 +15,7 @@ const applyText = (Canvas, text) => {
 
 	return ctx.font;
 };
-
+*/
 //Dobbyland
 let options = { 
     total: "667335552558956554",
@@ -31,7 +31,7 @@ let options = {
   }
 
 bot.on("guildMemberAdd", async (member) => {
-
+/*
   const canvas = Canvas.createCanvas(750, 250);
   const ctx = canvas.getContext('2d');
 
@@ -58,45 +58,43 @@ bot.on("guildMemberAdd", async (member) => {
   ctx.closePath();
   ctx.clip();
 
-  const avatar = await Canvas.loadImage(member.user.displayAvatarURL);
+  const avatar = await Canvas.loadImage(member.user.displayAvatarURL({ dynamic: true }));
   ctx.drawImage(avatar, 25, 25, 200, 200);
 
   const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
-
-    const currPrefix = await Servers.findOne( { guildID: member.guild.id } )
-    const fire = bot.emojis.get("687436596391182344")
-    const logName = await Logs.findOne( { guildID: member.guild.id } )
-    const logchannel = bot.channels.get(logName.serverLog)
-    const RaidLogChannel = bot.channels.get(logName.raidLog)
-    const welcomeLogChannel = bot.channels.get(logName.welcomeLog)
+/*
   
-    const RandomColour = ("000000" + Math.random().toString(16).slice(2, 8).toUpperCase()).slice(-6);
     /*
     const rulesChannel = member.guild.channels.get("574841403851538454");
-    const staffRole = member.guild.roles.get("606043481709871104");
+    const staffRole = member.guild.roles.cache.get("606043481709871104");
     */
-
+    const currPrefix = await Servers.findOne( { guildID: member.guild.id } )
+    const fire = bot.emojis.cache.get("687436596391182344")
+    const logName = await Logs.findOne( { guildID: member.guild.id } )
+    const logchannel = bot.channels.cache.get(logName.serverLog)
+    const RaidLogChannel = bot.channels.cache.get(logName.raidLog)
+    const welcomeLogChannel = bot.channels.cache.get(logName.welcomeLog)
+    const RandomColour = ("000000" + Math.random().toString(16).slice(2, 8).toUpperCase()).slice(-6);
     //The starter roles:
-    const Dobbylanders_Role = member.guild.roles.get("548430923478204426")
-    const Heart_Role = member.guild.roles.get("570889625711804416")
+    const Dobbylanders_Role = member.guild.roles.cache.get("548430923478204426")
+    const Heart_Role = member.guild.roles.cache.get("570889625711804416")
     //The Roles That Seperate Roles:
-    const Role_1 = member.guild.roles.get("652260889558253599")
-    const Role_2 = member.guild.roles.get("662024720937517087")
-    const Role_3 = member.guild.roles.get("643075711812501524")
-    const Role_4 = member.guild.roles.get("565129831927382038")
+    const Role_1 = member.guild.roles.cache.get("652260889558253599")
+    const Role_2 = member.guild.roles.cache.get("662024720937517087")
+    const Role_3 = member.guild.roles.cache.get("643075711812501524")
+    const Role_4 = member.guild.roles.cache.get("565129831927382038")
     //Bot Roles
-    const Knights = member.guild.roles.get("548431153925718020")
+    const Knights = member.guild.roles.cache.get("548431153925718020")
 
-    const NewMembeEmbed = new Discord.RichEmbed()
+    const NewMembeEmbed = new Discord.MessageEmbed()
     .setColor(RandomColour)
+    .setAuthor(`${member.user.tag} | New member`, member.user.displayAvatarURL({ dynamic: true }))
     .setDescription(`Welcoming a new arriving member, ${member} ${fire}`)
-    .attachFile(attachment)
-    .setImage('attachment://welcome-image.png')
 
-    const userJoinedEmbed = new Discord.RichEmbed()
+    const userJoinedEmbed = new Discord.MessageEmbed()
     .setColor("#00ff00")
-    .setAuthor(`${member.user.tag} | New server member!`, `${member.user.displayAvatarURL}`)
-    .setThumbnail(`${member.user.displayAvatarURL}`)
+    .setAuthor(`${member.user.tag} | New server member!`, `${member.user.displayAvatarURL({ dynamic: true })}`)
+    .setThumbnail(`${member.user.displayAvatarURL({ dynamic: true })}`)
     .setDescription(`${member} has just joined the server! ${fire}`)
     .setFooter(`Member ID: ${member.id} • ${member.guild.memberCount} Members`)
     .setTimestamp()
@@ -108,24 +106,24 @@ bot.on("guildMemberAdd", async (member) => {
       return days + (days == 1 ? " day" : " days") + " ago";
     };
   
-    const userJoinedEmbedNewAcc = new Discord.RichEmbed()
+    const userJoinedEmbedNewAcc = new Discord.MessageEmbed()
     .setColor("#00ff00")
-    .setAuthor(`${member.user.tag} | New server member!`, `${member.user.displayAvatarURL}`)
-    .setThumbnail(`${member.user.displayAvatarURL}`)
+    .setAuthor(`${member.user.tag} | New server member!`, `${member.user.displayAvatarURL({ dynamic: true })}`)
+    .setThumbnail(`${member.user.displayAvatarURL({ dynamic: true })}`)
     .setDescription(`${member} has just joined the server! ${fire}\nID: ${member.id}`)
     .addField("New Account", `Created ${checkDays(member.joinedAt)}`, true)
     .setFooter(`The server now has: ${member.guild.memberCount} Members`)
     .setTimestamp()
 
-    const RaidLogEmbed = new Discord.RichEmbed()
+    const RaidLogEmbed = new Discord.MessageEmbed()
     .setColor("ff0000")
-    .setAuthor(`${member.user.tag} | Raid logs | Banned during raid`, `${member.user.displayAvatarURL}`)
+    .setAuthor(`${member.user.tag} | Raid logs | Banned during raid`, `${member.user.displayAvatarURL({ dynamic: true })}`)
     .setDescription(`${member} has been banned upon joining! ${fire}\nID: ${member.id}`)
 
     /*
-    const welcomeEmbed = new Discord.RichEmbed()
+    const welcomeEmbed = new Discord.MessageEmbed()
     .setColor(RandomColour)
-    .setAuthor(`${member.user.tag}`, `${member.user.displayAvatarURL}`)
+    .setAuthor(`${member.user.tag}`, `${member.user.displayAvatarURL({ dynamic: true })}`)
     .setDescription("WELCOME TO DOBBYLAND YA SEXY ELF.. no humans pls")
     .addField("Please make sure to read the rules", `${rulesChannel}`, false)
     .addField("Get NSFW access by contacting staff (this role) ", `${staffRole}`, false)
@@ -134,48 +132,35 @@ bot.on("guildMemberAdd", async (member) => {
     .setTimestamp()
   */
 
-  // DOBBYLAND
-    if (member.guild.id === "521602207406227476") {
-  
       try {
-           
         if (member.user.bot) {
-        
-          await member.addRole(Knights)
-    
+          await member.roles.add(Knights)
             } else {
-    
-          await member.addRole(Dobbylanders_Role);
-          await member.addRole(Heart_Role);
-          await member.addRole(Role_1);
-          await member.addRole(Role_2);
-          await member.addRole(Role_3);
-          await member.addRole(Role_4);
-          await welcomeLogChannel.send(NewMembeEmbed);
+          await member.roles.add(Dobbylanders_Role);
+          await member.roles.add(Heart_Role);
+          await member.roles.add(Role_1);
+          await member.roles.add(Role_2);
+          await member.roles.add(Role_3);
+          await member.roles.add(Role_4);
         }
-      }
-    catch (e) {
-    console.log(e);
+      } catch (e) {
+    return;
     }
-
-  } else {
   
       let defaultChannel = "";
-      member.guild.channels.forEach((channel) => {
+      member.guild.channels.cache.forEach((channel) => {
     if (channel.type == "text" && defaultChannel == "") {
       if (channel.permissionsFor(member.guild.me).has("MANAGE_MESSAGES")) {
         defaultChannel = channel;
          }
         }
       })
-    if (!logchannel) {
-      return;
-    } else {
+    if (logchannel) {
       if (!logchannel.permissionsFor(member.guild.me).has('VIEW_CHANNEL')) return;
       if (!logchannel.permissionsFor(member.guild.me).has('ADMINISTRATOR')) return;
       if (Date.now() - member.user.createdAt < 1000 * 60 * 60 * 24 * 7) {
         await logchannel.send(userJoinedEmbedNewAcc)
-      } else {
+          } else {
         await logchannel.send(userJoinedEmbed)
       }
       if (!welcomeLogChannel) {
@@ -183,7 +168,6 @@ bot.on("guildMemberAdd", async (member) => {
       }
       welcomeLogChannel.send(NewMembeEmbed)
     }
-  }
 
   let ThisGuild = await Raid.findOne( { guildID: member.guild.id } )
   let Toggled = await Raid.findOne( { guildID: member.guild.id, raid: true } )

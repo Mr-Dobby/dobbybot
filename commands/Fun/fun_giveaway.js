@@ -6,16 +6,16 @@ module.exports.run = async (bot, message, args, client) => {
 
   let currPrefix = await Servers.findOne( { guildID: message.guild.id } )
 
-    var Channel = message.mentions.channels.first();
+    var Channel = message.mentions.channels.cache.first();
     var Duration = args[1];
     var Prize = args.slice(2).join(" ")
 
-    var Tada = bot.emojis.get("649649145996509189");
-    var TadaRev = bot.emojis.get("649649145853771815");
-    var TadaHyper = bot.emojis.get("716324590619721788");
-    var TadaHyperRev = bot.emojis.get("716324590447755316");
+    var Tada = bot.emojis.cache.get("649649145996509189");
+    var TadaRev = bot.emojis.cache.get("649649145853771815");
+    var TadaHyper = bot.emojis.cache.get("716324590619721788");
+    var TadaHyperRev = bot.emojis.cache.get("716324590447755316");
 
-    var GiveawayErrorEmbed = new Discord.RichEmbed()
+    var GiveawayErrorEmbed = new Discord.MessageEmbed()
         .setTitle(`\`Command: ${currPrefix.prefix}giveaway\``)
         .addField("**Description:**", "Host a giveaway with your own prizes int the server!")
         .addField("**Command usage:**", `${currPrefix.prefix}giveaway [Channel] [Duration] <Prize>`)
@@ -27,8 +27,8 @@ module.exports.run = async (bot, message, args, client) => {
     if (!Duration) Duration = "30m";
     if (!Prize) return message.channel.send(GiveawayErrorEmbed);
 
-    var GiveawayEmbedStart = new Discord.RichEmbed()
-        .setTitle(`Giveaway`)
+    var GiveawayEmbedStart = new Discord.MessageEmbed()
+        .setTitle(`A GIVEAWAY HAS STARTED!`)
         .setDescription(`${Tada} ${TadaHyperRev} **Duration:** ${Duration} ${TadaHyper} ${TadaRev}\n${Tada} ${TadaHyperRev} **Prize:** ${Prize} ${TadaHyper} ${TadaRev}\n\n${Tada} ${TadaHyperRev} **React with 🎉 to join the giveaway!** ${TadaHyper} ${TadaRev}`)
         .setColor("7aff7a")
 
@@ -41,7 +41,7 @@ module.exports.run = async (bot, message, args, client) => {
             await Channel.send(`<@${winner.id}>`)
             await Channel.bulkDelete(2, true);
 
-            var GiveawayEmbedEnded = new Discord.RichEmbed()
+            var GiveawayEmbedEnded = new Discord.MessageEmbed()
                 .setTitle(`Giveaway Ended`)
                 .setDescription(`${Tada} ${TadaHyperRev} **Winner:** ${winner} ${TadaHyper} ${TadaRev}\n${Tada} ${TadaHyperRev} **Prize:** ${Prize} ${TadaHyper} ${TadaRev}`)
                 .setColor("#ff4f4f")

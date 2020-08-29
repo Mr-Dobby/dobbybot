@@ -12,7 +12,7 @@ module.exports.run = async (bot, message, args, client) => {
   let member = message.member;
   if (member.highestRole.position < message.guild.me.highestRole.position && !member.hasPermission("ADMINISTRATOR")) return message.channel.send("Woah, hold it there.\nYou actually need to be higher than me **AND** be a server Administrator to do this. This is a dangerous command. Contact the server owner.")
 
-    const giveallroleErrorEmbed = new Discord.RichEmbed()
+    const giveallroleErrorEmbed = new Discord.MessageEmbed()
           .setColor ("#4fff7f")
           .setTitle ("`Command: -giveallrole`")
           .addField ("**Description:**", "Gives **EVERY** user a specified role.")
@@ -22,7 +22,7 @@ module.exports.run = async (bot, message, args, client) => {
 
     const roleID = args.join(" ");
     if (!roleID) return message.channel.send(giveallroleErrorEmbed);
-    let roleByID = message.guild.roles.get(roleID);
+    let roleByID = message.guild.roles.cache.get(roleID);
     let botRole = message.guild.roles.find(r => r.name === "Dobby Bot");
 
   if (!roleByID) {
@@ -34,7 +34,7 @@ module.exports.run = async (bot, message, args, client) => {
     }
     
     message.channel.send(`Role **${roleByID.name}** will be added to all members\nPlease be patient`);
-    let logs = message.guild.channels.find(channel => channel.name === "incident-logs" || channel.name === "dobby-logs");
+    let logs = message.guild.channels.cache.find(channel => channel.name === "TEST-logs" || channel.name === "TEST-logs");
 
     if (!logs) return message.channel.send("I require logs for this command to be used. Try `-logs`")
 

@@ -7,16 +7,16 @@ module.exports.run = async (bot, message, args, client) => {
   let currPrefix = await Servers.findOne( { guildID: message.guild.id } )
 
   let logName = await Logs.findOne( { guildID: message.guild.id } )
-  const logchannel = bot.channels.get(logName.incidentLog)
+  const logchannel = bot.channels.cache.get(logName.incidentLog)
 
-  const Failure = bot.emojis.get("697388354689433611");
-  const Sucess = bot.emojis.get("697388354668462110");
+  const Failure = bot.emojis.cache.get("697388354689433611");
+  const Sucess = bot.emojis.cache.get("697388354668462110");
 
-  var noPermsEmbed = new Discord.RichEmbed()
+  var noPermsEmbed = new Discord.MessageEmbed()
       .setDescription(`${Failure} Unchatbanning a member requires you to have \`MANAGE MESSAGES\` and \`MUTE MEMBERS\` permissions.`)
       .setColor("#ff0000")
     
-  var noPermsEmbedBot = new Discord.RichEmbed()
+  var noPermsEmbedBot = new Discord.MessageEmbed()
       .setDescription(`${Failure} Unchatbanning a member requires me to have \`ADMINISTRATOR\` permissions.`)
       .setColor("#ff0000")
 
@@ -30,7 +30,7 @@ module.exports.run = async (bot, message, args, client) => {
 
       if (!logchannel) {
 
-      let unchatbanErrorEmbed = new Discord.RichEmbed()
+      let unchatbanErrorEmbed = new Discord.MessageEmbed()
             .setColor("#ff4f4f")
             .setTitle(`\`Command: ${currPrefix.prefix}unchatban\``)
             .addField("**Description:**", "Unchatan a user. Allow them to see all permitted channels again.")
@@ -39,29 +39,29 @@ module.exports.run = async (bot, message, args, client) => {
             .setFooter("<> = Required, [] = Optional")
             .setTimestamp()
 
-            let member = message.guild.member(message.mentions.users.last() || message.mentions.users.first() || message.guild.members.get(args[0]));
+            let member = message.guild.member(message.mentions.users.last() || message.mentions.users.first() || message.guild.members.cache.get(args[0]));
             if (!member) return message.channel.send(unchatbanErrorEmbed);
 
             let reason = args.slice(1).join(" ");
             if (!reason) reason = "No reason given."
 
-            let unchatbanrole = message.guild.roles.find(r => r.name === "⛔ Chatbanned")
+            let unchatbanrole = message.guild.roles.cache.find(r => r.name === "⛔ Chatbanned")
             if (!unchatbanrole) return message.channel.send("`⛔ Chatbanned` role not found, so they can't have been chatbanned by me.").then(message => message.delete(5000))
 
-      let unchatbanEmbed = new Discord.RichEmbed()
+      let unchatbanEmbed = new Discord.MessageEmbed()
             .setColor("#7aff7a")
-            .setAuthor('Successfully unchatbanned!', member.user.avatarURL)
+            .setAuthor('Successfully unchatbanned!', member.user.displayAvatarURL({ dynamic: true }))
             .setDescription(`<@${member.user.id}> has been unchatbanned`)
 
-      let Embed2Member = new Discord.RichEmbed()
+      let Embed2Member = new Discord.MessageEmbed()
             .setColor("#7aff7a")
             .setDescription(`Unchatbanned in ${message.guild}`)
             .addField("Moderator", `${message.author.tag} | <@${message.author.id}>`, true)
             .addField(`Unchatban reason: `, `**${reason}**`, false)
 
-    if (!member.roles.has(unchatbanrole.id)) return message.channel.send(`User isn't chatbanned. Check if they got <@&${unchatbanrole.id}> role`);
+    if (!member.roles.cache.has(unchatbanrole.id)) return message.channel.send(`User isn't chatbanned. Check if they got <@&${unchatbanrole.id}> role`);
 
-    await(member.removeRole(unchatbanrole.id));
+    await(member.roles.remove(unchatbanrole.id));
     message.channel.send(unchatbanEmbed);
 
 try {
@@ -72,7 +72,7 @@ try {
   
 } else {
 
-      let unchatbanErrorEmbed = new Discord.RichEmbed()
+      let unchatbanErrorEmbed = new Discord.MessageEmbed()
             .setColor("#ff4f4f")
             .setTitle(`\`Command: ${currPrefix.prefix}unchatban\``)
             .addField("**Description:**", "Unchatan a user. Allow them to see all permitted channels again.")
@@ -81,36 +81,36 @@ try {
             .setFooter("<> = Required, [] = Optional")
             .setTimestamp()
 
-      let member = message.guild.member(message.mentions.users.last() || message.mentions.users.first() || message.guild.members.get(args[0]));
+      let member = message.guild.member(message.mentions.users.last() || message.mentions.users.first() || message.guild.members.cache.get(args[0]));
       if (!member) return message.channel.send(unchatbanErrorEmbed);
 
       let reason = args.slice(1).join(" ");
       if (!reason) reason = "No reason given."
 
-      let unchatbanrole = message.guild.roles.find(r => r.name === "⛔ Chatbanned")
+      let unchatbanrole = message.guild.roles.cache.find(r => r.name === "⛔ Chatbanned")
       if (!unchatbanrole) return message.channel.send("`⛔ Chatbanned` role not found, so they can't have been chatbanned by me.")
 
-let NotEvenChatbannedEmbed = new Discord.RichEmbed()
+let NotEvenChatbannedEmbed = new Discord.MessageEmbed()
       .setColor("#ff0000")
-      .setAuthor(`${member.user.tag} | Unchatban`, member.user.displayAvatarURL)
+      .setAuthor(`${member.user.tag} | Unchatban`, member.user.displayAvatarURL({ dynamic: true }))
       .setDescription(`${Failure} ${member} is not even chatbanned`)
 
-let unchatbanEmbed = new Discord.RichEmbed()
+let unchatbanEmbed = new Discord.MessageEmbed()
       .setColor("#7aff7a")
-      .setAuthor('Successfully unchatbanned!', member.user.avatarURL)
+      .setAuthor('Successfully unchatbanned!', member.user.displayAvatarURL({ dynamic: true }))
       .setDescription(`${Sucess} <@${member.user.id}> has been unchatbanned`)
 
-let unchatbanEmbedLog = new Discord.RichEmbed()
-      .setAuthor(`${member.user.tag} | Unchatban 🔉`, member.user.displayAvatarURL)
+let unchatbanEmbedLog = new Discord.MessageEmbed()
+      .setAuthor(`${member.user.tag} | Unchatban`, member.user.displayAvatarURL({ dynamic: true }))
       .setDescription(`\`${currPrefix.prefix}unmute <@User> [Reason]\``)
       .setColor("#7aff7a")
-      .addField('User:', `${member.user.tag}\n<@${member.id}>`, true)
-      .addField('Moderator:', `${message.author.tag}\n<@${message.author.id}>`, true)
+      .addField('User:', `<@${member.id}>`, true)
+      .addField('Moderator:', `<@${message.author.id}>`, true)
       .addField('Reason:', reason, false)
       .setFooter(`ID: ${member.user.id}`)
       .setTimestamp()
 
-let Embed2Member = new Discord.RichEmbed()
+let Embed2Member = new Discord.MessageEmbed()
       .setColor("#7aff7a")
       .setDescription(`Unchatbanned in ${message.guild}`)
       .addField("Moderator", `${message.author.tag} | <@${message.author.id}>`, true)
@@ -118,9 +118,9 @@ let Embed2Member = new Discord.RichEmbed()
       .setFooter(`Your ID: ${member.id}`)
       .setTimestamp()
 
-if (!member.roles.has(unchatbanrole.id)) return message.channel.send(NotEvenChatbannedEmbed);
+if (!member.roles.cache.has(unchatbanrole.id)) return message.channel.send(NotEvenChatbannedEmbed);
 
-await(member.removeRole(unchatbanrole.id));
+await(member.roles.remove(unchatbanrole.id));
 logchannel.send(unchatbanEmbedLog)
 message.channel.send(unchatbanEmbed);
 

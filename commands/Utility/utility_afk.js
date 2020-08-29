@@ -12,7 +12,7 @@ module.exports.run = async (bot, message, args) => {
             reason: reason
         };
 
-        let embed = new Discord.RichEmbed()
+        let embed = new Discord.MessageEmbed()
             .setDescription(`<@${message.author.id}> is now AFK: ${reason}`)
         bot.afk.set(message.author.id, construct);
         message.delete();

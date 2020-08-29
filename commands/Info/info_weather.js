@@ -16,9 +16,9 @@ module.exports.run = async (bot, message, args) => {
       tempF = (current.temperature * 9 / 5 ) + 32;
       tempF_Feelslike = (current.feelslike * 9 / 5 ) + 32;
 
-      const weatherEmbed = new Discord.RichEmbed()
+      const weatherEmbed = new Discord.MessageEmbed()
         .setDescription(`It is currently: ${current.skytext}`)
-        .setAuthor(`Weather for ${current.observationpoint}`, message.author.displayAvatarURL)
+        .setAuthor(`Weather for ${current.observationpoint}`, message.author.displayAvatarURL({ dynamic: true }))
         .setThumbnail(current.imageUrl)
         .setColor(`RANDOM`)
         .addField("Timezone", `UTC: ${location.timezone}`, true)

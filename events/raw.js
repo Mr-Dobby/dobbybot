@@ -6,7 +6,7 @@ bot.on("raw", async (event) => {
     const eventName = event.t;
     if (eventName === 'MESSAGE_REACTION_ADD') {
         if (event.d.message_id === '') {
-            var reactionChannel = bot.channels.get(event.d.channel_id);
+            var reactionChannel = bot.channels.cache.get(event.d.channel_id);
             if (reactionChannel.messages.has(event.d.message_id)) {
                 return;
             } else {
@@ -19,7 +19,7 @@ bot.on("raw", async (event) => {
         }
     } else if (eventName === 'MESSAGE_REACTION_REMOVE') {
         if (event.d.message_id === '') {
-            var reactionChannel = bot.channels.get(event.d.channel_id);
+            var reactionChannel = bot.channels.cache.get(event.d.channel_id);
             if (reactionChannel.messages.has(event.d.message_id)) {
                 return;
             } else {

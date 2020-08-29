@@ -2,18 +2,30 @@ const Discord = require("discord.js");
 
 module.exports.run = async (bot, message, args) => {
   
-  let user = message.guild.member(message.mentions.users.last()) || message.guild.members.get(args[0]) || message.author;
-
+  let member = message.mentions.users.last() || message.guild.members.cache.get(args[0])
+/*
   const formats = ['png'];
-  if (user.avatar) formats.push('jpg', 'webp');
-  const format = user.avatar && user.avatar.startsWith('a_') ? 'gif' : 'png';
+  if (member.avatar) formats.push('jpg', 'webp');
+  const format = member.avatar && member.avatar.startsWith('a_') ? 'gif' : 'png';
   if (format === 'gif') formats.push('gif');
+*/
 
-  const embed = new Discord.RichEmbed()
-        .setAuthor(`${user.tag} | Avatar`)
-        .setImage(user.displayAvatarURL)
+if (!member) {
+
+  const embed = new Discord.MessageEmbed()
+      .setTitle(`${message.author.tag} | Avatar`)
+      .setImage(message.author.displayAvatarURL({ dynamic: true, size: 2048 }))
 
         message.channel.send(embed)
+
+} else {
+
+  const embed = new Discord.MessageEmbed()
+        .setTitle(`${member.user.tag} | Avatar`)
+        .setImage(member.user.displayAvatarURL({ dynamic: true, size: 2048 }))
+
+        message.channel.send(embed)
+  }
 
 }
 

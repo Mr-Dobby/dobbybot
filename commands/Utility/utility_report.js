@@ -11,8 +11,8 @@ async function report() {
 
   let target = message.guild.member(message.mentions.users.last() || message.mentions.users.first());
   let reason = args.slice(1).join(' ');
-  const Failure = bot.emojis.get("697388354689433611");
-  const Sucess = bot.emojis.get("697388354668462110");
+  const Failure = bot.emojis.cache.get("697388354689433611");
+  const Sucess = bot.emojis.cache.get("697388354668462110");
 
   if (!target) return message.channel.send(`Please mention a member to report!\nExample: \`${currPrefix.prefix}report @user\``);
   if (!reason) return message.channel.send(`Please specify a reason for this report!\nExample: \`${currPrefix.prefix}report @user Spam\``);
@@ -38,15 +38,15 @@ async function report() {
     moment.locale("en-gb");
     let time = moment(message.createdAt).format('L');
 
-    const reportEmbed = new Discord.RichEmbed()
-          .setAuthor(`${message.author.tag} | Report 📝`, message.author.displayAvatarURL)
+    const reportEmbed = new Discord.MessageEmbed()
+          .setAuthor(`${message.author.tag} | Report 📝`, message.author.displayAvatarURL({ dynamic: true }))
           .setDescription(`\`${currPrefix.prefix}report <@User> <Reason>\``)
           .setColor("#ffc500")
           .addField("Reported User", `<@${target.id}>`, true)
           .addField("Report ID", (makeid(8)), true)
           .addField("Reported for", `${reason}`, false)
           .addField("Report made", `US logic: ${message.createdAt.toLocaleString().substr(0, 24)} | Rest of the world logic: ${time}\n${message.channel.toString()}`, false)
-          .setThumbnail(target.user.displayAvatarURL)
+          .setThumbnail(target.user.displayAvatarURL({ dynamic: true }))
 
     let reportschannel = message.guild.channels.find(channel => channel.name === "reports");
     if (!reportschannel) {
@@ -56,12 +56,12 @@ async function report() {
 
     if (!logchannel) return;
 
-    const reportEmbedLog = new Discord.RichEmbed()
-        .setAuthor(`${target.user.tag} | Report Failed`, target.user.displayAvatarURL)
+    const reportEmbedLog = new Discord.MessageEmbed()
+        .setAuthor(`${target.user.tag} | Report Failed`, target.user.displayAvatarURL({ dynamic: true }))
         .setColor("#ff0000")
         .addField("Reported for", `${reason}`, true)
         .setDescription(`${Failure} Missing a report channel. Create a channel, and name it \`reports\``)
-        .setFooter(`Reported by: ${message.author.tag}`, message.author.displayAvatarURL)
+        .setFooter(`Reported by: ${message.author.tag}`, message.author.displayAvatarURL({ dynamic: true }))
         .setTimestamp()
 
     message.channel.send(`${Sucess} Report has been accepted, and sent to the staff team.`).then(message => {message.delete(5000)})

@@ -6,33 +6,33 @@ module.exports.run = async (bot, message, args, client) => {
 
         let owner = message.author;
         if (owner.id !== "441478072559075328" && owner.id !== "329354230861398016") return message.channel.send("You found an **owner only command**, somehow!\nGuess you're not my creator, so I won't allow you to use this command!")
-        .then(message => message.delete(5000))
+        .then(message => message.delete({ timeout: 5000 }))
 
-        const Failure = bot.emojis.get("697388354689433611");
-        const Sucess = bot.emojis.get("697388354668462110");
+        const Failure = bot.emojis.cache.get("697388354689433611");
+        const Sucess = bot.emojis.cache.get("697388354668462110");
 
-        let BLError = new Discord.RichEmbed()
-            .setAuthor(`${message.author.tag} | Blacklist user from command usage`, message.author.displayAvatarURL)
+        let BLError = new Discord.MessageEmbed()
+            .setAuthor(`${message.author.tag} | Blacklist user from command usage`, message.author.displayAvatarURL({ dynamic: true }))
             .setDescription(`${Failure} Command usage: \`-blacklist add/del <User ID>\``)
             .setColor("#ff0000")
 
-        let BLNOT = new Discord.RichEmbed()
-            .setAuthor(`${message.author.tag} | Blacklist user from command usage`, message.author.displayAvatarURL)
+        let BLNOT = new Discord.MessageEmbed()
+            .setAuthor(`${message.author.tag} | Blacklist user from command usage`, message.author.displayAvatarURL({ dynamic: true }))
             .setDescription(`${Failure} This user is not on the blacklist`)
             .setColor("#ff0000")
 
-        let BLEmpty = new Discord.RichEmbed()
-            .setAuthor(`${message.author.tag} | Blacklist user from command usage`, message.author.displayAvatarURL)
+        let BLEmpty = new Discord.MessageEmbed()
+            .setAuthor(`${message.author.tag} | Blacklist user from command usage`, message.author.displayAvatarURL({ dynamic: true }))
             .setDescription(`${Failure} The blacklist is empty`)
             .setColor("#ff0000")
 
-        let BLSuccessAdd = new Discord.RichEmbed()
-            .setAuthor(`${message.author.tag} | Blacklist user from command usage`, message.author.displayAvatarURL)
+        let BLSuccessAdd = new Discord.MessageEmbed()
+            .setAuthor(`${message.author.tag} | Blacklist user from command usage`, message.author.displayAvatarURL({ dynamic: true }))
             .setDescription(`${Sucess} You successfully blacklisted a user.`)
             .setColor("#ff0000")
 
-        let BLSuccessDel = new Discord.RichEmbed()
-            .setAuthor(`${message.author.tag} | Blacklist user from command usage`, message.author.displayAvatarURL)
+        let BLSuccessDel = new Discord.MessageEmbed()
+            .setAuthor(`${message.author.tag} | Blacklist user from command usage`, message.author.displayAvatarURL({ dynamic: true }))
             .setDescription(`${Sucess} You successfully removed a blacklisted user`)
             .setColor("#ff0000")
 
@@ -42,7 +42,7 @@ module.exports.run = async (bot, message, args, client) => {
       let BL_ID = 0
       switch (action) {
         case 'add':
-            user = bot.users.get(args[1]) || message.mentions.users.first();
+            user = bot.users.cache.get(args[1]) || message.mentions.users.first();
             if (!user) return message.channel.send(BLError);
             blacklist[user.id] = {
               id: `${BL_ID + 1}`
@@ -57,7 +57,7 @@ module.exports.run = async (bot, message, args, client) => {
           break;
         case 'remove':
         case 'del':
-          user = bot.users.get(args[1]) || message.mentions.users.first();
+          user = bot.users.cache.get(args[1]) || message.mentions.users.first();
           if (!user) return message.channel.send(BLError);
           if (blacklist[BL_ID] = {
             user: user.id

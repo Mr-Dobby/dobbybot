@@ -18,9 +18,9 @@ module.exports.run = async (bot, message, args, client) => {
     let created = moment(bot.user.createdAt).format('L');
     let owner = bot.users.get("441478072559075328") || await client.fetchUser("441478072559075328");
 
-    let botIcon = bot.user.displayAvatarURL;
-    let botembed = new Discord.RichEmbed()
-        .setAuthor(`${bot.user.tag} | Information 🤖`, bot.user.displayAvatarURL)
+    let botIcon = bot.user.displayAvatarURL({ dynamic: true });
+    let botembed = new Discord.MessageEmbed()
+        .setAuthor(`${bot.user.tag} | Information 🤖`, bot.user.displayAvatarURL({ dynamic: true }))
         .setDescription(`\`${currPrefix.prefix}botinfo\` | Alias: \`binfo\``)
         .setColor("#010000")
         .setThumbnail(botIcon)
@@ -29,7 +29,7 @@ module.exports.run = async (bot, message, args, client) => {
         .addField("➞ Bot Created On", created, true)
         .addField(`➞ Libaries`, `Discord.js v11.6.4\nNode.js ${process.version}`, true)
         .addField("➞ Bot Uptime", `${duration(bot.uptime)}`, true)
-        .setFooter(`Created by: Mr. Dobby#0001`, owner.displayAvatarURL)
+        .setFooter(`Created by: Mr. Dobby#0001`, owner.displayAvatarURL({ dynamic: true }))
         .setTimestamp();
 
         message.channel.send(botembed);

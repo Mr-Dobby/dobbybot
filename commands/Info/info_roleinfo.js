@@ -1,27 +1,40 @@
 const Discord = require("discord.js");
+const Servers = require("../../lib/mongodb");
 
 module.exports.run = async (bot, message, args, client) => {
 
-    let IDs = message.guild.roles.filter(r => r.id !== message.guild.id)
-    .filter(r => r.hasPermission("SEND_MESSAGES"))
+  let currPrefix = await Servers.findOne( { guildID: message.guild.id } );
+  const Failure = bot.emojis.cache.get("697388354689433611");
+  const Sucess = bot.emojis.cache.get("697388354668462110");
+
+  var noPermsEmbedBot = new Discord.MessageEmbed()
+      .setDescription(`${Failure} To see all roles, I requires \`ADMINISTRATOR\` permissions.`)
+      .setColor("#ff0000")
+
+    if (!message.guild.me.hasPermission("ADMINISTRATOR")) {
+        return message.channel.send(noPermsEmbedBot)
+    }
+
+    let IDs = message.guild.roles.cache.filter(r => r.id !== message.guild.id)
+    .filter(r => r.permissions.has("SEND_MESSAGES"))
     .sort((a, b) => b.position - a.position)
     .map(i => i.id)
     .slice(0)
     .join("\n");
 
-    let names = message.guild.roles.filter(r => r.id !== message.guild.id)
-    .filter(r => r.hasPermission("SEND_MESSAGES"))
+    let names = message.guild.roles.cache.filter(r => r.id !== message.guild.id)
+    .filter(r => r.permissions.has("SEND_MESSAGES"))
     .sort((a, b) => b.position - a.position)
     .map(role => role.toString())
     .slice(0)
     .join("\n");
 
-        const errorEmbed = new Discord.RichEmbed()
+        const errorEmbed = new Discord.MessageEmbed()
         .setColor("#ff0000")
-        .setAuthor("ARGUMENT ERROR")
-        .setTitle(":x: **Please specify a role name or a role ID** :x:")
+        .setAuthor(`${message.author.tag} | Role Information`)
+        .setTitle(`${Failure} Invalid role name or role ID`)
 /*
-        let allRolesEmbed = new Discord.RichEmbed()
+        let allRolesEmbed = new Discord.MessageEmbed()
         .setAuthor(`${message.guild.name}'s Roles`, message.guild.iconURL)
         .setColor('#807A8F')
         .addField("Roles: ", names, true)
@@ -32,73 +45,64 @@ module.exports.run = async (bot, message, args, client) => {
 
 const RandomColour = ("000000" + Math.random().toString(16).slice(2, 8).toUpperCase()).slice(-6);
 
-        let roleNames = new Discord.RichEmbed()
+        let roleNames = new Discord.MessageEmbed()
         .setAuthor(`Available roles in ${message.guild.name}`, message.guild.iconURL)
         .setDescription("Only roles with `SEND MESSAGES` permission enabled")
         .setColor(RandomColour)
         .addField("Roles:", names, true)
         .addField("IDs:", IDs, true)
-        .setFooter(`These are the roles you can check info on`)
-        .setTimestamp()
 
         let role = args.join(" ");
-        if (!role) {
-          if (!message.guild.member(message.author).hasPermission("MANAGE_ROLES")) {
-            return message.channel.send(errorEmbed)
-            } if (!message.guild.roles <= 30) {
-                return message.channel.send(roleNames)
-                  } else {
-                      return message.channel.send(roleNames)
-                  }
-                }
+          if (!role && [message.guild.roles.cache.find(r => r.name === role) || message.guild.roles.cache.get(role.id)]) {
+              return message.channel.send(roleNames)
+          }
 
-        let gRole = message.guild.roles.find(r => r.name === role) || message.guild.roles.get(role);
+        let gRole = message.guild.roles.cache.find(r => r.name === role) || message.guild.roles.cache.get(role);
         if (!gRole) return message.channel.send(errorEmbed)
 
         const status = {
             false: "No",
             true: "Yes"
-          }
+        }
 
-        hexColor = gRole.hexColor;
+        const hexColor = gRole.hexColor;
         if (hexColor === "#000000") {
           hexColor === "#99AAB5"
         }
 
-        const permsObj = gRole.serialize();
+        const permsObj = gRole.permissions.serialize();
         var permissions = Object.keys(permsObj).filter(perm => permsObj[perm]).sort((a, b) => b.position - a.position).map(g => g.toString()).join(', ');
         if (!permissions) permissions = "This role doesn't have a single permission."
 
-        let roleemebed0 = new Discord.RichEmbed()
+        let roleemebed0 = new Discord.MessageEmbed()
         .setColor(hexColor)
-        .setAuthor(`${gRole.toString()} | Information`, message.guild.iconURL)
+        .setAuthor(`${message.guild.name} | Role Information`, message.guild.iconURL)
+        .setDescription(`\`${currPrefix.prefix}roleinfo\` | Alias: \`rinfo\``)
         .addField("Name", `${gRole.toString()}`, true)  
         .addField("Hex", gRole.hexColor, true)
         .addField("Members", gRole.members.size, true)
-        .addField("Position", `${message.guild.roles.size - gRole.position} out of ${message.guild.roles.size}`, true)
+        .addField("Position", `${message.guild.roles.cache.size - gRole.position} out of ${message.guild.roles.cache.size}`, true)
         .addField("Hoisted", status[gRole.hoist], true)
         .addField("Mentionable", status[gRole.mentionable], true)
         .setFooter("Note: Permissions are only displayed if you've key permissions.")
         .setTimestamp()
         
-        let roleemebed1 = new Discord.RichEmbed()
+        let roleemebed1 = new Discord.MessageEmbed()
         .setColor(hexColor)
-        .setAuthor(message.guild.name, message.guild.iconURL)
-        .setDescription("`-roleinfo` | Alias: `rinfo`")
+        .setAuthor(`${message.guild.name} | Role Information`, message.guild.iconURL)
+        .setDescription(`\`${currPrefix.prefix}roleinfo\` | Alias: \`rinfo\``)
         .addField("Name", `${gRole.toString()}`, true)  
         .addField("Hex", gRole.hexColor, true)
         .addField("Members", gRole.members.size, true)
-        .addField("Position", `${message.guild.roles.size - gRole.position} out of ${message.guild.roles.size}`, true)
+        .addField("Position", `${message.guild.roles.cache.size - gRole.position} out of ${message.guild.roles.cache.size}`, true)
         .addField("Hoisted", status[gRole.hoist], true)
         .addField("Mentionable", status[gRole.mentionable], true)
 
-        let roleemebed2 = new Discord.RichEmbed()
+        let roleemebed2 = new Discord.MessageEmbed()
         .setColor(hexColor)
-        .setDescription(`Permissions for ${gRole.toString()}`)
         //.addField("Permissions0", permissions0)
-        .addField("Permissions:", permissions)
+        .setDescription(`**Permissions for role ${gRole.toString()}**\n\n${permissions}`)
         .setFooter("Note: Permissions are only displayed if you've Moderator permissions yourself.")
-        .setTimestamp()
 
         let user = message.guild.member(message.author)
 

@@ -10,7 +10,7 @@ module.exports.run = async (bot, message, args, client) => {
 
     if (message.guild.id === "521602207406227476") {
 
-    const warnClearErrorEmbed = new Discord.RichEmbed()
+    const warnClearErrorEmbed = new Discord.MessageEmbed()
     .setColor("#ff0000")
     .setTitle(`**Command:** ${currPrefix.prefix}clearwarns`)
     .addField("**Description:**", "Clear warnings for a user.")
@@ -37,9 +37,9 @@ module.exports.run = async (bot, message, args, client) => {
         reason = "This user doesn't have any warnings, so nothing changed."
     };
 
-    const clearWarnsLogEmbed = new Discord.RichEmbed()
+    const clearWarnsLogEmbed = new Discord.MessageEmbed()
     .setColor("#ffc500")
-    .setAuthor(`${user.user.tag} | Clear warns`, user.user.displayAvatarURL)
+    .setAuthor(`${user.user.tag} | Clear warns`, user.user.displayAvatarURL({ dynamic: true }))
     .setDescription(`\`${currPrefix.prefix}clearwarn <@User>\``)
     .addField("Cleared warns for", `${user.user.tag} | <@${user.id}>`, true)
     .addField("Administrator", `${message.author.tag} | <@${message.author.id}>`, true)
@@ -47,14 +47,14 @@ module.exports.run = async (bot, message, args, client) => {
     .setFooter(`ID: ${user.id}`)
     .setTimestamp()
 
-    let logchannel = message.guild.channels.find(channel => channel.name === "incident-logs" || channel.name === "dobby-logs");
+    let logchannel = message.guild.channels.cache.find(channel => channel.name === "incident-logs" || channel.name === "dobby-logs");
     if (!logchannel) return message.channel.send("I require logs for this command to be used. Try `-logs`")
 
     logchannel.send(clearWarnsLogEmbed)
 
     } else {
 
-    let warnRole = message.guild.roles.find(role => role.name === "Warned");
+    let warnRole = message.guild.roles.cache.find(role => role.name === "Warned");
     user.removeRole(warnRole)
     message.channel.send("Success.")
 

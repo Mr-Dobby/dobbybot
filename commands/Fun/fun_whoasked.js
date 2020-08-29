@@ -17,8 +17,8 @@ module.exports.run = async (bot, message, args, client) => {
       
       var result = random[Math.floor(Math.random() * random.length)]
       
-      let embed = new Discord.RichEmbed()
-      .setAuthor(`Who the hell was asking . . ? Nobody cares!!`, message.author.displayAvatarURL)
+      let embed = new Discord.MessageEmbed()
+      .setAuthor(`Who the hell was asking . . ? Nobody cares!!`, message.author.displayAvatarURL({ dynamic: true }))
       .setColor(`RANDOM`)
       .setImage(result)
       

@@ -6,8 +6,8 @@ mongoose.connect('mongodb://localhost:27017/Dobby_Bot', {
     useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }, (err) => {
         if (err) return console.error(err);
 });
-
-const CoolDown = new Set();
+const Duration = require('humanize-duration');
+const CoolDown = new Map();
 
 module.exports.run = async (bot, message, args, client) => {
 
@@ -20,40 +20,43 @@ module.exports.run = async (bot, message, args, client) => {
 
     let currPrefix = await Servers.findOne( { guildID: message.guild.id } )
     let userProfile = await Profile.findOne( { user: message.author.id } )
-    const Failure = bot.emojis.get("697388354689433611");
-    const Sucess = bot.emojis.get("697388354668462110");
+    const Failure = bot.emojis.cache.get("697388354689433611");
+    const Sucess = bot.emojis.cache.get("697388354668462110");
 
-    noProfile = new Discord.RichEmbed()
-    .setAuthor(`${message.author.tag} | Missing profile`, message.author.displayAvatarURL)
-    .setDescription(`${Failure} You have no profile yet! Create one with \`${currPrefix.prefix}new profile\` to get DB 💸`)
+    noProfile = new Discord.MessageEmbed()
+    .setAuthor(`${message.author.tag} | Missing profile`, message.author.displayAvatarURL({ dynamic: true }))
+    .setDescription(`${Failure} You have no profile yet! Create one with \`${currPrefix.prefix}new profile\` to get DC 💸`)
     .setColor("#ff4f4f")
 
-    dailyEmbed = new Discord.RichEmbed()
-    .setAuthor(`${message.author.tag} | Daily DB`, message.author.displayAvatarURL)
-    .setDescription(`${Sucess} <@${message.author.id}> You have been given **${randomAmount}** DB 💸`)
+    dailyEmbed = new Discord.MessageEmbed()
+    .setAuthor(`${message.author.tag} | Daily DC`, message.author.displayAvatarURL({ dynamic: true }))
+    .setDescription(`${Sucess} <@${message.author.id}> You have been given **${randomAmount}** DC 💸`)
     .setColor("#7aff7a")
 
     if (!userProfile) return message.channel.send(noProfile)
 
-    let timeout = 86400000;
+    const timeout = 86399999;
 
-    let timeError = new Discord.RichEmbed()
-    .setAuthor(`${message.author.tag} | Daily DB`, message.author.displayAvatarURL)
-    .setDescription(`${Failure} You have already collected your daily reward!`)
+    const cooldown = CoolDown.get(message.author.id)
+        if (cooldown) {
+                const timeRemain = Duration(cooldown - Date.now(), { units: [ 'h', 'm' ], round: true })
+    
+                let timeError = new Discord.MessageEmbed()
+                .setAuthor(`${message.author.tag} | Daily DC`, message.author.displayAvatarURL({ dynamic: true }))
+                .setDescription(`${Failure} You have already collected your daily reward! Please wait **${timeRemain}**`)
+                .setColor("#ff4f4f")
 
-        if (CoolDown.has(message.author.id)) {
             return message.channel.send(timeError);
-        }
-        CoolDown.add(message.author.id);
+
+    } else {
 
         await Profile.updateOne( { user: message.author.id }, { $set: { balance: userProfile.balance + randomAmount } } )
         await message.channel.send(dailyEmbed)
-
-        if (CoolDown.has(message.author.id))
-        setTimeout(() => {
-            CoolDown.delete(message.author.id);
-    }, timeout);
-  
+        CoolDown.set(message.author.id, Date.now() + timeout);
+        setTimeout( () => {
+            CoolDown.delete(message.author.id)
+        }, timeout)
+    }
 }
 
 module.exports.help = {

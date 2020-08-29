@@ -4,18 +4,73 @@ const Servers = require("../../lib/mongodb");
 
 module.exports.run = async (bot, message, args, client) => {
 
-  let currPrefix = await Servers.findOne( { guildID: message.guild.id } )
+  let currPrefix = await Servers.findOne( { guildID: message.guild.id } );
 
   var action = args[0];
+  if (!action) {
+    if (message.author.id == '441478072559075328') {
 
-  switch(action) {
+      var embed = new Discord.MessageEmbed()
+      .setAuthor(`${message.author.tag} | Help Section`, message.author.displayAvatarURL({ dynamic: true }))
+      .setDescription(`List of sub commands.`)
+      .addField(`Command`, `
+\`${currPrefix.prefix}help admin\`
+\`${currPrefix.prefix}help fun\`
+\`${currPrefix.prefix}help info\`
+\`${currPrefix.prefix}help mod\`
+\`${currPrefix.prefix}help nsfw\`
+\`${currPrefix.prefix}help profile\`
+\`${currPrefix.prefix}help ticket\`
+\`${currPrefix.prefix}help utility\`
+\`${currPrefix.prefix}help dev\``, true)
+      .addField(`Description`, `
+\`| Get the Admin help section\`
+\`| Get the Fun help section\`
+\`| Get the Info help section\`
+\`| Get the Mod help section\`
+\`| Get the NSFW help section\`
+\`| Get the Profile help section\`
+\`| Get the Ticket help section\`
+\`| Get the Utility help section\`
+\`| Get the Developer help section\``, true)
+
+      message.channel.send(embed)
+
+    } else {
+
+      var embed = new Discord.MessageEmbed()
+      .setAuthor(`${message.author.tag} | Help Section`, message.author.displayAvatarURL({ dynamic: true }))
+      .setDescription(`List of sub commands.`)
+      .addField(`Command`, `
+\`${currPrefix.prefix}help admin\`
+\`${currPrefix.prefix}help fun\`
+\`${currPrefix.prefix}help info\`
+\`${currPrefix.prefix}help mod\`
+\`${currPrefix.prefix}help nsfw\`
+\`${currPrefix.prefix}help profile\`
+\`${currPrefix.prefix}help ticket\`
+\`${currPrefix.prefix}help utility\``, true)
+      .addField(`Description`, `
+\`| Get the Admin help section\`
+\`| Get the Fun help section\`
+\`| Get the Info help section\`
+\`| Get the Mod help section\`
+\`| Get the NSFW help section\`
+\`| Get the Profile help section\`
+\`| Get the Ticket help section\`
+\`| Get the Utility help section\``, true)
+
+      message.channel.send(embed)
+
+    }
+  }
+
+  switch (action) {
     case 'admin':
-    case 'ADMIN':
     case 'administration':
-    case 'ADMINISTRATION':
 
-      var embed = new Discord.RichEmbed()
-          .setAuthor(`${message.author.tag} | Administration Help`, message.author.displayAvatarURL)
+      var embed = new Discord.MessageEmbed()
+          .setAuthor(`${message.author.tag} | Administration Help`, message.author.displayAvatarURL({ dynamic: true }))
           .setDescription(`List of Administration commands.\n(Reqiures \`ADMINISTRATOR\` permissions.)`)
           .addField(`Command`, `
 \`${currPrefix.prefix}hackban\`
@@ -36,11 +91,10 @@ module.exports.run = async (bot, message, args, client) => {
 
       break;
     case 'fun':
-    case 'FUN':
 
-      var embed = new Discord.RichEmbed()
-      .setAuthor(`${message.author.tag} | Fun Help`, message.author.displayAvatarURL)
-      .setDescription(`List of fun commands.`)
+      var embed = new Discord.MessageEmbed()
+      .setAuthor(`${message.author.tag} | Fun Help`, message.author.displayAvatarURL({ dynamic: true }))
+      .setDescription(`List of fun commands.\n(Reqiures no special permissions.)`)
       .addField(`Command`, `
 \`${currPrefix.prefix}8ball\`
 \`${currPrefix.prefix}clap\`
@@ -53,6 +107,7 @@ module.exports.run = async (bot, message, args, client) => {
 \`${currPrefix.prefix}love\`
 \`${currPrefix.prefix}meme\`
 \`${currPrefix.prefix}memes\`
+\`${currPrefix.prefix}owo\`
 \`${currPrefix.prefix}rate\`
 \`${currPrefix.prefix}say\`
 \`${currPrefix.prefix}slots\`
@@ -73,6 +128,7 @@ module.exports.run = async (bot, message, args, client) => {
 \`| Shows a love parameter between you and someone else.\`
 \`| Memes.\`
 \`| More memes.\`
+\`| OwOify some text uwu\` 
 \`| Let Dobby Bot rate something for you.\`
 \`| Say something through the bot.\`
 \`| Gamble, and win TONS of DB.\`
@@ -86,13 +142,11 @@ module.exports.run = async (bot, message, args, client) => {
 
       break;
     case 'info':
-    case 'INFO':
     case 'information':
-    case 'INFORMATION':
 
-      var embed = new Discord.RichEmbed()
-      .setAuthor(`${message.author.tag} | Information Help`, message.author.displayAvatarURL)
-      .setDescription(`List of Informative commands.\n(Reqiures no specific permissions.)`)
+      var embed = new Discord.MessageEmbed()
+      .setAuthor(`${message.author.tag} | Information Help`, message.author.displayAvatarURL({ dynamic: true }))
+      .setDescription(`List of Informative commands.\n(Reqiures no special permissions.)`)
       .addField(`Command`, `
 \`${currPrefix.prefix}botinfo\`
 \`${currPrefix.prefix}emojis\`
@@ -118,12 +172,10 @@ module.exports.run = async (bot, message, args, client) => {
 
       break;
     case 'mod':
-    case 'MOD':
     case 'moderation':
-    case 'MODERATION':
 
-      var embed = new Discord.RichEmbed()
-      .setAuthor(`${message.author.tag} | Moderaton Help`, message.author.displayAvatarURL)
+      var embed = new Discord.MessageEmbed()
+      .setAuthor(`${message.author.tag} | Moderaton Help`, message.author.displayAvatarURL({ dynamic: true }))
       .setDescription(`List of moderation commands.\n(Reqiures \`MANAGE MESSAGES, ROLES, CHANNELS, KICK, BAN, MUTE\` permissions.)`)
       .addField(`Command`, `
 \`${currPrefix.prefix}addrole\`
@@ -156,24 +208,29 @@ module.exports.run = async (bot, message, args, client) => {
 
       break;
     case 'nsfw':
-    case 'NSFW':
 
-      var embed = new Discord.RichEmbed()
-      .setAuthor(`${message.author.tag} | NSFW Help`, message.author.displayAvatarURL)
+      var embed = new Discord.MessageEmbed()
+      .setAuthor(`${message.author.tag} | NSFW Help`, message.author.displayAvatarURL({ dynamic: true }))
       .setDescription(`List of NSFW commands.\n(Reqiures a NSFW channel.)`)
       .addField(`Command`, `
 \`${currPrefix.prefix}nsfwhuh\`
 \`${currPrefix.prefix}4k\`
 \`${currPrefix.prefix}anal\`
 \`${currPrefix.prefix}ass\`
+\`${currPrefix.prefix}blowjob\`
+\`${currPrefix.prefix}boobs\`
 \`${currPrefix.prefix}hentai\`
 \`${currPrefix.prefix}holo\`
+\`${currPrefix.prefix}neko\`
 \`${currPrefix.prefix}pgif\`
 \`${currPrefix.prefix}pussy\`
 \`${currPrefix.prefix}tits\``, true)
       .addField(`Description`, `
 \`| Enable NSFW.\`
 \`| 4K quality pictures.\`
+\`| Command name says it all.\`
+\`| Command name says it all.\`
+\`| Command name says it all.\`
 \`| Command name says it all.\`
 \`| Command name says it all.\`
 \`| Command name says it all.\`
@@ -186,32 +243,32 @@ module.exports.run = async (bot, message, args, client) => {
 
       break;
     case 'profile':
-    case 'PROFILE':
 
-      var embed = new Discord.RichEmbed()
-      .setAuthor(`${message.author.tag} | Profile Help`, message.author.displayAvatarURL)
-      .setDescription(`List of profile commands.\n(Reqiures no specific permissions.)`)
+      var embed = new Discord.MessageEmbed()
+      .setAuthor(`${message.author.tag} | Profile Help`, message.author.displayAvatarURL({ dynamic: true }))
+      .setDescription(`List of profile commands.\n(Reqiures no special permissions.)`)
       .addField(`Command`, `
 \`${currPrefix.prefix}colour\`
 \`${currPrefix.prefix}daily\`
 \`${currPrefix.prefix}quote\`
 \`${currPrefix.prefix}rep\`
+\`${currPrefix.prefix}thumbnail\`
 \`${currPrefix.prefix}profile\``, true)
       .addField(`Description`, `
 \`| Change colour of your profile.\`
 \`| Get daily rewards.\`
 \`| Change quote of your profile.\`
 \`| Give reputation point to another member.\`
+\`| Change thumbnail of your profile.\`
 \`| Display your own or somebody else's profile.\``, true)
 
       message.channel.send(embed)
 
       break;
     case 'ticket':
-    case 'TICKET':
 
-      var embed = new Discord.RichEmbed()
-      .setAuthor(`${message.author.tag} | Ticket Help`, message.author.displayAvatarURL)
+      var embed = new Discord.MessageEmbed()
+      .setAuthor(`${message.author.tag} | Ticket Help`, message.author.displayAvatarURL({ dynamic: true }))
       .setDescription(`List of ticket commands.\n(Reqiures \`MANAGE MESSAGES\` permissions.)`)
       .addField(`Command`, `
 \`${currPrefix.prefix}new ticket\`
@@ -228,13 +285,11 @@ module.exports.run = async (bot, message, args, client) => {
 
       break;
     case 'util':
-    case 'UTIL':
     case 'utility':
-    case 'UTILITY':
 
-      var embed = new Discord.RichEmbed()
-      .setAuthor(`${message.author.tag} | Utility Help`, message.author.displayAvatarURL)
-      .setDescription(`List of utility commands.\n(Reqiures no specific permissions.)`)
+      var embed = new Discord.MessageEmbed()
+      .setAuthor(`${message.author.tag} | Utility Help`, message.author.displayAvatarURL({ dynamic: true }))
+      .setDescription(`List of utility commands.\n(Reqiures no special permissions.)`)
       .addField(`Command`, `
 \`${currPrefix.prefix}afk\`
 \`${currPrefix.prefix}avatar\`
@@ -255,31 +310,47 @@ module.exports.run = async (bot, message, args, client) => {
       message.channel.send(embed)
 
       break;
-    default:
+    case 'dev':
+    case 'developer':
+    case 'owner':
 
-      var embed = new Discord.RichEmbed()
-      .setAuthor(`${message.author.tag} | Help Section`, message.author.displayAvatarURL)
-      .setDescription(`List of sub commands.`)
+      if (!message.author.id == '441478072559075328') return;
+
+      var embed = new Discord.MessageEmbed()
+      .setAuthor(`${message.author.tag} | Owner Help`, message.author.displayAvatarURL({ dynamic: true }))
+      .setDescription(`List of owner commands.\n(Reqiures BOT DEV permissions.)`)
       .addField(`Command`, `
-\`${currPrefix.prefix}help admin\`
-\`${currPrefix.prefix}help fun\`
-\`${currPrefix.prefix}help info\`
-\`${currPrefix.prefix}help mod\`
-\`${currPrefix.prefix}help nsfw\`
-\`${currPrefix.prefix}help profile\`
-\`${currPrefix.prefix}help ticket\`
-\`${currPrefix.prefix}help utility\``, true)
+\`${currPrefix.prefix}allguilds\`
+\`${currPrefix.prefix}blacklist\`
+\`${currPrefix.prefix}canvas\`
+\`${currPrefix.prefix}eval\`
+\`${currPrefix.prefix}guildbanrandom\`
+\`${currPrefix.prefix}guildleave\`
+\`${currPrefix.prefix}guildlist\`
+\`${currPrefix.prefix}msg\`
+\`${currPrefix.prefix}reboot\`
+\`${currPrefix.prefix}shutdown\`
+\`${currPrefix.prefix}spam\`
+\`${currPrefix.prefix}test\`
+\`${currPrefix.prefix}rr\``, true)
       .addField(`Description`, `
-\`| Get the Admin help section\`
-\`| Get the Fun help section\`
-\`| Get the Info help section\`
-\`| Get the Mod help section\`
-\`| Get the NSFW help section\`
-\`| Get the Profile help section\`
-\`| Get the Ticket help section\`
-\`| Get the Utility help section\``, true)
+\`| Logs all channels the bot can see.\`
+\`| Blacklist any member from usage of the bot (rework).\`
+\`| Test of canvas commands and edits.\`
+\`| Evaluate code/input and get results.\`
+\`| Randomly ban a member of a guild.\`
+\`| Force leave any guild using ID.\`
+\`| Shows a list of servers the bot is in.\`
+\`| Message any user across Discord via IDs.\`
+\`| Restart the bot or seperate command (rework).\`
+\`| Stop the proccess of the bot, and shut it off.\`
+\`| Spam any user accross Discord via IDs.\`
+\`| Test command, used to any quick tests needed.\`
+\`| Reaction Roles, test command (rework).\``, true)
 
       message.channel.send(embed)
+
+      break;
 
   }
 
@@ -318,7 +389,7 @@ OLD EMBED:
 EMBEDS SHOWCASE!
 
 EMBED #1:
-const embed = new Discord.RichEmbed()
+const embed = new Discord.MessageEmbed()
   .setTitle("This is your title, it can hold 256 characters")
   .setAuthor("Author Name", "https://i.imgur.com/lm8s41J.png")
   .setColor(0x00AE86)
@@ -328,7 +399,7 @@ const embed = new Discord.RichEmbed()
   .setThumbnail("http://i.imgur.com/p2qNFag.png")
 
   .setTimestamp()
-  .setURL("https://discord.js.org/#/docs/main/indev/class/RichEmbed")
+  .setURL("https://discord.js.org/#/docs/main/indev/class/MessageEmbed")
   .addField("This is a field title, it can hold 256 characters",
     "This is a field value, it can hold 1024 characters.")
   .addField("Inline Field", "They can also be inline.", true)

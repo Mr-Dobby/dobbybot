@@ -5,8 +5,8 @@ module.exports.run = async (bot, message, args) => {
 
   let currPrefix = await Servers.findOne( { guildID: message.guild.id } )
 
-      let botIcon = bot.user.displayAvatarURL;
-      let inviteEmbed = new Discord.RichEmbed()
+      let botIcon = bot.user.displayAvatarURL({ dynamic: true });
+      let inviteEmbed = new Discord.MessageEmbed()
           .setTitle(`Important ${bot.user.username} links!`)
           .setDescription(`**${currPrefix.prefix}link** | Aliases: \`inv\`, \`invite\``)
           .setColor("#010000")

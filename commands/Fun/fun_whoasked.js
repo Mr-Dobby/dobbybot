@@ -12,15 +12,16 @@ module.exports.run = async (bot, message, args, client) => {
         "https://cdn.discordapp.com/attachments/682717976771821646/701800001940226148/who-cares6.jpg",
         "https://cdn.discordapp.com/attachments/682717976771821646/701800003215032350/who-cares7.jpg",
         "https://cdn.discordapp.com/attachments/682717976771821646/701807801688653884/who-cares8.gif",
-        "https://cdn.discordapp.com/attachments/682717976771821646/701804272148414624/who-cares9.jpg"
+        "https://cdn.discordapp.com/attachments/682717976771821646/701804272148414624/who-cares9.jpg",
+        "https://cdn.discordapp.com/attachments/749029899540496434/749730543716794529/who-cares10.jpg"
       ]
       
       var result = random[Math.floor(Math.random() * random.length)]
       
       let embed = new Discord.MessageEmbed()
-      .setAuthor(`Who the hell was asking . . ? Nobody cares!!`, message.author.displayAvatarURL({ dynamic: true }))
-      .setColor(`RANDOM`)
-      .setImage(result)
+        .setAuthor(`Who the hell was asking . . ? Nobody cares!!`, message.author.displayAvatarURL({ dynamic: true }))
+        .setColor(`RANDOM`)
+        .setImage(result)
       
       message.channel.send(embed)
 

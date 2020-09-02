@@ -13,7 +13,8 @@ module.exports.run = async (bot, message, args, client) => {
   const Sucess = bot.emojis.cache.get("697388354668462110");
 
   try {
-      if (args.join(" ").toLowerCase().includes("token") || args.join(" ").toUpperCase().includes("token")) return;
+    
+    if (args.join(" ").toLowerCase().includes("token")) return;
 
       const toEvaluate = args.join(" ");
       const evaluated = eval(toEvaluate);

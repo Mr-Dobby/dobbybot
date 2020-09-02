@@ -1,9 +1,7 @@
 const Discord = require("discord.js");
-const commando = require('discord.js-commando');
 const Servers = require("../../lib/mongodb");
 const Logs = require("../../lib/logs");
 const mongoose = require('mongoose');
-const { string } = require("mathjs");
 mongoose.connect('mongodb://localhost:27017/Dobby_Bot', {
     useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }, (err) => {
         if (err) return console.error(err);
@@ -38,8 +36,8 @@ let CurrentChannel = message.channel;
 let AreYouSureBoutDat = new Discord.MessageEmbed()
 .setAuthor(`${message.author.tag} | You are about to create logs for this server.`, `${message.author.displayAvatarURL({ dynamic: true })}`)
 .setColor("#ff4f4f")
-.setDescription("**You have __10 seconds__ to respond. This will create 3 new channels.**\nTo accept the creation of logs, type `Y`.\nTo decline the creation of logs, type `N`.")
-.setFooter(`If you already have logs set up, you can set logs to those channels with -set`)
+.setDescription("**You have __20 seconds__ to respond. This will create 3 new channels.**\nTo accept the creation of logs, type `Y`.\nTo decline the creation of logs, type `N`.")
+.setFooter(`If you already have log channels set up, you can set logs to those channels with ${currPrefix.prefix}set`)
 .setTimestamp()
 
 let LogsCreatedIncident = new Discord.MessageEmbed()
@@ -77,7 +75,7 @@ await message.channel.send(AreYouSureBoutDat)
 await message.channel.awaitMessages(m => m.author.id === message.author.id, {
     errors : ['time'],
     max : 1,
-    time : 10000 //in ms
+    time : 20000 //in ms
   }).then(async (resp) => {
 
     if (!resp) return;
@@ -156,7 +154,7 @@ await message.channel.awaitMessages(m => m.author.id === message.author.id, {
       }
     }
   }
-}, 10000).catch((error) => {
+}, 20000).catch((error) => {
       message.channel.send(`Error: ${error}`)
       if (err) {
     console.log(`Error occurred in ${message.guild.name} (ID: ${message.guild.id}), ${error} | Command executed, -logging `)

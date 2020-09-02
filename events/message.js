@@ -1,7 +1,6 @@
 const {bot} = require('../index');
 const Discord = require("discord.js");
 const client = new Discord.Client();
-const Config = require('../lib/mongodb');
 const Profile = require("../lib/profile");
 const Servers = require("../lib/mongodb");
 const Raid = require("../lib/raid");
@@ -30,7 +29,6 @@ bot.on("message", async (message) => {
     }
 
     let userProfile = await Profile.findOne( { user: message.author.id } )
-    const currXp = userProfile.xp;
 
         if (!userProfile) {
             const newUserProfile = new Profile({
@@ -50,18 +48,18 @@ bot.on("message", async (message) => {
         await newUserProfile.save();
         }
     
+        const currXp = await userProfile.xp;
+        const nxtLvl = 5 * Math.pow(userProfile.globalLevel, 2) + 50 * userProfile.globalLevel + 100;
         function generateXP() {
             let min = 10;
             let max = 25;
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
-
         //const xpAdd = Math.floor(Math.random() * 100) + 10;
-        const nxtLvl = 5 * Math.pow(userProfile.globalLevel, 2) + 50 * userProfile.globalLevel + 100;
 
-        await Profile.updateOne( { user: message.author.id }, { $set: { xp: currXp + generateXP() } } )
+        await Profile.findOneAndUpdate( { user: message.author.id }, { $set: { xp: currXp + generateXP() } } )
 
-        if (currXp >= nxtLvl) {
+        if (nxtLvl <= currXp) {
 
             let lvlUpEmbed = new Discord.MessageEmbed()
                 .setAuthor(`${message.author.tag} | Level up!`, message.author.displayAvatarURL({ dynamic: true }))
@@ -69,7 +67,7 @@ bot.on("message", async (message) => {
                 .setThumbnail("https://cdn.discordapp.com/attachments/682717976771821646/705125856455950496/Levelup.png")
                 .setColor("#00cbe5")
 
-            await Profile.updateMany( { user: message.author.id }, { $set: { globalLevel: userProfile.globalLevel + 1, xp: 0 } } )
+            await Profile.findOneAndUpdate( { user: message.author.id }, { $set: { globalLevel: userProfile.globalLevel + 1, xp: 0 } } )
             message.channel.send(lvlUpEmbed).then(message => message.delete({ timeout: 10000 }))
 
         }

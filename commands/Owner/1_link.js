@@ -7,7 +7,7 @@ module.exports.run = async (bot, message, args) => {
 
       let botIcon = bot.user.displayAvatarURL({ dynamic: true });
       let inviteEmbed = new Discord.MessageEmbed()
-          .setTitle(`Important ${bot.user.username} links!`)
+          .setAuthor(`Le Links of Le ${bot.user.username}!`)
           .setDescription(`**${currPrefix.prefix}link** | Aliases: \`inv\`, \`invite\``)
           .setColor("#010000")
           .setThumbnail(botIcon)

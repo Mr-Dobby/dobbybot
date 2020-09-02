@@ -31,12 +31,12 @@ bot.on("guildCreate", async (guild) => {
             description: `Default Prefix: \`-\` | Set new with \`-prefix <prefix>\``,
             fields: [
               {
-                name: "Help:",
-                value: `\`-help\`, \`-h\` \`-welp\``
+                name: "Help",
+                value: `\`-help\`, \`-h\` \`-welp\` | Also *A Quick Guide*: \`-aqg\`. (I know, creative wooo)`
               },  
               {
                 name: "Links",
-                value: `Dobby Bot's Server: *[Click Here](https://discord.gg/HXPCWfv)*\n Invite the bot: *[Click Here](https://discordapp.com/oauth2/authorize?client_id=570525775351119872&scope=bot&permissions=268443694)*`
+                value: `Support Server: *[Click Here](https://discord.gg/HXPCWfv)*\n Invite the bot: *[Click Here](https://discordapp.com/oauth2/authorize?client_id=570525775351119872&scope=bot&permissions=268443694)*`
               }
             ],
             timestamp: new Date(),
@@ -45,12 +45,12 @@ bot.on("guildCreate", async (guild) => {
             }
           }
         })
-
+/*
         if (Config.findOne( { guildID: guild.id } )) { return; }
         if (Raid.findOne( { guildID: guild.id } )) { return; }
         if (Logs.findOne( { guildID: guild.id } )) { return; }
         if (Ticket.findOne( { guildID: guild.id } )) { return; }
-
+*/
               const newConfig = new Config({
 
                   guildID: guild.id,
@@ -76,7 +76,8 @@ bot.on("guildCreate", async (guild) => {
                   guildID: guild.id,
                   incidentLog: "`Not set`",
                   serverLog: "`Not set`",
-                  raidLog: "`Not set`"
+                  raidLog: "`Not set`",
+                  welcomeLog: "`Not set`"
             
               });
 

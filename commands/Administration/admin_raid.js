@@ -154,8 +154,9 @@ module.exports.run = async (bot, message, args, client) => {
             let ignoreChannelsEmbed = new Discord.MessageEmbed()
                 .setAuthor(`${message.author.tag} | Raid Protection`, message.author.displayAvatarURL({ dynamic: true }))
                 .setDescription(`**Raid protection - Ignore text channels to lockdown.**\n\`Command usage: ${currPrefix.prefix}raid ignore <ChannelID> <ChannelID>\`
-                **You can also show current ignored channels.**\n\`Command usage: ${currPrefix.prefix}raid ignore list\``)
-                .setFooter(`The channel IDs must be space seperated. Clear the list with ${currPrefix.prefix}raid ignore clear`)
+                **You can also show current ignored channels.**\n\`Command usage: ${currPrefix.prefix}raid ignore list\`
+                **To view the current list of ignored channels;**\n\`Command usage: ${currPrefix.prefix}raid ignore clear\``)
+                .setFooter(`The channel IDs must be space seperated.`)
 
             return message.channel.send(ignoreChannelsEmbed)
 
@@ -167,7 +168,7 @@ module.exports.run = async (bot, message, args, client) => {
                 let ignoreChannelsEmbed = new Discord.MessageEmbed()
                     .setAuthor(`${message.author.tag} | Raid Protection`, message.author.displayAvatarURL({ dynamic: true }))
                     .setDescription(`**Currently ignoring:**\n<#${ignore.replace(/, /g, ">\n <#") + ">"}`)
-                    .setFooter(`Clear the list with ${currPrefix.prefix}raid ignore clear`)
+                    .setFooter(`Clear the list with: ${currPrefix.prefix}raid ignore clear`)
                     .setColor("#7aff7a")
 
                 return message.channel.send(ignoreChannelsEmbed)
@@ -176,7 +177,7 @@ module.exports.run = async (bot, message, args, client) => {
                 let ignoreChannelsEmbed = new Discord.MessageEmbed()
                     .setAuthor(`${message.author.tag} | Raid Protection`, message.author.displayAvatarURL({ dynamic: true }))
                     .setDescription(`**Not ignoring any channels at the moment.**`)
-                    .setFooter(`Add channels to the list with ${currPrefix.prefix}raid ignore <Channel ID> <Channel ID>`)
+                    .setFooter(`Add channels to the list with: ${currPrefix.prefix}raid ignore <Channel ID> <Channel ID>`)
                     .setColor("#7aff7a")
 
                 return message.channel.send(ignoreChannelsEmbed)
@@ -204,7 +205,7 @@ module.exports.run = async (bot, message, args, client) => {
             let ignoreChannelsEmbed = new Discord.MessageEmbed()
                 .setAuthor(`${message.author.tag} | Raid Protection`, message.author.displayAvatarURL({ dynamic: true }))
                 .setDescription(`${Sucess} **Successfully ignoring:**\n<#${channels2ignore.replace(/, /g, ">\n <#") + ">"}`)
-                .setFooter(`Clear the list with ${currPrefix.prefix}raid ignore clear`)
+                .setFooter(`Clear the list with: ${currPrefix.prefix}raid ignore clear`)
                 .setColor("#7aff7a")
                 
 
@@ -215,10 +216,11 @@ module.exports.run = async (bot, message, args, client) => {
             let ignoreChannelsEmbed = new Discord.MessageEmbed()
                 .setAuthor(`${message.author.tag} | Raid Protection`, message.author.displayAvatarURL({ dynamic: true }))
                 .setDescription(`**Raid protection - Ignore text channels to lockdown.**\n\`Command usage: ${currPrefix.prefix}raid ignore <ChannelID> <ChannelID>\`
-                **You can also show current ignored channels.**\n\`Command usage: ${currPrefix.prefix}raid ignore list\``)
-                .setFooter(`The channel IDs must be space seperated. Clear the list with ${currPrefix.prefix}raid ignore clear`)
+                **You can also show current ignored channels.**\n\`Command usage: ${currPrefix.prefix}raid ignore list\`
+                **To view the current list of ignored channels;**\n\`Command usage: ${currPrefix.prefix}raid ignore clear\``)
+                .setFooter(`The channel IDs must be space seperated.`)
 
-        message.channel.send(ignoreChannelsEmbed) 
+            message.channel.send(ignoreChannelsEmbed) 
     
     }
 

@@ -47,23 +47,23 @@ bot.on('presenceUpdate', async (oldPresence, newPresence) => {
       }
     }
   
-    */
-    /*
+    *//*
     if (oldPresence !== newPresence) {
   
-      if (oldPresence.guild.id === '521602207406227476') {
+      try {
           
-        oldPresence.guild.channels.cache.get(options.total).setName(`Total Elves: ${oldPresence.guild.memberCount}`); // You can change this text, but still keep ${guild.memberCount}, as it defines total members.
-        oldPresence.guild.channels.cache.get(options.users).setName(`Online Elves: ${oldPresence.guild.members.filter(a => a.presence.status !== 'offline').filter(member => !member.user.bot).size}`); // This text is also changeable, still keep the code in ${}
-        oldPresence.guild.channels.cache.get(options.boosters).setName(`Boosting Elves: ${oldPresence.guild.premiumSubscriptionCount}`)
-        oldPresence.guild.channels.cache.get(options.bots).setName(`Bots: ${oldPresence.guild.members.filter((m) => m.user.bot).size}`); // This text is also changeable, still keep the code in ${}
-        
-    } else if (oldPresence.guild.id === "554048310436954122") {
+        bot.channels.cache.get(options.total).edit({ name: `Total Elves: ${newPresence.guild.memberCount}` }); // You can change this text, but still keep ${guild.memberCount}, as it defines total members.
+        bot.channels.cache.get(options.users).edit({ name: `Online Elves: ${newPresence.guild.members.cache.filter(a => a.presence.status !== 'offline').filter(member => !member.user.bot).size}` }); // This text is also changeable, still keep the code in ${}
+        bot.channels.cache.get(options.boosters).edit({ name: `Boosting Elves: ${newPresence.guild.premiumSubscriptionCount}` })
+        bot.channels.cache.get(options.bots).edit({ name: `Bots: ${newPresence.guild.members.cache.filter((m) => m.user.bot).size}` }); // This text is also changeable, still keep the code in ${}
   
-        oldPresence.guild.channels.cache.get(options1.total).setName(`Total Cuties: ${oldPresence.guild.memberCount} ❤️`); // You can change this text, but still keep ${guild.memberCount}, as it defines total members.
-        oldPresence.guild.channels.cache.get(options1.users).setName(`Online Cuties: ${oldPresence.guild.members.filter(a => a.presence.status !== 'offline').filter(member => !member.user.bot).size} ❤️`); // This text is also changeable, still keep the code in ${}
-        oldPresence.guild.channels.cache.get(options1.bots).setName(`Bots: ${oldPresence.guild.members.filter((m) => m.user.bot).size}`); // This text is also changeable, still keep the code in ${}
+        bot.channels.cache.get(options1.total).edit({ name: `Total Cuties: ${newPresence.guild.memberCount} ❤️` }); // You can change this text, but still keep ${guild.memberCount}, as it defines total members.
+        bot.channels.cache.get(options1.users).edit({ name: `Online Cuties: ${newPresence.guild.members.cache.filter(a => a.presence.status !== 'offline').filter(member => !member.user.bot).size} ❤️` }); // This text is also changeable, still keep the code in ${}
+        bot.channels.cache.get(options1.bots).edit({ name: `Bots: ${newPresence.guild.members.cache.filter((m) => m.user.bot).size}` }); // This text is also changeable, still keep the code in ${}
 
-      } 
-    }*/
+        } catch (err) {
+      console.error(err)
+    }
+  }
+*/
 });

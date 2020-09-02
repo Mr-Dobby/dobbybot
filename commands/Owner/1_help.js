@@ -269,7 +269,7 @@ module.exports.run = async (bot, message, args, client) => {
 
       var embed = new Discord.MessageEmbed()
       .setAuthor(`${message.author.tag} | Ticket Help`, message.author.displayAvatarURL({ dynamic: true }))
-      .setDescription(`List of ticket commands.\n(Reqiures \`MANAGE MESSAGES\` permissions.)`)
+      .setDescription(`List of ticket commands.\n(Reqiures \`MANAGE MESSAGES, CHANNELS\` permissions.)`)
       .addField(`Command`, `
 \`${currPrefix.prefix}new ticket\`
 \`${currPrefix.prefix}add\`
@@ -296,16 +296,14 @@ module.exports.run = async (bot, message, args, client) => {
 \`${currPrefix.prefix}calc\`
 \`${currPrefix.prefix}new\`
 \`${currPrefix.prefix}ping\`
-\`${currPrefix.prefix}report\`
-\`${currPrefix.prefix}set\``, true)
+\`${currPrefix.prefix}report\``, true)
       .addField(`Description`, `
 \`| Add yourself to the AFK map.\`
 \`| Shows yours or someone else's avatar.\`
 \`| Just a basic calculator.\`
 \`| Create a new ticket, or a new profile.\`
 \`| Show Discord API response time.\`
-\`| Create a report on a server member.\`
-\`| Setup log & welcome channels, as well as ticket system.\``, true)
+\`| Create a report on a server member.\``, true)
 
       message.channel.send(embed)
 

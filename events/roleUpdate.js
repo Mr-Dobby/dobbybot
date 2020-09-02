@@ -31,14 +31,14 @@ bot.on("roleUpdate", async (oldRole, newRole) => {
   
   }
   
-    if (oldRole.position !== newRole.position) {
+    if (oldRole.rawPosition !== newRole.rawPosition ) {
   
     const embed = new Discord.MessageEmbed()
     .setAuthor(`${newRole.guild.name} | Role update`, newRole.guild.iconURL({ dynamic: true }))
     .setColor("#ffc500")
     .setDescription(`**${oldRole.toString()}** updated position ${fire}`)
-    .addField('Old position:', `${oldRole.guild.roles.cache.size - oldRole.position} out of ${oldRole.guild.roles.cache.size}`, true)
-    .addField('New position:', `__**${newRole.guild.roles.cache.size - newRole.position} out of ${newRole.guild.roles.cache.size}**__`, true)
+    .addField('Old position:', `${oldRole.guild.roles.cache.size - oldRole.rawPosition} out of ${oldRole.guild.roles.cache.size}`, true)
+    .addField('New position:', `__**${newRole.guild.roles.cache.size - newRole.rawPosition} out of ${newRole.guild.roles.cache.size}**__`, true)
     .setFooter(`Role ID: ${newRole.id}`)
     .setTimestamp()
   

@@ -85,7 +85,7 @@ module.exports.run = async(client, message, args) => {
     .setAuthor('8ball','http://www.pngmart.com/files/3/8-Ball-Pool-PNG-Photos.png')
     .setThumbnail('https://vignette.wikia.nocookie.net/uncyclopedia/images/4/40/8ball.png/revision/latest?cb=20131030182451')
     .setDescription(`${choices[Math.floor(Math.random() * choices.length)]}`)
-    .setColor(000000)
+    .setColor("#000001")
 
     message.channel.send(embed)
 

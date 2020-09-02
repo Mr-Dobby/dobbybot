@@ -10,20 +10,20 @@ module.exports.run = async (bot, message, args, client) => {
   var heartEmoji2 = "https://cdn.discordapp.com/emojis/721011000328847461.gif?v=1"
 
   var love = [
-      "**420%** | :smoking::smoking::smoking::smoking::smoking::smoking::smoking::smoking::smoking::smoking: | **420%** \`TOO MUCH LOVE\`",
-      "**0%** | :broken_heart::broken_heart::broken_heart::broken_heart::broken_heart::broken_heart::broken_heart::broken_heart::broken_heart::broken_heart: | **0%** | \`To put it simple, just don't.\`",
-      "**10%** | :heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart: | **10%** | \`Terrible Match\`",
-      "**20%** | :heart::heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart: | **20%** | \`Awful Match\`",
-      "**30%** | :heart::heart::heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart: | **30%** | \`Could be worse\`",
-      "**40%** | :heart::heart::heart::heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart: | **40%** | \`Could be better\`",
-      "**50%** | :heart::heart::heart::heart::heart::black_heart::black_heart::black_heart::black_heart::black_heart: | **50%** | \`Decent Match\`",
-      "**60%** | :heart::heart::heart::heart::heart::heart::black_heart::black_heart::black_heart::black_heart: | **60%** | \`Good Match\`",
-      "**69%** | :eggplant::eggplant::eggplant::eggplant::eggplant::eggplant::eggplant::eggplant::eggplant::eggplant: | **69%** | \`Perfection\`",
-      "**70%** | :heart::heart::heart::heart::heart::heart::heart::black_heart::black_heart::black_heart: | **70%** | \`Great Match\`",
-      "**80%** | :heart::heart::heart::heart::heart::heart::heart::heart::black_heart::black_heart: | **80%** | \`Amazing Match\`",
-      "**90%** | :heart::heart::heart::heart::heart::heart::heart::heart::heart::black_heart: | **90%** | \`Lovely Match\`",
-      "**99%** | :beers::beers::beers::beers::beers::beers::beers::beers::beers::beers: | **99%** | \`Fantastic Match\`",
-      "**100%** | :heart::heart::heart::heart::heart::heart::heart::heart::heart::heart: | **100%** | \`So.. when is the wedding?\`",
+      "**420%** | :smoking::smoking::smoking::smoking::smoking::smoking::smoking::smoking::smoking::smoking: | **420%** \n\n\`TOO MUCH LOVE\`",
+      "**0%** | :broken_heart::broken_heart::broken_heart::broken_heart::broken_heart::broken_heart::broken_heart::broken_heart::broken_heart::broken_heart: | **0%** \n\n\`To put it simple, just don't.\`",
+      "**10%** | :heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart: | **10%** \n\n\`Terrible Match\`",
+      "**20%** | :heart::heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart: | **20%** \n\n\`Awful Match\`",
+      "**30%** | :heart::heart::heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart: | **30%** \n\n\`Could be better\`",
+      "**40%** | :heart::heart::heart::heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart: | **40%** \n\n\`Could be worse\`",
+      "**50%** | :heart::heart::heart::heart::heart::black_heart::black_heart::black_heart::black_heart::black_heart: | **50%** \n\n\`Decent Match\`",
+      "**60%** | :heart::heart::heart::heart::heart::heart::black_heart::black_heart::black_heart::black_heart: | **60%** \n\n\`Good Match\`",
+      "**69%** | :eggplant::eggplant::eggplant::eggplant::eggplant::eggplant::eggplant::eggplant::eggplant::eggplant: | **69%** \n\n\`Perfection\`",
+      "**70%** | :heart::heart::heart::heart::heart::heart::heart::black_heart::black_heart::black_heart: | **70%** \n\n\`Great Match\`",
+      "**80%** | :heart::heart::heart::heart::heart::heart::heart::heart::black_heart::black_heart: | **80%** \n\n\`Amazing Match\`",
+      "**90%** | :heart::heart::heart::heart::heart::heart::heart::heart::heart::black_heart: | **90%** \n\n\`Lovely Match\`",
+      "**99%** | :beers::beers::beers::beers::beers::beers::beers::beers::beers::beers: | **99%** \n\n\`Fantastic Match\`",
+      "**100%** | :heart::heart::heart::heart::heart::heart::heart::heart::heart::heart: | **100%** \n\n\`So.. when is the wedding?\`",
 ];
 
   var loveyourself = ["**101%** | :sparkling_heart::sparkling_heart::sparkling_heart::sparkling_heart::sparkling_heart::sparkling_heart::sparkling_heart::sparkling_heart::sparkling_heart::sparkling_heart: | **101%** \`MAXIMUM LOVE\`"]

@@ -16,7 +16,7 @@ module.exports.run = async (bot, message, args, client) => {
 
     moment.locale("en-gb");
     let created = moment(bot.user.createdAt).format('L');
-    let owner = bot.users.get("441478072559075328") || await client.fetchUser("441478072559075328");
+    let owner = bot.users.cache.get("441478072559075328") || await bot.users.fetch("441478072559075328");
 
     let botIcon = bot.user.displayAvatarURL({ dynamic: true });
     let botembed = new Discord.MessageEmbed()
@@ -27,9 +27,9 @@ module.exports.run = async (bot, message, args, client) => {
         .setURL('https://discordapp.com/oauth2/authorize?client_id=570525775351119872&scope=bot&permissions=268443694')
         .addField("➞ Bot", `ID: ${bot.user.id}`, true)
         .addField("➞ Bot Created On", created, true)
-        .addField(`➞ Libaries`, `Discord.js v11.6.4\nNode.js ${process.version}`, true)
+        .addField(`➞ Libaries`, `Discord.js v12.3.1\nNode.js ${process.version}`, true)
         .addField("➞ Bot Uptime", `${duration(bot.uptime)}`, true)
-        .setFooter(`Created by: Mr. Dobby#0001`, owner.displayAvatarURL({ dynamic: true }))
+        .setFooter(`Created by: ${owner.tag}`, owner.displayAvatarURL({ dynamic: true }))
         .setTimestamp();
 
         message.channel.send(botembed);

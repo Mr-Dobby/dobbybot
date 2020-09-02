@@ -1,6 +1,4 @@
 const Discord = require("discord.js");
-const fs = require("fs");
-const ms = require("ms");
 //let warns = JSON.parse(fs.readFileSync("../../storage/warnings.json", "utf8"));
 const Servers = require("../../lib/mongodb");
 

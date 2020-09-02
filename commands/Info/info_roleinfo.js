@@ -31,8 +31,8 @@ module.exports.run = async (bot, message, args, client) => {
 
         const errorEmbed = new Discord.MessageEmbed()
         .setColor("#ff0000")
-        .setAuthor(`${message.author.tag} | Role Information`)
-        .setTitle(`${Failure} Invalid role name or role ID`)
+        .setAuthor(`${message.author.tag} | Role Information`, message.author.displayAvatarURL({ dynamic: true }))
+        .setDescription(`${Failure} Invalid role name or role ID`)
 /*
         let allRolesEmbed = new Discord.MessageEmbed()
         .setAuthor(`${message.guild.name}'s Roles`, message.guild.iconURL)
@@ -46,7 +46,7 @@ module.exports.run = async (bot, message, args, client) => {
 const RandomColour = ("000000" + Math.random().toString(16).slice(2, 8).toUpperCase()).slice(-6);
 
         let roleNames = new Discord.MessageEmbed()
-        .setAuthor(`Available roles in ${message.guild.name}`, message.guild.iconURL)
+        .setAuthor(`Available roles in ${message.guild.name}`, message.guild.iconURL({ dynamic: true }))
         .setDescription("Only roles with `SEND MESSAGES` permission enabled")
         .setColor(RandomColour)
         .addField("Roles:", names, true)
@@ -76,7 +76,7 @@ const RandomColour = ("000000" + Math.random().toString(16).slice(2, 8).toUpperC
 
         let roleemebed0 = new Discord.MessageEmbed()
         .setColor(hexColor)
-        .setAuthor(`${message.guild.name} | Role Information`, message.guild.iconURL)
+        .setAuthor(`${message.guild.name} | Role Information`, message.guild.iconURL({ dynamic: true }))
         .setDescription(`\`${currPrefix.prefix}roleinfo\` | Alias: \`rinfo\``)
         .addField("Name", `${gRole.toString()}`, true)  
         .addField("Hex", gRole.hexColor, true)
@@ -89,7 +89,7 @@ const RandomColour = ("000000" + Math.random().toString(16).slice(2, 8).toUpperC
         
         let roleemebed1 = new Discord.MessageEmbed()
         .setColor(hexColor)
-        .setAuthor(`${message.guild.name} | Role Information`, message.guild.iconURL)
+        .setAuthor(`${message.guild.name} | Role Information`, message.guild.iconURL({ dynamic: true }))
         .setDescription(`\`${currPrefix.prefix}roleinfo\` | Alias: \`rinfo\``)
         .addField("Name", `${gRole.toString()}`, true)  
         .addField("Hex", gRole.hexColor, true)

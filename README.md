@@ -1,4 +1,4 @@
-# dobbybot
+# Setup
 Dobby bot source code
 
 First all-in-one Discord bot (made by me) with database included.

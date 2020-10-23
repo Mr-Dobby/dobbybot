@@ -1,8 +1,15 @@
 const Discord = require("discord.js");
 const {bot} = require('../index');
 const Logs = require('../lib/logs');
+const Servers = require("../lib/mongodb");
+const colour = require('../storage/colours.json')
 
 bot.on("channelCreate", async (channel) => {
+
+  var date = new Date();
+  var hs = String(date.getHours()).padStart(2, '0');
+  var min = String(date.getMinutes()).padStart(2, '0');
+  var sec = String(date.getSeconds()).padStart(2, '0');
 
     let fire = bot.emojis.cache.get("687436596391182344")
     const guildsChannel = channel.guild;
@@ -10,30 +17,51 @@ bot.on("channelCreate", async (channel) => {
     if (!category) category = "None";
     if (!guildsChannel || !guildsChannel.available) return;
     const logName = await Logs.findOne( { guildID: guildsChannel.id } );
+    const server = await Servers.findOne( { guildID: guildsChannel.id } );
     if (!logName) { return; }
     const logchannel = bot.channels.cache.get(logName.serverLog);
-
+    let muterole = server.muteRole;
+    let chatbanrole = server.chatbanRole;
+    
     if (!logchannel) return;
     if (!logchannel.permissionsFor(channel.guild.me).has('VIEW_CHANNEL')) return;
-    if (!logchannel.permissionsFor(channel.guild.me).has('ADMINISTRATOR')) return;
+    if (!logchannel.permissionsFor(channel.guild.me).has('SEND_MESSAGES')) return;
+    if (!logchannel.permissionsFor(channel.guild.me).has('EMBED_LINKS')) return;
 
     let types = {
       "text"      : "Text channel",
       "voice"     : "Voice channel",
-      "null"      : "None",
-      "category"  : "Category"
+      "category"  : "Category",
+      "news"      : "Announcement",
+      "store"     : "Store"
     };
 
     let channelCreateEmbed = new Discord.MessageEmbed()
-    .setColor("#00ff00")
+    .setColor(colour.channels)
     .setAuthor(`${channel.guild.name} | Channel create`, channel.guild.iconURL({ dynamic: true }))
     .setDescription(`A new channel has been created ${fire}`)
     .addField("Channel name", `<#${channel.id}>`, true)
     .addField("Channel type", `${types[channel.type]}`, true)
-    .addField("Category:", category, true)
-    .setFooter(`Channel ID: ${channel.id}`)
-    .setTimestamp()
+    .addField("Category", category, true)
+    .setFooter(`Channel ID: ${channel.id} • ${hs}:${min}:${sec}`)
 
     await logchannel.send(channelCreateEmbed).catch(error => console.log(error))
+
+    if (!muterole) { return; }
+    if (!chatbanrole) { return; }
+    try {
+      if (channel.type === "text") {
+        await channel.overwritePermissions([
+            {
+                id: chatbanrole,
+                deny: ['VIEW_CHANNEL', 'SEND_MESSAGES', 'ADD_REACTIONS', 'READ_MESSAGE_HISTORY']
+            },
+            {
+                id: muterole,
+                deny: ['SEND_MESSAGES', 'ADD_REACTIONS']
+            }
+        ])
+      }
+    } catch (e) { console.error(e) }
 
 });

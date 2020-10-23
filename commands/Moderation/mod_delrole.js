@@ -20,11 +20,11 @@ module.exports.run = async (bot, message, args, client) => {
       .setDescription(`${Failure} Deleting roles requires me to have \`MANAGE ROLES\` and \`MANAGE CHANNELS\` permissions.`)
       .setColor("#ff0000")
 
-  if (!message.guild.me.hasPermission("MANAGE_ROLES_OR_PERMISSIONS" && "MANAGE_CHANNELS")) {
+  if (!message.guild.me.hasPermission("MANAGE_ROLES" && "MANAGE_CHANNELS")) {
     return message.channel.send(noPermsEmbedBot)
   }
 
-  if (!message.member.hasPermission(["MANAGE_ROLES_OR_PERMISSIONS" && "MANAGE_CHANNELS"])) {
+  if (!message.member.hasPermission(["MANAGE_ROLES" && "MANAGE_CHANNELS"])) {
     return message.channel.send(noPermsEmbed);
   }
 

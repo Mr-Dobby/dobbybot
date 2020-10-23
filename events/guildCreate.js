@@ -15,7 +15,7 @@ bot.on("guildCreate", async (guild) => {
     let defaultChannel = "";
     guild.channels.cache.forEach((channel) => {
       if (channel.type == "text" && defaultChannel == "") {
-        if (channel.permissionsFor(guild.me).has("ADMINISTRATOR")) {
+        if (channel.permissionsFor(guild.me).has(["SEND_MESSAGE" && "EMBED_LINKS"])) {
           defaultChannel = channel;
         }
       }
@@ -27,12 +27,12 @@ bot.on("guildCreate", async (guild) => {
               name: 'A Wild Dobby Bot Appeared!',
               icon_url: bot.user.avatarURL({ dynamic: true })
             },
-            color: 010000,
+            color: 0x000001,
             description: `Default Prefix: \`-\` | Set new with \`-prefix <prefix>\``,
             fields: [
               {
                 name: "Help",
-                value: `\`-help\`, \`-h\` \`-welp\` | Also *A Quick Guide*: \`-aqg\`. (I know, creative wooo)`
+                value: `Root of the help section: \`-help\`.`
               },  
               {
                 name: "Links",
@@ -54,7 +54,11 @@ bot.on("guildCreate", async (guild) => {
               const newConfig = new Config({
 
                   guildID: guild.id,
-                  prefix: config.prefix
+                  prefix: config.prefix,
+                  muteRole: "",
+                  chatbanRole: "",
+                  lvlmsg: true,
+                  lockdown: false
 
               });
 
@@ -89,7 +93,7 @@ bot.on("guildCreate", async (guild) => {
                 ticketID: 0,
                 categoryID: "`Not set`"
           
-            });
+              });
 
               await ticketSys.save();
     

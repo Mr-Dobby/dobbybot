@@ -1,6 +1,7 @@
 const Discord = require("discord.js");
 const {bot} = require('../index');
 const Logs = require("../lib/logs")
+const colour = require('../storage/colours.json')
 
 //Dobbyland
 let options = { 
@@ -18,6 +19,11 @@ let options = {
 
 bot.on("guildMemberRemove", async (member) => {
 
+  var date = new Date();
+  var hs = String(date.getHours()).padStart(2, '0');
+  var min = String(date.getMinutes()).padStart(2, '0');
+  var sec = String(date.getSeconds()).padStart(2, '0');
+
     const banList = await member.guild.fetchBans();
     const bannedUser = banList.find(user => user.id === member.id);
     if (bannedUser) return;
@@ -29,22 +35,17 @@ bot.on("guildMemberRemove", async (member) => {
   if (member.bot) return;
 
           const userLeftEmbed = new Discord.MessageEmbed()
-              .setColor("#ff0000")
+              .setColor(colour.members)
               .setAuthor(`${member.user.tag} | Left the server`, `${member.user.displayAvatarURL({ dynamic: true })}`)
               .setThumbnail(`${member.user.displayAvatarURL({ dynamic: true })}`)
               .setDescription(`${member} has taken their leave ${fire}`)
-              .setFooter(`Member ID: ${member.id} • ${member.guild.memberCount} Members`)
-              .setTimestamp()
+              .setFooter(`Member ID: ${member.id} • ${member.guild.memberCount} Members • ${hs}:${min}:${sec}`)
 
-    if (!logchannel) {
-      return;
-        } else {
-          const banList = await member.guild.fetchBans();
-          const bannedUser = banList.find(user => user.id === member.id);
-          if (bannedUser) return;
+    if (logchannel) {
       if (!logchannel.permissionsFor(member.guild.me).has('VIEW_CHANNEL')) return;
-      if (!logchannel.permissionsFor(member.guild.me).has('ADMINISTRATOR')) return;
-      logchannel.send(userLeftEmbed)
-  }
+      if (!logchannel.permissionsFor(member.guild.me).has('SEND_MESSAGES')) return;
+      if (!logchannel.permissionsFor(member.guild.me).has('EMBED_LINKS')) return;
+          logchannel.send(userLeftEmbed)
+      }
 
 });

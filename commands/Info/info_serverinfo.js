@@ -98,7 +98,7 @@ module.exports.run = async (bot, message, args, client) => {
     }
 
     const serverInfoEmbed = new Discord.MessageEmbed()
-        .setAuthor(`${message.guild.name} | Server Information (bot prefix: ${currPrefix.prefix})`, message.guild.iconURL({ dynamic: true }))
+        .setAuthor(`${message.guild.name} | Server Information`, message.guild.iconURL({ dynamic: true }))
         .setDescription(`Server Owner ${owner} ${message.guild.owner} | ${partneredGuild[message.guild.partnered]}`)
         .addField("➞ Server info", `Region: \n${region[message.guild.region]}\nMod level: ${verifLevels[message.guild.verificationLevel]}`, true)
         .addField(`➞ Members`, `${Members} \`${Total}\` ${Bot} \`${TotalBots}\` ${Online} \`${OnlineMembers}\`\n ${Idle} \`${IdleMembers}\` ${DnD} \`${DnDMembers}\` ${Offline} \`${OfflineMembers}\``, true)

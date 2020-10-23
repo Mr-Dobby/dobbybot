@@ -30,9 +30,10 @@
     "passport-discord": "^0.1.4",
     "pretty-ms": "^5.0.0",
     "random-puppy": "^1.1.0",
-    "simple-youtube-api": "^5.0.2",
+    "simple-youtube-api": "^5.2.1",
     "snekfetch": "^4.0.4",
     "superagent": "^5.2.2",
+    "urban": "^0.3.2",
     "weather-js": "^2.0.0",
     "ytdl-core": "^0.25.2"
   }

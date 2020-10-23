@@ -20,7 +20,7 @@ module.exports.run = async (bot, message, args, client) => {
       .setDescription(`${Failure} Clearing messages requires me to have \`MANAGE MESSAGES\` permissions.`)
       .setColor("#ff0000")
 
-  if (!message.guild.me.hasPermission("ADMINISTRATOR")) {
+  if (!message.guild.me.hasPermission("MANAGE_MESSAGES")) {
     return message.channel.send(noPermsEmbedBot)
   }
 

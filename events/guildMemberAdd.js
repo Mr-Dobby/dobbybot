@@ -1,8 +1,10 @@
 const Discord = require("discord.js");
 const {bot} = require('../index');
 const Raid = require('../lib/raid');
+const Profile = require("../lib/profile");
 const Servers = require("../lib/mongodb");
 const Logs = require("../lib/logs");
+const colour = require('../storage/colours.json')
 //const Canvas = require("canvas");
 /*
 const applyText = (Canvas, text) => {
@@ -74,6 +76,44 @@ bot.on("guildMemberAdd", async (member) => {
     const logchannel = bot.channels.cache.get(logName.serverLog)
     const RaidLogChannel = bot.channels.cache.get(logName.raidLog)
     const welcomeLogChannel = bot.channels.cache.get(logName.welcomeLog)
+
+    Profile.findOne({ 
+      user: member.user.id
+  }, (err, cunt) => {
+      if (err) console.error(err);
+      if (!cunt) {
+          const newUserProfile = new Profile({
+
+              user: member.user.id,
+              userName: member.user.tag,
+              globalReputation: 0,
+              balance: 0,
+              globalLevel: 0,
+              xp: 0,
+              quote: `\`Use ${currPrefix.prefix}quote to assign a quote to your profile.\``,
+              thumbnail: member.user.displayAvatarURL(),
+              inventory: `Nothing has been purchased or given to your inventory yet.`,
+              colour: `#525252`
+
+          })
+
+      newUserProfile.save().catch(err => console.error(err))
+
+      }
+  })
+
+  let ThisGuild = await Raid.findOne( { guildID: member.guild.id } )
+  let Toggled = await Raid.findOne( { guildID: member.guild.id, raid: true } )
+
+  if (ThisGuild && Toggled) {
+    await member.ban({
+      days: 1,
+      reason: `Autobanned during raid.`
+    })
+      if (!RaidLogChannel) return;
+      await RaidLogChannel.send(RaidLogEmbed)
+  }
+
     const RandomColour = ("000000" + Math.random().toString(16).slice(2, 8).toUpperCase()).slice(-6);
     //The starter roles:
     const Dobbylanders_Role = member.guild.roles.cache.get("548430923478204426")
@@ -86,18 +126,22 @@ bot.on("guildMemberAdd", async (member) => {
     //Bot Roles
     const Knights = member.guild.roles.cache.get("548431153925718020")
 
+    var date = new Date();
+    var hs = String(date.getHours()).padStart(2, '0');
+    var min = String(date.getMinutes()).padStart(2, '0');
+    var sec = String(date.getSeconds()).padStart(2, '0');
+
     const NewMembeEmbed = new Discord.MessageEmbed()
     .setColor(RandomColour)
     .setAuthor(`${member.user.tag} | New member`, member.user.displayAvatarURL({ dynamic: true }))
     .setDescription(`Welcoming a new arriving member, ${member} ${fire}`)
 
     const userJoinedEmbed = new Discord.MessageEmbed()
-    .setColor("#00ff00")
+    .setColor(colour.members)
     .setAuthor(`${member.user.tag} | New server member!`, `${member.user.displayAvatarURL({ dynamic: true })}`)
     .setThumbnail(`${member.user.displayAvatarURL({ dynamic: true })}`)
     .setDescription(`${member} has just joined the server! ${fire}`)
-    .setFooter(`Member ID: ${member.id} • ${member.guild.memberCount} Members`)
-    .setTimestamp()
+    .setFooter(`Member ID: ${member.id} • ${member.guild.memberCount} Members • ${hs}:${min}:${sec}`)
 
     function checkDays(date) {
       let now = new Date();
@@ -107,16 +151,15 @@ bot.on("guildMemberAdd", async (member) => {
     };
   
     const userJoinedEmbedNewAcc = new Discord.MessageEmbed()
-    .setColor("#00ff00")
+    .setColor(colour.members)
     .setAuthor(`${member.user.tag} | New server member!`, `${member.user.displayAvatarURL({ dynamic: true })}`)
     .setThumbnail(`${member.user.displayAvatarURL({ dynamic: true })}`)
     .setDescription(`${member} has just joined the server! ${fire}\nID: ${member.id}`)
     .addField("New Account", `Created ${checkDays(member.joinedAt)}`, true)
-    .setFooter(`The server now has: ${member.guild.memberCount} Members`)
-    .setTimestamp()
+    .setFooter(`The server now has: ${member.guild.memberCount} Members • ${hs}:${min}:${sec}`)
 
     const RaidLogEmbed = new Discord.MessageEmbed()
-    .setColor("ff0000")
+    .setColor("#A50505")
     .setAuthor(`${member.user.tag} | Raid logs | Banned during raid`, `${member.user.displayAvatarURL({ dynamic: true })}`)
     .setDescription(`${member} has been banned upon joining! ${fire}\nID: ${member.id}`)
 
@@ -145,40 +188,32 @@ bot.on("guildMemberAdd", async (member) => {
         }
       } catch (e) {
     return;
-    }
+  }
+
+    if (!welcomeLogChannel) { return; }
+    if (!logchannel) { return; }
   
       let defaultChannel = "";
       member.guild.channels.cache.forEach((channel) => {
     if (channel.type == "text" && defaultChannel == "") {
-      if (channel.permissionsFor(member.guild.me).has("MANAGE_MESSAGES")) {
+      if (channel.permissionsFor(member.guild.me).has(["EMBED_LINKS" && "SEND_MESSAGES" && "VIEW_CHANNEL"])) {
         defaultChannel = channel;
          }
         }
       })
     if (logchannel) {
       if (!logchannel.permissionsFor(member.guild.me).has('VIEW_CHANNEL')) return;
-      if (!logchannel.permissionsFor(member.guild.me).has('ADMINISTRATOR')) return;
+      if (!logchannel.permissionsFor(member.guild.me).has('SEND_MESSAGES')) return;
+      if (!logchannel.permissionsFor(member.guild.me).has('EMBED_LINKS')) return;
       if (Date.now() - member.user.createdAt < 1000 * 60 * 60 * 24 * 7) {
         await logchannel.send(userJoinedEmbedNewAcc)
           } else {
         await logchannel.send(userJoinedEmbed)
       }
       if (!welcomeLogChannel) {
-        defaultChannel.send(NewMembeEmbed)
+        return defaultChannel.send(NewMembeEmbed)
       }
       welcomeLogChannel.send(NewMembeEmbed)
     }
-
-  let ThisGuild = await Raid.findOne( { guildID: member.guild.id } )
-  let Toggled = await Raid.findOne( { guildID: member.guild.id, raid: true } )
-
-  if (ThisGuild && Toggled) {
-    await member.ban({
-      days: 1,
-      reason: `Autobanned by raiding. | ${currPrefix.prefix}raid <on | off>`
-    })
-      if (!RaidLogChannel) return;
-      await RaidLogChannel.send(RaidLogEmbed)
-  }
 
 });

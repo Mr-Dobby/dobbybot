@@ -45,20 +45,22 @@ module.exports.run = async (bot, message, args, client) => {
 
     const Failure = bot.emojis.cache.get("697388354689433611");
     const Sucess = bot.emojis.cache.get("697388354668462110");
+    var muterole = message.guild.roles.cache.get(currPrefix.muteRole);
+    var chatbanrole = message.guild.roles.cache.get(currPrefix.chatbanRole);
   
     var noPermsEmbed = new Discord.MessageEmbed()
         .setDescription(`${Failure} Toggling the raid function requires you to have \`ADMINISTRATOR\` permissions.`)
         .setColor("#ff0000")
       
     var noPermsEmbedBot = new Discord.MessageEmbed()
-        .setDescription(`${Failure} Toggling the raid function requires me to have \`ADMINISTRATOR\` permissions.`)
+        .setDescription(`${Failure} Toggling the raid function requires me to have \`BAN MEMBERS\`, \`MANAGE CHANNELS\` and \`MANAGE ROLES\` permissions.`)
         .setColor("#ff0000")
   
     if (!message.guild.me.hasPermission("ADMINISTRATOR")) {
       return message.channel.send(noPermsEmbedBot)
     }
   
-    if (!message.member.hasPermission("ADMINISTRATOR")) {
+    if (!message.member.hasPermission(["BAN_MEMBERS" && "MANAGE_CHANNELS" && "MANAGE_ROLES"])) {
       return message.channel.send(noPermsEmbed);
     }
 
@@ -77,8 +79,9 @@ module.exports.run = async (bot, message, args, client) => {
 
             message.channel.send(RaidON)
 
+        if (currPrefix.lockdown === true) {
             var id = message.guild.id;
-            var channels = message.guild.channels.cache.filter(ch => ch.type !== 'category' || ch.type !== 'voice');  
+            var channels = message.guild.channels.cache.filter(ch => ch.type !== 'category' || ch.type !== 'voice' || ch.type !== 'news' || ch.type !== 'store');
                 channels.forEach(async (channel) => {
                     if (!ignore.includes(channel.id)) {
                         if (channel.type === "text" && channel.type !== "voice" && channel.type !== "category") {
@@ -88,6 +91,18 @@ module.exports.run = async (bot, message, args, client) => {
                                     deny: ['SEND_MESSAGES']
                                 }
                             ]).then(async (cha) => {
+                                if (muterole && chatbanrole) {
+                                    await cha.overwritePermissions([
+                                        {
+                                            id: muterole.id,
+                                            deny: ['SEND_MESSAGES', 'ADD_REACTIONS']
+                                        },
+                                        {
+                                            id: chatbanrole.id,
+                                            deny: ['VIEW_CHANNEL', 'READ_MESSAGE_HISTORY']
+                                        }
+                                    ])
+                                }
                                 if (cha.type == "text") {
                                     if (!cha.name.endsWith('🔒')) {
                                         await cha.edit({ name: cha.name + '🔒' });
@@ -97,6 +112,7 @@ module.exports.run = async (bot, message, args, client) => {
                     }
                 }
             });
+        }
     break;
         case 'false':
         case 'off':
@@ -110,10 +126,9 @@ module.exports.run = async (bot, message, args, client) => {
 
             message.channel.send(RaidOFF)
 
+        if (currPrefix.lockdown === true) {
             var id = message.guild.id;
-            var muteRole = message.guild.roles.cache.find(r => r.name === "🔇 Muted");
-            var chatbanRole = message.guild.roles.cache.find(r => r.name === "⛔ Chatbanned");
-            var channels = message.guild.channels.cache.filter(ch => ch.type !== 'category' || ch.type !== 'voice');
+            var channels = message.guild.channels.cache.filter(ch => ch.type !== 'category' || ch.type !== 'voice' || ch.type !== 'news' || ch.type !== 'store');
                 channels.forEach(async (channel) => {
                     if (!ignore.includes(channel.id)) {
                         if (channel.type === "text" && channel.type !== "voice" && channel.type !== "category") {
@@ -123,14 +138,14 @@ module.exports.run = async (bot, message, args, client) => {
                                     null: ['SEND_MESSAGES']
                                 }
                             ]).then(async (cha) => {
-                                if (muteRole && chatbanRole) {
+                                if (muterole && chatbanrole) {
                                     await cha.overwritePermissions([
                                         {
-                                            id: muteRole.id,
+                                            id: muterole.id,
                                             deny: ['SEND_MESSAGES', 'ADD_REACTIONS']
                                         },
                                         {
-                                            id: chatbanRole.id,
+                                            id: chatbanrole.id,
                                             deny: ['VIEW_CHANNEL', 'READ_MESSAGE_HISTORY']
                                         }
                                     ])
@@ -144,10 +159,21 @@ module.exports.run = async (bot, message, args, client) => {
                     }
                 }
             });
+        }
     break;
         case 'ignore':
 
         var channels2ignore = args.splice(1).join(', ');
+
+        if (currPrefix.lockdown !== true) {
+
+            let lockdownDisabled = new Discord.MessageEmbed()
+                .setAuthor(`${message.author.tag} | Lockdown during raid`, message.author.displayAvatarURL({ dynamic: true }))
+                .setDescription(`The lockdown function is currently disabled for the server, and you can therefor not do anything to the ignore list\n\nEnable it with: \`${currPrefix.prefix}enable lockdown\``) 
+
+            return message.channel.send(lockdownDisabled)
+
+        }
         
         if (!channels2ignore || !isNaN(channels2ignore)) { 
 
@@ -241,8 +267,7 @@ module.exports.run = async (bot, message, args, client) => {
             let RaidUsageEmbed = new Discord.MessageEmbed()
                 .setAuthor(`${message.author.tag} | Raid Protection`, message.author.displayAvatarURL({ dynamic: true }))
                 .setDescription(`Raid mode is currently: **${isRaid.raid ? "true" : "false"}**\n\n\`Command usage: ${currPrefix.prefix}raid <true/on | false/off>\`\nWhen **true/on**, new members get banned, and channels get locked.\nWhen **false/off**, anyone is save to join without getting banned.
-                \nYou can also choose channels to ignore during a raid.\n\`Command usage: ${currPrefix.prefix}raid ignore\`
-                __**We recommend to ignore staff and info channels.**__`)
+                \nYou can also choose channels to ignore during a raid.\n\`Command usage: ${currPrefix.prefix}raid ignore\`\n__**Recommended: Ignore staff and info channels.**__\n**Requires __lockdown__ to be enabled**\n\`Command usage: ${currPrefix.prefix}enable\``)
                 .setColor(`#5eff5e`)
 
             message.channel.send(RaidUsageEmbed)

@@ -20,11 +20,11 @@ module.exports.run = async (bot, message, args, client) => {
       .setDescription(`${Failure} Creating a role requires me to have \`MANAGE ROLES\` permissions.`)
       .setColor("#ff0000")
 
-  if (!message.guild.me.hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) {
+  if (!message.guild.me.hasPermission("MANAGE_ROLES")) {
     return message.channel.send(noPermsEmbedBot)
   }
 
-  if (!message.member.hasPermission("MANAGE_ROLES_OR_PERMISSIONS")) {
+  if (!message.member.hasPermission("MANAGE_ROLES")) {
     return message.channel.send(noPermsEmbed);
   }
 

@@ -73,7 +73,11 @@ antispam(bot, {
                 const newConfig = new Config({
 
                     guildID: id,
-                    prefix: config.prefix
+                    prefix: config.prefix,
+                    muteRole: "",
+                    chatbanRole: "",
+                    lvlmsg: true,
+                    lockdown: false
 
                 });
 

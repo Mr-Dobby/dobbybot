@@ -28,49 +28,41 @@ bot.on("message", async (message) => {
 //        bot.emit('checkMessage', message);
     }
 
-    let userProfile = await Profile.findOne( { user: message.author.id } )
+    function generateXP() {
+        var min = 10;
+        var max = 25;
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
 
-        if (!userProfile) {
+    Profile.findOne({ 
+        user: message.author.id
+    }, (err, cunt) => {
+        if (err) console.error(err);
+        if (!cunt) {
             const newUserProfile = new Profile({
-  
+
                 user: message.author.id,
                 userName: message.author.tag,
                 globalReputation: 0,
                 balance: 0,
                 globalLevel: 0,
-                xp: 0,
+                xp: generateXP(),
                 quote: `\`Use ${currPrefix.prefix}quote to assign a quote to your profile.\``,
-                thumbnail: message.author.displayAvatarURL({ dynamic: true }),
+                thumbnail: message.author.displayAvatarURL(),
                 inventory: `Nothing has been purchased or given to your inventory yet.`,
                 colour: `#525252`
 
             })
-        await newUserProfile.save();
-        }
-    
-        const currXp = await userProfile.xp;
-        const nxtLvl = 5 * Math.pow(userProfile.globalLevel, 2) + 50 * userProfile.globalLevel + 100;
-        function generateXP() {
-            let min = 10;
-            let max = 25;
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
-        //const xpAdd = Math.floor(Math.random() * 100) + 10;
 
-        await Profile.findOneAndUpdate( { user: message.author.id }, { $set: { xp: currXp + generateXP() } } )
+        newUserProfile.save().catch(err => console.error(err))
 
-        if (nxtLvl <= currXp) {
-
-            let lvlUpEmbed = new Discord.MessageEmbed()
-                .setAuthor(`${message.author.tag} | Level up!`, message.author.displayAvatarURL({ dynamic: true }))
-                .setDescription(`**Congratulations** <@${message.author.id}>, you have leveled up!\nYou are now level ${userProfile.globalLevel + 1}`)
-                .setThumbnail("https://cdn.discordapp.com/attachments/682717976771821646/705125856455950496/Levelup.png")
-                .setColor("#00cbe5")
-
-            await Profile.findOneAndUpdate( { user: message.author.id }, { $set: { globalLevel: userProfile.globalLevel + 1, xp: 0 } } )
-            message.channel.send(lvlUpEmbed).then(message => message.delete({ timeout: 10000 }))
+        } else {
+            
+            cunt.xp = cunt.xp + generateXP()
+            cunt.save();
 
         }
+    })
 
         let prefixEmbed = new Discord.MessageEmbed()
             .setAuthor(`${message.author.tag} | Prefix`, message.author.displayAvatarURL({ dynamic: true }))
@@ -78,27 +70,35 @@ bot.on("message", async (message) => {
     
         const prefixMention = new RegExp(`^<@!?${bot.user.id}>( |)$`)
         if (message.content.match(prefixMention)) return message.channel.send(prefixEmbed)  
+        let userProfile = await Profile.findOne( { user: message.author.id } )
+        const nxtLvl =  5 * Math.pow(userProfile.globalLevel, 2) + 50 * userProfile.globalLevel + 100;
+        const currXp = await userProfile.xp;
 
-        // return message.channel.send(`**${user_tag}** is currently afk. Reason: ${key.reason}`);
-        // return message.reply(`you have been removed from the afk list!`).then(msg => msg.delete(5000));
-    
-        if (message.content.includes(message.mentions.users.first())) {
-            let mentioned = bot.afk.get(message.mentions.users.first().id);
-            message.delete({ timeout: 100 });
-            if (mentioned) return;
+        if (nxtLvl <= currXp) {
+
+            await Profile.findOneAndUpdate( { user: message.author.id }, { $set: { globalLevel: userProfile.globalLevel + 1 } }, { new: true } )
+            await Profile.findOneAndUpdate( { user: message.author.id }, { $set: { xp: 0 } }, { new: true } )
+
+                if (currPrefix.lvlmsg === true) {
+
+                    let lvlUpEmbed = new Discord.MessageEmbed()
+                        .setAuthor(`${message.author.tag} | Level up!`, message.author.displayAvatarURL({ dynamic: true }))
+                        .setDescription(`**Congratulations** <@${message.author.id}>, you have leveled up!\nYou are now level ${userProfile.globalLevel + 1}`)
+                        .setThumbnail("https://cdn.discordapp.com/attachments/682717976771821646/705125856455950496/Levelup.png")
+                        .setFooter(`Disable this message for all members within the server with: ${currPrefix.prefix}disable lvlmsg`)
+                        .setColor("#00cbe5")
+
+                    message.channel.send(lvlUpEmbed).then(message => message.delete({ timeout: 10000 }))
+
+            }
         }
-        let afkcheck = bot.afk.get(message.author.id);
-        let embed = new Discord.MessageEmbed()
-            .setDescription(`<@${message.author.id}> you have been removed from the AFK list!`)
-        if (afkcheck) return [bot.afk.delete(message.author.id), message.channel.send(embed).then(message => message.delete({ timeout: 5000 }))];
-    
+
         let prefix = currPrefix.prefix;
         let args = message.content.slice(prefix.length).trim().split(' ');
         let cmd = args.shift().toLowerCase();
         let command;
 
         if (!message.content.startsWith(prefix)) return;
-        if (message.author.id == "254134528942014465") return message.channel.send("You're a cheating whore, Litia, and I will not obey you. You have been blacklisted from this bot.")
     
         if (bot.commands.has(cmd)) {
             command = bot.commands.get(cmd);

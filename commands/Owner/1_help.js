@@ -12,7 +12,7 @@ module.exports.run = async (bot, message, args, client) => {
 
       var embed = new Discord.MessageEmbed()
       .setAuthor(`${message.author.tag} | Help Section`, message.author.displayAvatarURL({ dynamic: true }))
-      .setDescription(`List of sub commands.`)
+      .setDescription(`List of sub-help commands.`)
       .addField(`Command`, `
 \`${currPrefix.prefix}help admin\`
 \`${currPrefix.prefix}help fun\`
@@ -40,7 +40,7 @@ module.exports.run = async (bot, message, args, client) => {
 
       var embed = new Discord.MessageEmbed()
       .setAuthor(`${message.author.tag} | Help Section`, message.author.displayAvatarURL({ dynamic: true }))
-      .setDescription(`List of sub commands.`)
+      .setDescription(`List of sub-help commands.`)
       .addField(`Command`, `
 \`${currPrefix.prefix}help admin\`
 \`${currPrefix.prefix}help fun\`
@@ -78,14 +78,18 @@ module.exports.run = async (bot, message, args, client) => {
 \`${currPrefix.prefix}nuke\`
 \`${currPrefix.prefix}prefix\`
 \`${currPrefix.prefix}raid\`
-\`${currPrefix.prefix}set\``, true)
+\`${currPrefix.prefix}set\`
+\`${currPrefix.prefix}enable\`
+\`${currPrefix.prefix}disable\``, true)
           .addField(`Description`, `
 \`| Ban a user that is not a part of the server.\`
 \`| Create new log channels, with default permissions.\`
 \`| Clean up after a raid by banning newly joined members.\`
 \`| Change bot prefix to anything you desire.\`
 \`| Toggle this to autoban anyone joining, easily stops a raid.\`
-\`| Setup logs, a welcome log as well as the ticket system.\``, true)
+\`| Setup logs, a welcome log as well as the ticket system.\`
+\`| Enable server functions.\`
+\`| Disable server functions.\``, true)
           
           message.channel.send(embed)
 

@@ -18,7 +18,7 @@ module.exports.run = async (bot, message, args, client) => {
 
     let prefixEmbed = new Discord.MessageEmbed()
         .setAuthor(`${message.author.tag} | Prefix`, message.author.displayAvatarURL({ dynamic: true }))
-        .setDescription(`Current prefix of this server: \`${currPrefix.prefix}\`\nDefault prefix: \`-\`\nSet **new** prefix with \`${currPrefix.prefix}prefix <Prefix>\``)
+        .setDescription(`Current prefix of this server: \`${currPrefix.prefix}\`\nDefault prefix: \`-\`\nSet **new** prefix with: \`${currPrefix.prefix}prefix <Prefix>\``)
 
     let newPrefix = args[0];
     if (!newPrefix) return message.channel.send(prefixEmbed)

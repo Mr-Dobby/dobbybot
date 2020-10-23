@@ -13,14 +13,14 @@ module.exports.run = async (bot, message, args, client) => {
         .setColor("#ff0000")
       
     var noPermsEmbedBot = new Discord.MessageEmbed()
-        .setDescription(`${Failure} Nuking new members requires me to have \`ADMINISTRATOR\` permissions.`)
+        .setDescription(`${Failure} Nuking new members requires me to have \`BAN MEMBERS\` permissions.`)
         .setColor("#ff0000")
   
     if (!message.guild.me.hasPermission("ADMINISTRATOR")) {
       return message.channel.send(noPermsEmbedBot)
     }
   
-    if (!message.member.hasPermission("ADMINISTRATOR")) {
+    if (!message.member.hasPermission("BAN_MEMBERS")) {
       return message.channel.send(noPermsEmbed);
     }
 

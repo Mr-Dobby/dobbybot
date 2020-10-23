@@ -17,10 +17,10 @@ module.exports.run = async (bot, message, args, client) => {
       .setColor("#ff0000")
     
   var noPermsEmbedBot = new Discord.MessageEmbed()
-      .setDescription(`${Failure} Unchatbanning a member requires me to have \`ADMINISTRATOR\` permissions.`)
+      .setDescription(`${Failure} Unchatbanning a member requires me to have \`BAN MEMBERS\` permissions.`)
       .setColor("#ff0000")
 
-  if (!message.guild.me.hasPermission("ADMINISTRATOR")) {
+  if (!message.guild.me.hasPermission("BAN_MEMBERS")) {
     return message.channel.send(noPermsEmbedBot)
   }
 
@@ -45,8 +45,8 @@ module.exports.run = async (bot, message, args, client) => {
             let reason = args.slice(1).join(" ");
             if (!reason) reason = "No reason given."
 
-            let unchatbanrole = message.guild.roles.cache.find(r => r.name === "⛔ Chatbanned")
-            if (!unchatbanrole) return message.channel.send("`⛔ Chatbanned` role not found, so they can't have been chatbanned by me.").then(message => message.delete(5000))
+            let unchatbanrole = message.guild.roles.cache.get(currPrefix.chatbanRole)
+            if (!unchatbanrole) return;
 
       let unchatbanEmbed = new Discord.MessageEmbed()
             .setColor("#7aff7a")
@@ -59,14 +59,14 @@ module.exports.run = async (bot, message, args, client) => {
             .addField("Moderator", `${message.author.tag} | <@${message.author.id}>`, true)
             .addField(`Unchatban reason: `, `**${reason}**`, false)
 
-    if (!member.roles.cache.has(unchatbanrole.id)) return message.channel.send(`User isn't chatbanned. Check if they got <@&${unchatbanrole.id}> role`);
+    if (!member.roles.cache.has(unchatbanrole.id)) return;
 
     await(member.roles.remove(unchatbanrole.id));
     message.channel.send(unchatbanEmbed);
 
 try {
       await member.send(Embed2Member) 
-      } catch(e) {
+            } catch(e) {
       return;
 }
   
@@ -87,8 +87,8 @@ try {
       let reason = args.slice(1).join(" ");
       if (!reason) reason = "No reason given."
 
-      let unchatbanrole = message.guild.roles.cache.find(r => r.name === "⛔ Chatbanned")
-      if (!unchatbanrole) return message.channel.send("`⛔ Chatbanned` role not found, so they can't have been chatbanned by me.")
+      let unchatbanrole = message.guild.roles.cache.get(currPrefix.chatbanRole)
+      if (!unchatbanrole) return;
 
 let NotEvenChatbannedEmbed = new Discord.MessageEmbed()
       .setColor("#ff0000")

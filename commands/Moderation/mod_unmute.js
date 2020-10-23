@@ -4,7 +4,7 @@ const Logs = require("../../lib/logs");
 
 module.exports.run = async (bot, message, args, client) => {
 
-  let currPrefix = await Servers.cache.getOne( { guildID: message.guild.id } )
+  let currPrefix = await Servers.findOne( { guildID: message.guild.id } )
 
   let logName = await Logs.findOne( { guildID: message.guild.id } )
   const logchannel = bot.channels.cache.get(logName.incidentLog)
@@ -20,7 +20,7 @@ module.exports.run = async (bot, message, args, client) => {
       .setDescription(`${Failure} Unmuting a member requires me to have \`MANAGE MESSAGE\` and \`MANAGE ROLES\` permissions.`)
       .setColor("#ff0000")
 
-  if (!message.guild.me.hasPermission(["MUTE_MEMBERS" && "MANAGE_ROLES_OR_PERMISSIONS"])) {
+  if (!message.guild.me.hasPermission(["MUTE_MEMBERS" && "MANAGE_ROLES"])) {
     return message.channel.send(noPermsEmbedBot)
   }
 
@@ -45,8 +45,8 @@ module.exports.run = async (bot, message, args, client) => {
             let reason = args.slice(1).join(" ");
             if (!reason) reason = "No reason given."
 
-            let muterole = message.guild.roles.cache.find(r => r.name === "🔇 Muted")
-            if (!muterole) return message.channel.send("`🔇 Muted` role not found, so they can't have been muted by me.").then(message => message.delete(5000))
+            let muterole = message.guild.roles.cache.cache.get(currPrefix.muteRole)
+            if (!muterole) return;
 
       const NotEvenMutedEmbed = new Discord.MessageEmbed()
             .setColor("#ff0000")
@@ -55,7 +55,7 @@ module.exports.run = async (bot, message, args, client) => {
 
       const unmuteEmbed = new Discord.MessageEmbed()
             .setColor("#7aff7a")
-            .setAuthor('Successfully unmuted!', member.user.avatarURL)
+            .setAuthor('Successfully unmuted!', member.user.displayAvatarURL({ dynamic: true }))
             .setDescription(`<@${member.user.id}> has been unmuted`)
 
       let Embed2Member = new Discord.MessageEmbed()
@@ -92,8 +92,8 @@ module.exports.run = async (bot, message, args, client) => {
       let reason = args.slice(1).join(" ");
       if (!reason) reason = "No reason given."
 
-      let muterole = message.guild.roles.cache.cache.get(r => r.name === "🔇 Muted")
-      if (!muterole) return message.channel.send("`🔇 Muted` role not found, so they can't have been muted by me.")
+      let muterole = message.guild.roles.cache.get(currPrefix.muteRole)
+      if (!muterole) return;
 
 const NotEvenMutedEmbed = new Discord.MessageEmbed()
       .setColor("#ff0000")
@@ -102,7 +102,7 @@ const NotEvenMutedEmbed = new Discord.MessageEmbed()
 
 const unmuteEmbed = new Discord.MessageEmbed()
       .setColor("#7aff7a")
-      .setAuthor('Successfully unmuted!', member.user.avatarURL)
+      .setAuthor('Successfully unmuted!', member.user.displayAvatarURL({ dynamic: true }))
       .setDescription(`${Sucess} <@${member.user.id}> has been unmuted`)
 
 const unmuteEmbedLog = new Discord.MessageEmbed()
@@ -130,7 +130,7 @@ await logchannel.send(unmuteEmbedLog)
 try {
       await member.send(Embed2Member) 
       } catch(e) {
-      message.channel.send("Unfortunately, I couldn't DM them this exciting message since they blocked it. What a shame.")
+      
       }
   }
 }

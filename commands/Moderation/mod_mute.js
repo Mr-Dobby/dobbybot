@@ -18,14 +18,14 @@ module.exports.run = async (bot, message, args, client) => {
       .setColor("#ff0000")
     
   var noPermsEmbedBot = new Discord.MessageEmbed()
-      .setDescription(`${Failure} Muting a member requires me to have \`MANAGE MESSAGE\` and \`MANAGE ROLES\` permissions.`)
+      .setDescription(`${Failure} Muting a member requires me to have \`MANAGE CHANNELS\`, \`MANAGE ROLES\`, \` MANAGE MEMBERS\` and \`MUTE MEMBERS\` permissions.`)
       .setColor("#ff0000")
 
-  if (!message.guild.me.hasPermission(["MUTE_MEMBERS" && "MANAGE_ROLES_OR_PERMISSIONS"])) {
+  if (!message.guild.me.hasPermission(["MUTE_MEMBERS" && "MANAGE_ROLES"])) {
     return message.channel.send(noPermsEmbedBot)
   }
 
-  if (!message.member.hasPermission(["MUTE_MEMBERS" && "MANAGE_MESSAGES"])) {
+  if (!message.member.hasPermission(["MANAGE_CHANNELS" && "MANAGE_ROLES" && "MANAGE_MEMBERS" && "MUTE_MEMBERS"])) {
     return message.channel.send(noPermsEmbed);
   }
 
@@ -67,8 +67,8 @@ module.exports.run = async (bot, message, args, client) => {
         .setColor("#ff4f4f")
         .setTitle(`\`Command: ${currPrefix.prefix}mute\` | Alias: \`stfu\``)
         .addField("**Description:**", "Mute a user. Deny them from text chatting & voice talking.")
-        .addField("**Command usage:**", `${currPrefix.prefix}mute <@User> [Time] [Reason]`)
-        .addField("**Example:**", `${currPrefix.prefix}mute @Mr.Dobby#0001 1m Spam`)
+        .addField("**Command usage:**", `${currPrefix.prefix}mute <@User> [Time]`)
+        .addField("**Example:**", `${currPrefix.prefix}mute @Mr.Dobby#0001 1m`)
         .setFooter("Default mute time: 30 min. | <> = Required, [] = Optional")
 
   if (!member) return message.channel.send(muteErrorEmbed);
@@ -87,15 +87,12 @@ module.exports.run = async (bot, message, args, client) => {
 */
   if (member === message.guild.owner) return message.channel.send(mutePermErrorOwnerEmbed);
   if (member.hasPermission("ADMINISTRATOR")) return message.channel.send(mutePermErrorAdminEmbed);
-  if (member.hasPermission(["KICK_MEMBERS", "BAN_MEMBERS", "MANAGE_MESSAGES", "MANAGE_ROLES_OR_PERMISSIONS", "MANAGE_CHANNELS", "MUTE_MEMBERS", "DEAFEN_MEMBERS", "MOVE_MEMBERS"])) return message.channel.send(mutePermErrorModEmbed);
+  if (member.hasPermission(["KICK_MEMBERS", "BAN_MEMBERS", "MANAGE_MESSAGES", "MANAGE_ROLES", "MANAGE_CHANNELS", "MUTE_MEMBERS", "DEAFEN_MEMBERS", "MOVE_MEMBERS"])) return message.channel.send(mutePermErrorModEmbed);
 
-  let reason = args.slice(2).join(" ");
-  if (!reason) reason = "No reason given."
-
-  let muterole = message.guild.roles.cache.find(role => role.name === "🔇 Muted")
-  if (member.roles.cache.has(muterole.id)) return message.channel.send(AlreadyMutedEmbed)
+  let muterole = currPrefix.muteRole;
+  if (member.roles.cache.has(muterole)) return message.channel.send(AlreadyMutedEmbed)
   //start of create role
-  if (!muterole) {
+  if (!message.guild.roles.cache.get(muterole) || currPrefix.muteRole == "") {
     try {
       muterole = await message.guild.roles.create({
         data: {
@@ -117,11 +114,11 @@ module.exports.run = async (bot, message, args, client) => {
     } catch(e) {
       console.log(e.stack);
     }
+    await Servers.findOneAndUpdate({ guildID: message.guild.id }, { $set: { muteRole: muterole.id } }, { new: true })
   }
 
   let mutetime = args[1];
-  if (!mutetime) mutetime = "30m";
-  if (mutetime === '1y') return message.channel.send("Muting someone for this long is a lil harsh isn't it? Try with something lower. This **is** a year of no communication, might as well ban them.");
+  if (!mutetime) mutetime = "60m";
 
       let muteembed = new Discord.MessageEmbed()
           .setColor("#7aff7a")
@@ -130,9 +127,9 @@ module.exports.run = async (bot, message, args, client) => {
 
       let Embed2Member = new Discord.MessageEmbed()
           .setColor("#ff4f4f")
-          .setDescription(`Muted in ${message.guild}\n\nLength: ${ms(ms(mutetime), { long: true })}\nReason: ${reason}`)
+          .setDescription(`Muted in ${message.guild}\n\nLength: ${ms(ms(mutetime), { long: true })}`)
 
-await (member.roles.add(muterole.id));
+await (member.roles.add(muterole));
 if (member.channels.voice) {
   member.setMute(true);
 }
@@ -152,9 +149,9 @@ message.channel.send(DidYouKnow).then(m => m.delete({ timeout: 10000 }))
 
 //Keep Muted role until time = 0
   setTimeout(function() {
-    if (!member.roles.cache.has(muterole.id)) return;
-    member.roles.remove(muterole.id);
-    if (member.voiceChannel) {
+    if (!member.roles.cache.has(muterole)) return;
+    member.roles.remove(muterole);
+    if (member.voice.channel) {
       member.setMute(false);
     }
 
@@ -191,8 +188,8 @@ try {
                   .setColor("#ff4f4f")
                   .setTitle(`\`Command: ${currPrefix.prefix}mute\` | Alias: \`stfu\``)
                   .addField("**Description:**", "Mute a user. Deny them from text chatting & voice talking.")
-                  .addField("**Command usage:**", `${currPrefix.prefix}mute <@User> [Time] [Reason]`)
-                  .addField("**Example:**", `${currPrefix.prefix}mute @Mr.Dobby#0001 1m Spam`)
+                  .addField("**Command usage:**", `${currPrefix.prefix}mute <@User> [Time]`)
+                  .addField("**Example:**", `${currPrefix.prefix}mute @Mr.Dobby#0001 1m`)
                   .setFooter("Default mute time: 30 min. | <> = Required, [] = Optional")          
 
     let member = message.guild.member(message.mentions.users.last() || message.mentions.users.first() || message.guild.members.cache.get(args[0]));
@@ -210,17 +207,17 @@ try {
   
     if (member === message.guild.owner) return message.channel.send(mutePermErrorOwnerEmbed);
     if (member.hasPermission("ADMINISTRATOR")) return message.channel.send(mutePermErrorAdminEmbed);
-    if (member.hasPermission(["KICK_MEMBERS", "BAN_MEMBERS", "MANAGE_MESSAGES", "MANAGE_ROLES_OR_PERMISSIONS", "MANAGE_CHANNELS", "MUTE_MEMBERS", "DEAFEN_MEMBERS", "MOVE_MEMBERS"])) return message.channel.send(mutePermErrorModEmbed);
+    if (member.hasPermission(["KICK_MEMBERS", "BAN_MEMBERS", "MANAGE_MESSAGES", "MANAGE_ROLES", "MANAGE_CHANNELS", "MUTE_MEMBERS", "DEAFEN_MEMBERS", "MOVE_MEMBERS"])) return message.channel.send(mutePermErrorModEmbed);
 
   const AlreadyMutedEmbed = new Discord.MessageEmbed()
       .setColor("#ff0000")
       .setAuthor(`${member.user.tag} | Mute`, member.user.displayAvatarURL({ dynamic: true }))
       .setDescription(`${Failure} ${member} is already muted`)
 
-      let muterole = message.guild.roles.cache.find(role => role.name === "🔇 Muted")
+      let muterole = currPrefix.muteRole;
       if (member.roles.cache.has(muterole)) return message.channel.send(AlreadyMutedEmbed)
       //start of create role
-      if (!muterole) {
+      if (!message.guild.roles.cache.get(muterole) || currPrefix.muteRole == "") {
         try {
           muterole = await message.guild.roles.create({
             data: {
@@ -242,6 +239,7 @@ try {
         } catch(e) {
           console.log(e.stack);
         }
+        await Servers.findOneAndUpdate({ guildID: message.guild.id }, { $set: { muteRole: muterole.id } }, { new: true })
       }
 
   if (member === message.guild.me) {
@@ -256,27 +254,22 @@ try {
     return message.channel.send('You cannot mute a member who is higher or has the same role as you!');
   }
 */
-  let reason = args.slice(2).join(" ");
-  if (!reason) reason = "No reason given."
-
   //mute time
   let mutetime = args[1];
   if (!mutetime) mutetime = "30m";
-  if (mutetime === '1y') return message.channel.send("Muting someone for this long is a lil harsh isn't it? Try with something lower. This **is** a year of no communication, might as well ban them.");
 
-await (member.roles.add(muterole.id));
-if (member.channels.voice) {
+await (member.roles.add(muterole));
+if (member.voice.channel) {
   member.setMute(true);
 }
 
 let muteembedLog = new Discord.MessageEmbed()
     .setAuthor(`${member.user.tag} | Mute`, member.user.displayAvatarURL({ dynamic: true }))
-    .setDescription(`\`${currPrefix.prefix}mute <@User> [Time] [Reason]\``)
+    .setDescription(`\`${currPrefix.prefix}mute <@User> [Time]\``)
     .setColor("#ff4f4f")
     .addField("User", `<@${member.id}>`, true)
     .addField("Moderator", `<@${message.author.id}>`, true)
     .addField("Length", `${ms(ms(mutetime), { long: true })}`, true)
-    .addField("Reason", `${reason}`, true)
     .setFooter(`ID: ${member.id}`)
     .setTimestamp()
 
@@ -285,14 +278,13 @@ let unmuteembedLog = new Discord.MessageEmbed()
     .setDescription(`<@${member.user.id}> has been unmuted`)
     .setColor("#7aff7a")
     .addField("Mute time:", `${ms(ms(mutetime), { long: true })}`, true)
-    .addField("Unmute reason:", `Auto timeout, unmuted due to mute time expired.`, true)
     .setFooter(`ID: ${member.user.id}`)
     .setTimestamp()
 
 let Embed2Member = new Discord.MessageEmbed()
     .setColor("#ff4f4f")
     .setAuthor(`Muted in ${message.guild}.`, member.user.displayAvatarURL({ dynamic: true }))
-    .setDescription(`\n\nLength: ${ms(ms(mutetime), { long: true })}\nReason: ${reason}`)
+    .setDescription(`\n\nLength: ${ms(ms(mutetime), { long: true })}`)
     .setTimestamp()
 
 try {
@@ -312,9 +304,9 @@ logchannel.send(muteembedLog).catch(error => console.log(error))
 
 //Keep Muted role until time = 0
 setTimeout(function() {
-  if (!member.roles.cache.has(muterole.id)) return;
-    member.roles.remove(muterole.id);
-      if (member.voiceChannel) {
+  if (!member.roles.cache.has(muterole)) return;
+    member.roles.remove(muterole);
+      if (member.voice.channel) {
         member.setMute(false);
   }
 

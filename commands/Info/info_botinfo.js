@@ -20,7 +20,7 @@ module.exports.run = async (bot, message, args, client) => {
 
     let botIcon = bot.user.displayAvatarURL({ dynamic: true });
     let botembed = new Discord.MessageEmbed()
-        .setAuthor(`${bot.user.tag} | Information 🤖`, bot.user.displayAvatarURL({ dynamic: true }))
+        .setAuthor(`${bot.user.tag} | Bot Information`, bot.user.displayAvatarURL({ dynamic: true }))
         .setDescription(`\`${currPrefix.prefix}botinfo\` | Alias: \`binfo\``)
         .setColor("#010000")
         .setThumbnail(botIcon)

@@ -70,7 +70,7 @@ module.exports.run = async (bot, message, args, client) => {
 
     if (bUser === message.guild.owner) return message.channel.send(banPermErrorOwnerEmbed);
     if (bUser.hasPermission("ADMINISTRATOR")) return message.channel.send(banPermErrorAdminEmbed);
-    if (bUser.hasPermission(["KICK_MEMBERS", "BAN_MEMBERS", "MANAGE_MESSAGES", "MANAGE_ROLES_OR_PERMISSIONS", "MANAGE_CHANNELS", "MUTE_MEMBERS", "DEAFEN_MEMBERS", "MOVE_MEMBERS"])) return message.channel.send(banPermErrorModEmbed)
+    if (bUser.hasPermission(["KICK_MEMBERS" || "BAN_MEMBERS" || "MANAGE_MESSAGES" || "MANAGE_ROLES_OR_PERMISSIONS" || "MANAGE_CHANNELS" || "MUTE_MEMBERS" || "DEAFEN_MEMBERS" || "MOVE_MEMBERS"])) return message.channel.send(banPermErrorModEmbed)
 
     let bReason = args.join(" ").slice(22);
     if (!bReason) bReason = "No reason given.";
@@ -102,14 +102,10 @@ module.exports.run = async (bot, message, args, client) => {
     await logchannel.send(banEmbedLog);
         try {
           await bUser.send(BuhByeEmbed);
-            } catch(e) {
-          return;
-        }
+            } catch(e) {}
 
-    await message.guild.member(bUser).ban({
-        days: 7,
-        reason: `Ban | ${message.author.tag}: ${bReason}`
-      })
+        var target = message.guild.members.cache.get(bUser.id)
+        target.ban()
 
   } else {
 
@@ -130,7 +126,7 @@ module.exports.run = async (bot, message, args, client) => {
 
     if (bUser === message.guild.owner) return message.channel.send(banPermErrorOwnerEmbed);
     if (bUser.hasPermission("ADMINISTRATOR")) return message.channel.send(banPermErrorAdminEmbed);
-    if (bUser.hasPermission(["KICK_MEMBERS", "BAN_MEMBERS", "MANAGE_MESSAGES", "MANAGE_ROLES_OR_PERMISSIONS", "MANAGE_CHANNELS", "MUTE_MEMBERS", "DEAFEN_MEMBERS", "MOVE_MEMBERS"])) return message.channel.send(banPermErrorModEmbed)
+    if (bUser.hasPermission(["KICK_MEMBERS" || "BAN_MEMBERS" || "MANAGE_MESSAGES" || "MANAGE_ROLES_OR_PERMISSIONS" || "MANAGE_CHANNELS" || "MUTE_MEMBERS" || "DEAFEN_MEMBERS" || "MOVE_MEMBERS"])) return message.channel.send(banPermErrorModEmbed)
 
     let bReason = args.join(" ").slice(22);
     if (!bReason) bReason = "No reason given.";
@@ -147,17 +143,14 @@ module.exports.run = async (bot, message, args, client) => {
         .setFooter(`ID: ${bUser.user.id}`)
         .setTimestamp()
 
-        try {
-          await bUser.send(BuhByeEmbed);
-            } catch(e) {
-          return;
-        }
-
-      message.guild.member(bUser).ban({
-        reason: `Ban | ${message.author.tag}: ${bReason}`
-      })
-      message.delete();
-      message.channel.send(banEmbed);
+        await message.delete();
+        await message.channel.send(banEmbed);
+            try {
+              await bUser.send(BuhByeEmbed);
+                } catch(e) {}
+    
+        var target = message.guild.members.cache.get(bUser.id)
+        target.ban()
 
   }
 

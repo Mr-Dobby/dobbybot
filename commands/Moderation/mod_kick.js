@@ -55,11 +55,11 @@ module.exports.run = async (bot, message, args, client) => {
 
         let kUser = message.guild.member(message.mentions.users.last() || message.mentions.users.first() || message.guild.members.cache.get(args[0]));
         if (!kUser) return message.channel.send(kickErrorEmbed);
-
+/*
         if (kUser.highestRole.position >= message.member.highestRole.position) {
             return message.channel.send('You cannot kick a member who is higher or has the same role as you!');
         }
-
+*/
         if (kUser === message.guild.me) {
             return message.channel.send("Not gonna kick myself with this command, fella.")
         }
@@ -70,7 +70,7 @@ module.exports.run = async (bot, message, args, client) => {
 
         if (kUser === message.guild.owner) return message.channel.send(kickPermErrorOwnerEmbed);
         if (kUser.hasPermission("ADMINISTRATOR")) return message.channel.send(kickPermErrorAdminEmbed);
-        if (kUser.hasPermission(["KICK_MEMBERS", "BAN_MEMBERS", "MANAGE_MESSAGES", "MANAGE_ROLES_OR_PERMISSIONS", "MANAGE_CHANNELS", "MUTE_MEMBERS", "DEAFEN_MEMBERS", "MOVE_MEMBERS"])) return message.channel.send(kickPermErrorModEmbed)
+        if (kUser.hasPermission(["KICK_MEMBERS" || "BAN_MEMBERS" || "MANAGE_MESSAGES" || "MANAGE_ROLES" || "MANAGE_CHANNELS" || "MUTE_MEMBERS" || "DEAFEN_MEMBERS" || "MOVE_MEMBERS"])) return message.channel.send(kickPermErrorModEmbed)
 
         let kReason = args.join(" ").slice(22);
         if (!kReason) kReason = "No reason given.";
@@ -97,33 +97,25 @@ module.exports.run = async (bot, message, args, client) => {
                 .setFooter(`Your ID: ${kUser.user.id}`)
                 .setTimestamp()
 
+        await message.delete();
+        await message.channel.send(kickEmbed)
+        await logchannel.send(kickEmbedLog)
         try {
           await kUser.send(BuhByeEmbed);
-            } catch(e) {
-                return;
-        }
-
-        message.delete();
-        message.channel.send(kickEmbed)
-        logchannel.send(kickEmbedLog)
-        message.guild.member(kUser).kick({
-            reason: `Kick | ${message.author.tag}: ${kReason}`
-        });
+            } catch(e) { }
+        var target = message.guild.members.cache.get(kUser.id)
+        target.kick()
 
     } else {
 
         let kUser = message.guild.member(message.mentions.users.last() || message.mentions.users.first());
         if (!kUser) return message.channel.send(kickErrorEmbed);
         
-        let botRole = message.guild.roles.cache.find(r => r.name === "Dobby Bot");
-        if (kUser.highestRole.position <= botRole.position) {
-            return await message.channel.send(`My highest role needs to be higher than their highest.`);
-        }
-
+/*
         if (kUser.highestRole.position >= message.member.highestRole.position) {
             return message.channel.send('You cannot kick a member who is higher or has the same role as you!');
         }
-
+*/
         if (kUser === message.guild.me) {
             return message.channel.send("Not gonna kick myself with this command, fella.")
         }
@@ -134,7 +126,7 @@ module.exports.run = async (bot, message, args, client) => {
 
         if (kUser === message.guild.owner) return message.channel.send(kickPermErrorOwnerEmbed);
         if (kUser.hasPermission("ADMINISTRATOR")) return message.channel.send(kickPermErrorAdminEmbed);
-        if (kUser.hasPermission(["KICK_MEMBERS", "BAN_MEMBERS", "MANAGE_MESSAGES", "MANAGE_ROLES_OR_PERMISSIONS", "MANAGE_CHANNELS", "MUTE_MEMBERS", "DEAFEN_MEMBERS", "MOVE_MEMBERS"])) return message.channel.send(kickPermErrorModEmbed)
+        if (kUser.hasPermission(["KICK_MEMBERS" || "BAN_MEMBERS" || "MANAGE_MESSAGES" || "MANAGE_ROLES" || "MANAGE_CHANNELS" || "MUTE_MEMBERS" || "DEAFEN_MEMBERS" || "MOVE_MEMBERS"])) return message.channel.send(kickPermErrorModEmbed)
 
         let kReason = args.join(" ").slice(22);
         if (!kReason) kReason = "No reason given.";
@@ -151,17 +143,21 @@ module.exports.run = async (bot, message, args, client) => {
                 .setFooter(`ID: ${kUser.user.id}`)
                 .setTimestamp()
 
+        await message.delete();
+        await message.channel.send(kickEmbed)
+        await logchannel.send(kickEmbedLog)
+        try {
+          await kUser.send(BuhByeEmbed);
+            } catch(e) { }
+        var target = message.guild.members.cache.get(kUser.id)
+        target.kick()
+
         try {
           await kUser.send(BuhByeEmbed);
             } catch(e) {
             message.channel.send("Tried telling the member they're kicking, they're kicked. But, you know....")
         }
 
-        message.delete();
-        message.channel.send(kickEmbed)
-        message.guild.member(kUser).kick({
-            reason: `Kick | ${message.author.tag}: ${kReason}`
-        });
     }
 
 }

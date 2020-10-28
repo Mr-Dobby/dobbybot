@@ -87,7 +87,7 @@ module.exports.run = async (bot, message, args, client) => {
 */
   if (member === message.guild.owner) return message.channel.send(mutePermErrorOwnerEmbed);
   if (member.hasPermission("ADMINISTRATOR")) return message.channel.send(mutePermErrorAdminEmbed);
-  if (member.hasPermission(["KICK_MEMBERS", "BAN_MEMBERS", "MANAGE_MESSAGES", "MANAGE_ROLES", "MANAGE_CHANNELS", "MUTE_MEMBERS", "DEAFEN_MEMBERS", "MOVE_MEMBERS"])) return message.channel.send(mutePermErrorModEmbed);
+  if (member.hasPermission(["KICK_MEMBERS" || "BAN_MEMBERS" || "MANAGE_MESSAGES" || "MANAGE_ROLES" || "MANAGE_CHANNELS" || "MUTE_MEMBERS" || "DEAFEN_MEMBERS" || "MOVE_MEMBERS"])) return message.channel.send(mutePermErrorModEmbed);
 
   let muterole = currPrefix.muteRole;
   if (member.roles.cache.has(muterole)) return message.channel.send(AlreadyMutedEmbed)
@@ -207,7 +207,7 @@ try {
   
     if (member === message.guild.owner) return message.channel.send(mutePermErrorOwnerEmbed);
     if (member.hasPermission("ADMINISTRATOR")) return message.channel.send(mutePermErrorAdminEmbed);
-    if (member.hasPermission(["KICK_MEMBERS", "BAN_MEMBERS", "MANAGE_MESSAGES", "MANAGE_ROLES", "MANAGE_CHANNELS", "MUTE_MEMBERS", "DEAFEN_MEMBERS", "MOVE_MEMBERS"])) return message.channel.send(mutePermErrorModEmbed);
+    if (member.hasPermission("KICK_MEMBERS" || "BAN_MEMBERS" || "MANAGE_MESSAGES" || "MANAGE_ROLES" || "MANAGE_CHANNELS" || "MUTE_MEMBERS" || "DEAFEN_MEMBERS" || "MOVE_MEMBERS")) return message.channel.send(mutePermErrorModEmbed);
 
   const AlreadyMutedEmbed = new Discord.MessageEmbed()
       .setColor("#ff0000")
@@ -290,7 +290,7 @@ let Embed2Member = new Discord.MessageEmbed()
 try {
   await member.send(Embed2Member);
   } catch(e) {
-  message.channel.send("Someone has their DMs blocked. . . & they're muted.")
+    
 }
 
 let muteembed = new Discord.MessageEmbed()

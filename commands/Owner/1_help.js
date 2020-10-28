@@ -239,7 +239,7 @@ module.exports.run = async (bot, message, args, client) => {
 \`| Command name says it all.\`
 \`| Command name says it all.\`
 \`| Command name says it all.\`
-\`| 4K quality GIF.\`
+\`| 4K quality GIFs.\`
 \`| Command name says it all.\`
 \`| Command name says it all.\``, true)
       

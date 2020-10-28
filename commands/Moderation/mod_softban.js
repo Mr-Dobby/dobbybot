@@ -77,10 +77,6 @@ module.exports.run = async (bot, message, args, client) => {
 
   let member = message.guild.member(message.mentions.users.last() || message.mentions.users.first() || message.guild.members.cache.get(args[0]));
 
-  if (!message.member.hasPermission("BAN_MEMBERS")) {
-    return message.channel.send("You need `BAN MEMBERS` permission.");
-  }
-
   let softbanErrorEmbed = new Discord.MessageEmbed()
   .setColor("#ff4f4f")
   .setTitle(`\`Command: ${currPrefix.prefix}softban\``)

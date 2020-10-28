@@ -67,7 +67,7 @@ module.exports.run = async (bot, message, args, client) => {
 */
   if (member === message.guild.owner) return message.channel.send(chatbanPermErrorOwnerEmbed);
   if (member.hasPermission("ADMINISTRATOR")) return message.channel.send(chatbanPermErrorAdminEmbed);
-  if (member.hasPermission(["KICK_MEMBERS", "BAN_MEMBERS", "MANAGE_MESSAGES", "MANAGE_ROLES", "MANAGE_CHANNELS", "MUTE_MEMBERS", "DEAFEN_MEMBERS", "MOVE_MEMBERS"])) return message.channel.send(chatbanPermErrorModEmbed);
+  if (member.hasPermission(["KICK_MEMBERS" || "BAN_MEMBERS" || "MANAGE_MESSAGES" || "MANAGE_ROLES" || "MANAGE_CHANNELS" || "MUTE_MEMBERS" || "DEAFEN_MEMBERS" || "MOVE_MEMBERS"])) return message.channel.send(chatbanPermErrorModEmbed);
 
   if (member.id === message.author.id) {
     return message.channel.send("Imagine trying to chatban yourself.. ")
@@ -160,7 +160,7 @@ logchannel.send(chatbanembedLog).catch(error => console.log(error))
 
   if (member === message.guild.owner) return message.channel.send(chatbanPermErrorOwnerEmbed);
   if (member.hasPermission("ADMINISTRATOR")) return message.channel.send(chatbanPermErrorAdminEmbed);
-  if (member.hasPermission(["KICK_MEMBERS", "BAN_MEMBERS", "MANAGE_MESSAGES", "MANAGE_ROLES", "MANAGE_CHANNELS", "MUTE_MEMBERS", "DEAFEN_MEMBERS", "MOVE_MEMBERS"])) return message.channel.send(chatbanPermErrorModEmbed);
+  if (member.hasPermission(["KICK_MEMBERS" || "BAN_MEMBERS" || "MANAGE_MESSAGES" || "MANAGE_ROLES" || "MANAGE_CHANNELS" || "MUTE_MEMBERS" || "DEAFEN_MEMBERS" || "MOVE_MEMBERS"])) return message.channel.send(chatbanPermErrorModEmbed);
 
   if (member.id === message.author.id) {
     return message.channel.send("Imagine trying to chatban yourself.. ")

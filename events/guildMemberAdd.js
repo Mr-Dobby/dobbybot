@@ -116,15 +116,13 @@ bot.on("guildMemberAdd", async (member) => {
 
     const RandomColour = ("000000" + Math.random().toString(16).slice(2, 8).toUpperCase()).slice(-6);
     //The starter roles:
-    const Dobbylanders_Role = member.guild.roles.cache.get("548430923478204426")
-    const Heart_Role = member.guild.roles.cache.get("570889625711804416")
+    const Members_Role = member.guild.roles.cache.get("783356010999185410")
     //The Roles That Seperate Roles:
-    const Role_1 = member.guild.roles.cache.get("652260889558253599")
-    const Role_2 = member.guild.roles.cache.get("662024720937517087")
-    const Role_3 = member.guild.roles.cache.get("643075711812501524")
-    const Role_4 = member.guild.roles.cache.get("565129831927382038")
-    //Bot Roles
-    const Knights = member.guild.roles.cache.get("548431153925718020")
+    const Role_1 = member.guild.roles.cache.get("783356928205651979")
+    const Role_2 = member.guild.roles.cache.get("783359087818702848")
+    const Role_3 = member.guild.roles.cache.get("783359124087111730")
+    const Role_4 = member.guild.roles.cache.get("783359131524137072")
+    const Role_5 = member.guild.roles.cache.get("783359132785836062")
 
     var date = new Date();
     var hs = String(date.getHours()).padStart(2, '0');
@@ -163,35 +161,16 @@ bot.on("guildMemberAdd", async (member) => {
     .setAuthor(`${member.user.tag} | Raid logs | Banned during raid`, `${member.user.displayAvatarURL({ dynamic: true })}`)
     .setDescription(`${member} has been banned upon joining! ${fire}\nID: ${member.id}`)
 
-    /*
-    const welcomeEmbed = new Discord.MessageEmbed()
-    .setColor(RandomColour)
-    .setAuthor(`${member.user.tag}`, `${member.user.displayAvatarURL({ dynamic: true })}`)
-    .setDescription("WELCOME TO DOBBYLAND YA SEXY ELF.. no humans pls")
-    .addField("Please make sure to read the rules", `${rulesChannel}`, false)
-    .addField("Get NSFW access by contacting staff (this role) ", `${staffRole}`, false)
-    .addField("**If you somehow did not get the Dobbylanders role, please __contact an Administrator__**", "Thanks for understanding.", true)
-    .setFooter("React with 🔥 to get access to the rest of the server")
-    .setTimestamp()
-  */
-
       try {
-        if (member.user.bot) {
-          await member.roles.add(Knights)
-            } else {
-          await member.roles.add(Dobbylanders_Role);
-          await member.roles.add(Heart_Role);
+          await member.roles.add(Members_Role);
           await member.roles.add(Role_1);
           await member.roles.add(Role_2);
           await member.roles.add(Role_3);
           await member.roles.add(Role_4);
-        }
+          await member.roles.add(Role_5)
       } catch (e) {
     return;
   }
-
-    if (!welcomeLogChannel) { return; }
-    if (!logchannel) { return; }
   
       let defaultChannel = "";
       member.guild.channels.cache.forEach((channel) => {

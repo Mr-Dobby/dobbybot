@@ -8,16 +8,16 @@ module.exports.run = async (bot, message, args, client) => {
 
   let logName = await Logs.findOne( { guildID: message.guild.id } )
   const logchannel = bot.channels.cache.get(logName.incidentLog)
-
+  let bUser = message.guild.members.cache.get(args[0]) || message.mentions.members.first();
   const Failure = bot.emojis.cache.get("697388354689433611");
   const Sucess = bot.emojis.cache.get("697388354668462110");
 
   var noPermsEmbed = new Discord.MessageEmbed()
-      .setDescription(`${Failure} Softbanning a member requires you to have \`BAN MEMBERS\` permissions.`)
+      .setDescription(`${Failure} Banning members requires you to have \`BAN MEMBERS\` permissions.`)
       .setColor("#ff0000")
     
   var noPermsEmbedBot = new Discord.MessageEmbed()
-      .setDescription(`${Failure} Softbanning a member requires me to have \`BAN MEMBERS\` permissions.`)
+      .setDescription(`${Failure} Banning members requires me to have \`BAN MEMBERS\` permissions.`)
       .setColor("#ff0000")
 
   if (!message.guild.me.hasPermission("BAN_MEMBERS")) {
@@ -28,140 +28,69 @@ module.exports.run = async (bot, message, args, client) => {
     return message.channel.send(noPermsEmbed);
   }
 
-      if (!logchannel) {
+    const banErrorEmbed = new Discord.MessageEmbed()
+      .setColor("#ff0000")
+      .setTitle(`\`Command: ${currPrefix.prefix}ban\``)
+      .addField("**Description:**", "Softban a user from the server.")
+      .addField("**Command usage:**", `${currPrefix.prefix}ban <@User> [Reason]`)
+      .addField("**Example:**", `${currPrefix.prefix}ban @Mr.Dobby#0001 Spam`)
+      .setFooter("<> = Required, [] = Optional")
 
-      let softbanErrorEmbed = new Discord.MessageEmbed()
-          .setColor("#ff4f4f")
-          .setTitle(`\`Command: ${currPrefix.prefix}softban\``)
-          .addField("**Description:**", "Softbans a user from the server. They will be banned for a day.", false)
-          .addField("**Command usage:**", `${currPrefix.prefix}softban <@User> [Reason]`, false)
-          .addField("**Example:**", `${currPrefix.prefix}softban @Mr.Dobby#0001 Naughty boi`, false)
-          .setFooter("<> = Required, [] = Optional")
+    const banPermErrorModEmbed = new Discord.MessageEmbed()
+      .setColor("#ff0000")
+      .setAuthor(`${message.author.tag} | Permission Error`, message.author.displayAvatarURL({ dynamic: true }))
+      .setDescription(`${Failure} Member is a Moderator.`)
 
-      let member = message.guild.member(message.mentions.users.last() || message.mentions.users.first() || message.guild.members.cache.get(args[0]));
-      let reason = args.join(" ").slice(22);
-      if (!reason) reason = `No reason given. Softbanned by ${message.author.tag}`
-      if (!member) return message.channel.send(softbanErrorEmbed);
+    const banPermErrorAdminEmbed = new Discord.MessageEmbed()
+      .setColor("#ff0000")
+      .setAuthor(`${message.author.tag} | Permission Error`, message.author.displayAvatarURL({ dynamic: true }))
+      .setDescription(`${Failure} Member is an Administrator.`)
 
-      if (member === message.guild.me) {
-        return message.channel.send("Not gonna harm myself with this command, fella.")
-      }
+    const banPermErrorOwnerEmbed = new Discord.MessageEmbed()
+      .setColor("#ff0000")
+      .setAuthor(`${message.author.tag} | Stupidity Error`, message.author.displayAvatarURL({ dynamic: true }))
+      .setDescription(`${Failure} This is the server owner, nice try tho.`)
 
-      if (member.highestRole.position >= message.member.highestRole.position) {
-        return message.channel.send('You cannot softban a member who is higher or has the same role as you!');
-      }
-
-          await member.ban({
-            reason: `Softban | ${message.author.tag}: ${reason}`
-        });
-
-        let softbanSuccessEmbed = new Discord.MessageEmbed()
-        .setColor("#7aff7a")
-        .setAuthor('Successfully softbanned!', member.user.displayAvatarURL({ dynamic: true }))
-        .setDescription(`<@${member.user.id}> has been softbanned`)
-
-        message.delete();
-        message.channel.send(softbanSuccessEmbed)
-
-  // 1 day in ms = 86,400,000
-  let Min2MS = 60000;
-  let Day2Min = 1440;
-
-  setTimeout(function() {
-
-    member.unban()
-
-    }, ms(Min2MS * Day2Min))
-
-  } else {
-
-  let member = message.guild.member(message.mentions.users.last() || message.mentions.users.first() || message.guild.members.cache.get(args[0]));
-
-  let softbanErrorEmbed = new Discord.MessageEmbed()
-  .setColor("#ff4f4f")
-  .setTitle(`\`Command: ${currPrefix.prefix}softban\``)
-  .addField("**Description:**", "Softbans a user from the server. They will be banned for a day.", false)
-  .addField("**Command usage:**", `${currPrefix.prefix}softban <@User> [Reason]`, false)
-  .addField("**Example:**", `${currPrefix.prefix}softban @Mr.Dobby#0001 Naughty boi`, false)
-  .setFooter("<> = Required, [] = Optional")
-
-const softbanPermErrorModEmbed = new Discord.MessageEmbed()
-    .setColor("#ff0000")
-    .setAuthor(`${message.author.tag} | Permission Error`, message.author.displayAvatarURL({ dynamic: true }))
-    .setDescription(`${Failure} Member is a Moderator.`)
-
-const softbanPermErrorAdminEmbed = new Discord.MessageEmbed()
-    .setColor("#ff0000")
-    .setAuthor(`${message.author.tag} | Permission Error`, message.author.displayAvatarURL({ dynamic: true }))
-    .setDescription(`${Failure} Member is an Administrator.`)
-
-const softbanPermErrorOwnerEmbed = new Discord.MessageEmbed()
-    .setColor("#ff0000")
-    .setAuthor(`${message.author.tag} | Stupidity Error`, message.author.displayAvatarURL({ dynamic: true }))
-    .setDescription(`${Failure} This is the server owner, nice try tho.`)
-
-if (!member) return message.channel.send(softbanErrorEmbed);
-if (member === message.guild.owner) return message.channel.send(softbanPermErrorOwnerEmbed);
-if (member.hasPermission("ADMINISTRATOR")) return message.channel.send(softbanPermErrorAdminEmbed);
-if (member.hasPermission(["KICK_MEMBERS", "BAN_MEMBERS", "MANAGE_MESSAGES", "MANAGE_ROLES_OR_PERMISSIONS", "MANAGE_CHANNELS", "MUTE_MEMBERS", "DEAFEN_MEMBERS", "MOVE_MEMBERS"])) return message.channel.send(softbanPermErrorModEmbed)
-
-let reason = args.join(" ").slice(22);
-if (!reason) reason = `No reason given.`
-
-if (member === message.guild.me) {
-  return message.channel.send("Not gonna harm myself with this command, fella.")
-}
-
-if (member.highestRole.position >= message.member.highestRole.position) {
-  return message.channel.send('You cannot softban a member who is higher or has the same role as you!');
-}
-
-let softbanEmbed = new Discord.MessageEmbed()
-    .setAuthor(`${member.user.tag} | Softban`, member.user.displayAvatarURL({ dynamic: true }))
-    .setDescription(`\`${currPrefix.prefix}softban <@User> [Reason]\``)
-    .setColor("#ff3d3d")
-    .addField("User", `<@${member.id}>`, true)
-    .addField("Moderator", `<@${message.author.id}>`, true)
-    .addField("Reason", reason)
-    .setFooter(`ID: ${member.user.id}`)
-    .setTimestamp();
-
-let softbanSuccessEmbed = new Discord.MessageEmbed()
-    .setColor("#7aff7a")
-    .setAuthor('Successfully softbanned!', member.user.displayAvatarURL({ dynamic: true }))
-    .setDescription(`${Sucess} <@${member.user.id}> has been softbanned`)
-  
-let BuhByeEmbed = new Discord.MessageEmbed()
-    .setAuthor(`${member.user.tag}, you were softbanned from the ${message.guild.name} server`, member.user.displayAvatarURL({ dynamic: true }))
-    .setColor("#ff0000")
-    .addField("Reason", reason)
-    .setFooter(`Your ID: ${member.user.id}`)
-    .setTimestamp()
-  
-    await message.delete();
-    await message.channel.send(softbanSuccessEmbed)
-    await logchannel.send(softbanEmbed)
-
-    try {
-      member.send(BuhByeEmbed)
-        } catch(e) {
+    if (bUser === message.guild.me || bUser.id === message.author.id) {
       return;
     }
+    if (!bUser) return message.channel.send(banErrorEmbed);
+    if (bUser === message.guild.owner) return message.channel.send(banPermErrorOwnerEmbed);
+    if (bUser.hasPermission("ADMINISTRATOR")) return message.channel.send(banPermErrorAdminEmbed);
+    if (bUser.hasPermission(["KICK_MEMBERS" || "BAN_MEMBERS" || "MANAGE_MESSAGES" || "MANAGE_ROLES_OR_PERMISSIONS" || "MANAGE_CHANNELS" || "MUTE_MEMBERS" || "DEAFEN_MEMBERS" || "MOVE_MEMBERS"])) return message.channel.send(banPermErrorModEmbed)
 
-    await member.ban({
-      reason: `Softban | ${message.author.tag}: ${reason}`
-    });
+    let bReason = args.join(" ").slice(22);
+    if (!bReason) bReason = "No reason given.";
 
-  // 1 day in ms = 86,400,000
-  let Min2MS = 60000;
-  let Day2Min = 1440;
+    let banEmbed = new Discord.MessageEmbed()
+        .setColor("#7aff7a")
+        .setAuthor('Successfully softbanned!', bUser.user.displayAvatarURL({ dynamic: true }))
+        .setDescription(`${Sucess} <@${bUser.user.id}> has been banned`)
 
-  setTimeout(function() {
+    let banEmbedLog = new Discord.MessageEmbed()
+        .setAuthor(`${bUser.user.tag} | Softban`, bUser.user.displayAvatarURL({ dynamic: true }))
+        .setDescription(`\`${currPrefix.prefix}softban <@User> [Reason]\``)
+        .setColor("#ff0000")
+        .addField("User", `<@${bUser.id}>`, true)
+        .addField("Moderator", `<@${message.author.id}>`, true)
+        .addField("Reason", `${bReason}`, true)
+        .setFooter(`ID: ${bUser.user.id}`)
+        .setTimestamp()
 
-    member.unban()
+        await message.delete();
+        await bUser.ban();
+        await bUser.unban();
 
-    }, ms(Min2MS * Day2Min))
-  }
+    if (logchannel) {
+
+      await logchannel.send(banEmbedLog);
+      await message.channel.send(banEmbed);
+
+    } else {
+
+      await message.channel.send(banEmbed);
+
+    }
 
 }
 

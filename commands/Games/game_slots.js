@@ -15,7 +15,7 @@ module.exports.run = async (bot, message, args) => {
   noArgs = new Discord.MessageEmbed()
     .setAuthor(`${message.author.tag} | Slot Machine`, message.author.displayAvatarURL({ dynamic: true }))
     .setDescription(`\`Command usage: ${currPrefix.prefix}slots <Amount> \`\n\nWin DC 💸 by gambling!\nYou can win up to **x10** as much as you bet!`)
-    .setFooter(`You currently have ${userProfile.balance} DC 💸 to gamble`)
+    .setFooter(`You currently have ${userProfile.balance} DC 💸 to gamble with`)
     .setColor("#00bfe5")
 
   noProfile = new Discord.MessageEmbed()

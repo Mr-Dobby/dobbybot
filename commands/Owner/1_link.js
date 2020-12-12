@@ -10,8 +10,8 @@ module.exports.run = async (bot, message, args) => {
           .setAuthor(`Le Links of Le ${bot.user.username}!`)
           .setColor("#010000")
           .setThumbnail(botIcon)
-          .addField(`Invite ${bot.user.username} to your server:`, " → *[Click Here](https://discordapp.com/oauth2/authorize?client_id=570525775351119872&scope=bot&permissions=268443694)* ←")
-          .addField(`Join the support server:`, " → *[Click Here](https://discord.gg/HXPCWfv)* ←")
+          .addField(`Invite ${bot.user.username} to your server:`, " → *[Click Here](https://discord.com/api/oauth2/authorize?client_id=786264014682324992&permissions=290843734&scope=bot)* ←")
+          .addField(`Join the support server:`, " → *[Click Here](https://discord.gg/hAAYCS8WBN)* ←")
           .setTimestamp();
 
       message.channel.send(inviteEmbed)

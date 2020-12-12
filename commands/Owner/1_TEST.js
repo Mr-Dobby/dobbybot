@@ -42,28 +42,6 @@ try {
 }
 */
 
-var number2guess = Math.ceil(Math.random() * 1000) + 1;
-var humanGuess = args.join(' ');
-var botGuess = Math.floor(Math.random() * 1000) + 1;
-console.log(number2guess)
-console.log(humanGuess)
-console.log(botGuess)
-
-const closest = [humanGuess, botGuess].reduce((humanGuess, botGuess) => {
-  let aDiff = Math.abs(humanGuess - number2guess);
-  let bDiff = Math.abs(botGuess - number2guess);
-
-  if (aDiff == bDiff) {
-      // Choose largest vs smallest (> vs <)
-      return humanGuess > botGuess ? humanGuess : botGuess;
-  } else {
-      return bDiff < aDiff ? botGuess : humanGuess;
-  }
-
-});
-
-console.log(closest);
-
 
 
 }

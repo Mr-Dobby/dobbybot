@@ -36,7 +36,7 @@ bot.on("guildCreate", async (guild) => {
               },  
               {
                 name: "Links",
-                value: `Support Server: *[Click Here](https://discord.gg/HXPCWfv)*\n Invite the bot: *[Click Here](https://discordapp.com/oauth2/authorize?client_id=570525775351119872&scope=bot&permissions=268443694)*`
+                value: `Support Server: *[Click Here](https://discord.gg/hAAYCS8WBN)*\n Invite the bot: *[Click Here](https://discord.com/api/oauth2/authorize?client_id=786264014682324992&permissions=290843734&scope=bot)*`
               }
             ],
             timestamp: new Date(),

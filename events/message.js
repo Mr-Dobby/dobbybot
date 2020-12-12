@@ -7,26 +7,16 @@ const Raid = require("../lib/raid");
 
 bot.on("message", async (message) => {
 
-    var date = new Date();
-    var dd = String(date.getDate()).padStart(2, '0');
-    var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = date.getFullYear();
-    var hs = String(date.getHours()).padStart(2, '0');
-    var min = String(date.getMinutes()).padStart(2, '0');
-    var sec = String(date.getSeconds()).padStart(2, '0');
-//    var ms = String(date.getMilliseconds()).padStart(2);
-    date = hs + ':' + min + ':' + sec + ' - ' + dd + '/' + mm + '/' + yyyy + ' | ';
-
     if (message.author.bot) return;
-    if (message.channel.type === "dm") return bot.channels.cache.get("747187965146431659").send(`${date}DM from ${message.author.tag}: ${message.content}`);
+    if (message.channel.type === "dm") return;
 
-    let ThisGuild = await Raid.findOne( { guildID: message.guild.id } )
-    let Toggled = await Raid.findOne( { guildID: message.guild.id, raid: true } )
+//    let ThisGuild = await Raid.findOne( { guildID: message.guild.id } )
+//    let Toggled = await Raid.findOne( { raid: true } )
     let currPrefix = await Servers.findOne( { guildID: message.guild.id } )
   
-    if (ThisGuild && Toggled) {
+//    if (ThisGuild && Toggled) {
 //        bot.emit('checkMessage', message);
-    }
+//    }
 
     function generateXP() {
         var min = 10;

@@ -59,7 +59,7 @@ if (validUnlocks.includes(time)) {
     }
   ]).then(() => {
           let liftedemb = new Discord.MessageEmbed()
-              .setAuthor(`${message.author.tag} | Unlock 💬`, message.author.displayAvatarURL({ dynamic: true }))
+              .setAuthor(`${message.author.tag} | Unlock`, message.author.displayAvatarURL({ dynamic: true }))
               .setDescription(`${Sucess} Lockdown lifted via the unlock command. Everyone can now chat again.\n(Locked channel: <#${message.channel.id}>)`)
               .setColor("#7aff7a")
           message.channel.send(liftedemb)
@@ -78,7 +78,7 @@ if (validUnlocks.includes(time)) {
         }
       ]).then(() => {
     let successemb = new Discord.MessageEmbed()
-        .setAuthor(`${message.author.tag} | Lockdown 🔒`, message.author.displayAvatarURL({ dynamic: true }))
+        .setAuthor(`${message.author.tag} | Lockdown`, message.author.displayAvatarURL({ dynamic: true }))
         .setDescription(`${Sucess} Channel Locked down for **${ms(ms(time), { long: true })}**. \n(Locked channel: <#${message.channel.id}>)`)
         .setColor("#7aff7a")
           message.channel.send(successemb)
@@ -122,7 +122,7 @@ if (validUnlocks.includes(time)) {
   ]).then(() => {
 
           let liftedemb = new Discord.MessageEmbed()
-              .setAuthor(`${message.author.tag} | Unlock 💬`, message.author.displayAvatarURL({ dynamic: true }))
+              .setAuthor(`${message.author.tag} | Unlock`, message.author.displayAvatarURL({ dynamic: true }))
               .setDescription(`Lockdown lifted via the unlock command. Everyone can now chat again. \n(Locked channel: <#${message.channel.id}>)`)
               .setColor("#7aff7a")
           message.channel.send(liftedemb)
@@ -141,7 +141,7 @@ if (validUnlocks.includes(time)) {
         }
       ]).then(() => {
     let successemb = new Discord.MessageEmbed()
-        .setAuthor(`${message.author.tag} | Lockdown 🔒`, message.author.displayAvatarURL({ dynamic: true }))
+        .setAuthor(`${message.author.tag} | Lockdown`, message.author.displayAvatarURL({ dynamic: true }))
         .setDescription(`Channel Locked down for **${ms(ms(time), { long: true })}**. \n(Locked channel: <#${message.channel.id}>)`)
         .setColor("#7aff7a")
           message.channel.send(successemb)

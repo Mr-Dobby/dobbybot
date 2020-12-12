@@ -12,6 +12,7 @@ module.exports.run = async (bot, message, args, client) => {
     
       let TheEmbed = new Discord.MessageEmbed()
       .setAuthor(`${message.author.tag} | Ping request`, message.author.displayAvatarURL({ dynamic: true }))
+      .setFooter(`Experiencing issues? Check https://discordstatus.com/`)
 /*   
       let embedGood = new Discord.MessageEmbed()
       .setAuthor(`${message.author.tag} | Ping request`, message.author.displayAvatarURL({ dynamic: true }))

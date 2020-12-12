@@ -5,6 +5,8 @@ const Logs = require(`../../lib/logs`);
 
 module.exports.run = async (bot, message, args, client) => {
 
+  const Failure = bot.emojis.cache.get(`697388354689433611`);
+  const Sucess = bot.emojis.cache.get(`697388354668462110`);
   var noPermsEmbed = new Discord.MessageEmbed()
       .setDescription(`${Failure} Creating new logs requires you to have \`ADMINISTRATOR\` permissions.`)
       .setColor("#ff0000")
@@ -23,8 +25,6 @@ module.exports.run = async (bot, message, args, client) => {
 
   let currPrefix = await Servers.findOne( { guildID: message.guild.id } );
   let logName = await Logs.findOne( { guildID: message.guild.id } );
-  const Failure = bot.emojis.cache.get(`697388354689433611`);
-  const Sucess = bot.emojis.cache.get(`697388354668462110`);
 
   let member = message.member;
   if (member.roles.highest.position < message.guild.me.roles.highest.position && !member.hasPermission(`ADMINISTRATOR`)) return message.channel.send(`Woah, hold it there.\nYou actually need to be higher than me **AND** be a server Administrator to do this. This is a dangerous command. Contact the server owner.`)

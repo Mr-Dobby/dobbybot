@@ -33,21 +33,21 @@ bot.on("guildMemberUpdate", async (oldMember, newMember) => {
 
       }
   
-    if (oldMember.displayName !== newMember.displayName) {
-
+    if (oldMember.user.username !== newMember.user.username) {
+      
       const embed = new Discord.MessageEmbed()
         .setAuthor(`${oldMember.user.tag} | Username change`, `${oldMember.user.displayAvatarURL({ dynamic: true })}`)
         .setColor(colour.members)
         .setDescription(`**<@${newMember.id}> changed username** ${fire}`)
-        .addField('Old username', `**${oldMember.displayName}**`, true)
-        .addField('New username', `**${newMember.displayName}**`, true)
+        .addField('Old username', `**${oldMember.user.username}**`, true)
+        .addField('New username', `**${newMember.user.username}**`, true)
         .setFooter(`Member ID: ${newMember.id} • ${hs}:${min}:${sec}`)
   
         await logchannel.send(embed).catch()
 
       }
-  
-      if (oldMember.roles.cache.size !== newMember.roles.cache.size) {
+/*
+      if (oldMember.roles.cache.equals == newMember.roles.cache.equals) {
           if (oldMember.roles.cache.size > newMember.roles.cache.size) {
             //Lost
             let dif = oldMember.roles.cache.filter(r => !newMember.roles.cache.has(r.id)).first()
@@ -58,7 +58,7 @@ bot.on("guildMemberUpdate", async (oldMember, newMember) => {
             .setFooter(`Member ID: ${newMember.id} • Role ID: ${dif.id} • ${hs}:${min}:${sec}`)
 
             await logchannel.send(embed).catch()
-  
+
         } else if (oldMember.roles.cache.size < newMember.roles.cache.size) {
             //Given
             let dif = newMember.roles.cache.filter(r => !oldMember.roles.cache.has(r.id)).first()
@@ -72,5 +72,30 @@ bot.on("guildMemberUpdate", async (oldMember, newMember) => {
   
         }
       }
-      
-  });
+      */
+     if (oldMember.roles.cache.size !== newMember.roles.cache.size) {
+      if (oldMember.roles.cache.size > newMember.roles.cache.size) {
+        //Lost
+        let dif = oldMember.roles.cache.filter(r => !newMember.roles.cache.has(r.id)).first()
+        const embed = new Discord.MessageEmbed()
+        .setAuthor(`${oldMember.user.tag} | Lost a role`, `${oldMember.user.displayAvatarURL({ dynamic: true })}`)
+        .setColor(colour.members)
+        .setDescription(`**<@${newMember.id}> has lost the ${dif.toString()} role** ${fire}`)
+        .setFooter(`Member ID: ${newMember.id} • Role ID: ${dif.id} • ${hs}:${min}:${sec}`)
+
+        await logchannel.send(embed).catch()
+
+    } else if (oldMember.roles.cache.size < newMember.roles.cache.size) {
+        //Given
+        let dif = newMember.roles.cache.filter(r => !oldMember.roles.cache.has(r.id)).first()
+        const embed2 = new Discord.MessageEmbed()
+        .setAuthor(`${oldMember.user.tag} | Gained a role`, `${oldMember.user.displayAvatarURL({ dynamic: true })}`)
+        .setColor(colour.members)
+        .setDescription(`**<@${newMember.id}> was given the ${dif.toString()} role** ${fire}`)
+        .setFooter(`Member ID: ${newMember.id} • Role ID: ${dif.id} • ${hs}:${min}:${sec}`)
+
+        await logchannel.send(embed2).catch()
+
+    }
+  }
+});

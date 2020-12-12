@@ -60,7 +60,7 @@ module.exports.run = async (bot, message, args, client) => {
       return message.channel.send(noPermsEmbedBot)
     }
   
-    if (!message.member.hasPermission(["BAN_MEMBERS" && "MANAGE_CHANNELS" && "MANAGE_ROLES"])) {
+    if (!message.member.hasPermission("BAN_MEMBERS" && "MANAGE_CHANNELS" && "MANAGE_ROLES")) {
       return message.channel.send(noPermsEmbed);
     }
 
@@ -80,19 +80,18 @@ module.exports.run = async (bot, message, args, client) => {
             message.channel.send(RaidON)
 
         if (currPrefix.lockdown === true) {
-            var id = message.guild.id;
             var channels = message.guild.channels.cache.filter(ch => ch.type !== 'category' || ch.type !== 'voice' || ch.type !== 'news' || ch.type !== 'store');
                 channels.forEach(async (channel) => {
                     if (!ignore.includes(channel.id)) {
                         if (channel.type === "text" && channel.type !== "voice" && channel.type !== "category") {
                             await channel.overwritePermissions([
                                 {
-                                    id: id,
+                                    id: message.guild.id,
                                     deny: ['SEND_MESSAGES']
                                 }
-                            ]).then(async (cha) => {
+                            ])
                                 if (muterole && chatbanrole) {
-                                    await cha.overwritePermissions([
+                                    await channel.overwritePermissions([
                                         {
                                             id: muterole.id,
                                             deny: ['SEND_MESSAGES', 'ADD_REACTIONS']
@@ -103,16 +102,13 @@ module.exports.run = async (bot, message, args, client) => {
                                         }
                                     ])
                                 }
-                                if (cha.type == "text") {
-                                    if (!cha.name.endsWith('🔒')) {
-                                        await cha.edit({ name: cha.name + '🔒' });
-                                }
+                                if (!channel.name.endsWith('🔒')) {
+                                    await channel.edit({ name: channel.name + '🔒' });
                             }
-                        });
+                        }
                     }
-                }
-            });
-        }
+                });
+            }
     break;
         case 'false':
         case 'off':
@@ -126,20 +122,19 @@ module.exports.run = async (bot, message, args, client) => {
 
             message.channel.send(RaidOFF)
 
-        if (currPrefix.lockdown === true) {
-            var id = message.guild.id;
+        if (currPrefix.lockdown === true) { 
             var channels = message.guild.channels.cache.filter(ch => ch.type !== 'category' || ch.type !== 'voice' || ch.type !== 'news' || ch.type !== 'store');
                 channels.forEach(async (channel) => {
                     if (!ignore.includes(channel.id)) {
                         if (channel.type === "text" && channel.type !== "voice" && channel.type !== "category") {
                             await channel.overwritePermissions([
                                 {
-                                    id: id,
+                                    id: message.guild.id,
                                     null: ['SEND_MESSAGES']
                                 }
-                            ]).then(async (cha) => {
+                            ])
                                 if (muterole && chatbanrole) {
-                                    await cha.overwritePermissions([
+                                    await channel.overwritePermissions([
                                         {
                                             id: muterole.id,
                                             deny: ['SEND_MESSAGES', 'ADD_REACTIONS']
@@ -150,16 +145,13 @@ module.exports.run = async (bot, message, args, client) => {
                                         }
                                     ])
                                 }
-                                    if (cha.type == "text") {
-                                        if (cha.name.endsWith('🔒')) {
-                                            await cha.edit({ name: cha.name.replace(/\s*🔒/, '') });
-                                }
+                                if (channel.name.endsWith('🔒')) {
+                                    await channel.edit({ name: channel.name.replace(/\s*🔒/, '') });
                             }
-                        });
+                        }
                     }
-                }
-            });
-        }
+                });
+            }
     break;
         case 'ignore':
 

@@ -24,7 +24,7 @@ module.exports.run = async (bot, message, args, client) => {
         .setDescription(`\`${currPrefix.prefix}botinfo\` | Alias: \`binfo\``)
         .setColor("#010000")
         .setThumbnail(botIcon)
-        .setURL('https://discordapp.com/oauth2/authorize?client_id=570525775351119872&scope=bot&permissions=268443694')
+        .setURL('https://discord.com/api/oauth2/authorize?client_id=786264014682324992&permissions=290843734&scope=bot')
         .addField("➞ Bot", `ID: ${bot.user.id}`, true)
         .addField("➞ Bot Created On", created, true)
         .addField(`➞ Libaries`, `Discord.js v12.3.1\nNode.js ${process.version}`, true)

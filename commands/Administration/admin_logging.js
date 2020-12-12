@@ -26,7 +26,7 @@ module.exports.run = async (bot, message, args, client) => {
     return message.channel.send(noPermsEmbedBot)
   }
 
-  if (!message.member.hasPermission(["MANAGE_CHANNELS" && "MANAGE_ROLES"])) {
+  if (!message.member.hasPermission("MANAGE_CHANNELS" && "MANAGE_ROLES")) {
     return message.channel.send(noPermsEmbed);
   }
 

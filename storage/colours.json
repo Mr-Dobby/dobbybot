@@ -3,5 +3,6 @@
     "roles"     :   "#f5ff45",
     "members"   :   "#dd45ff",
     "messages"  :   "#45bbff",
-    "bans"      :   "#ff4545"   
+    "bans"      :   "#ff4545",
+    "invites"   :   "#15028c"   
 }

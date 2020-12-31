@@ -37,6 +37,7 @@ module.exports.run = async (bot, message, args) => {
   let amount = args[0];
   if (!amount) return message.channel.send(noArgs)
   if (isNaN(amount)) return message.channel.send(noAmount)
+//  if (amount < 10000) return;
 
       const timeout = 10000;
       const cooldown = CoolDown.get(message.author.id)
@@ -72,7 +73,7 @@ module.exports.run = async (bot, message, args) => {
         let embed = new Discord.MessageEmbed()
             .setAuthor(`${message.author.tag} | Slot Machine`, message.author.displayAvatarURL({ dynamic: true }))  
             .setDescription(`You won: **${winAmount}** DC 💸 \n\n**「** ${slots[result1]} **」「** ${slots[result2]} **」「** ${slots[result3]} **」**`)
-            .setFooter(`Your new balance: ${userProfile.balance + winAmount}`)
+            .setFooter(`Your new balance: ${userProfile.balance + winAmount} DC 💸`)
             .setColor("#7aff7a")
         message.channel.send({embed});
 
@@ -83,7 +84,7 @@ module.exports.run = async (bot, message, args) => {
         let embed = new Discord.MessageEmbed()
             .setAuthor(`${message.author.tag} | Slot Machine`, message.author.displayAvatarURL({ dynamic: true }))  
             .setDescription(`You lost: **${amount}** DC 💸 \n\n**「** ${slots[result1]} **」「** ${slots[result2]} **」「** ${slots[result3]} **」**`)
-            .setFooter(`Your new balance: ${userProfile.balance - amount}`)
+            .setFooter(`Your new balance: ${userProfile.balance - amount} DC 💸`)
             .setColor("#ff4f4f")
         message.channel.send({embed});
 

@@ -15,7 +15,10 @@ module.exports.run = async (bot, message, args, client) => {
         min = Math.ceil(min); 
         max = Math.floor(max); 
         return Math.floor(Math.random() * (max - min + 1)) + min; 
-      }
+    }
+    function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
     let randomAmount = randomNumber(450, 650)
 
     let currPrefix = await Servers.findOne( { guildID: message.guild.id } )
@@ -30,7 +33,7 @@ module.exports.run = async (bot, message, args, client) => {
 
     dailyEmbed = new Discord.MessageEmbed()
     .setAuthor(`${message.author.tag} | Daily DC`, message.author.displayAvatarURL({ dynamic: true }))
-    .setDescription(`${Sucess} <@${message.author.id}> You have been given **${randomAmount}** DC 💸`)
+    .setDescription(`${Sucess} <@${message.author.id}> You have been given **${numberWithCommas(randomAmount)}** DC 💸`)
     .setColor("#7aff7a")
 
     if (!userProfile) return message.channel.send(noProfile)

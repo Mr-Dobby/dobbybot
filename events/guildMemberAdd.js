@@ -18,19 +18,6 @@ const applyText = (Canvas, text) => {
 	return ctx.font;
 };
 */
-//Dobbyland
-let options = { 
-    total: "667335552558956554",
-    users: "667335645894541331",
-    bots: "667337560179343374"
-  }
-
-  //Juicy Bad Girls
-  let options1 = {
-    total: "687332936936063033",
-    users: "687333066934714490",
-    bots: "687333146613776424"
-  }
 
 bot.on("guildMemberAdd", async (member) => {
 /*
@@ -169,7 +156,7 @@ bot.on("guildMemberAdd", async (member) => {
           await member.roles.add(Role_4);
           await member.roles.add(Role_5)
       } catch (e) {
-    return;
+    
   }
   
       let defaultChannel = "";

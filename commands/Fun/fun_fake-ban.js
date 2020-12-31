@@ -5,11 +5,6 @@ const Logs = require("../../lib/logs");
 module.exports.run = async (bot, message, args, client) => {
 
   let currPrefix = await Servers.findOne( { guildID: message.guild.id } )
-
-    if (!message.guild.me.hasPermission("ADMINISTRATOR")) {
-      return message.channel.send("I require Administrative permissions to run this command.")
-    }
-
     const Failure = bot.emojis.cache.get("697388354689433611");
     const Sucess = bot.emojis.cache.get("697388354668462110");
     const Troll = bot.emojis.cache.get("723559450153189456");

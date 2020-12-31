@@ -18,14 +18,6 @@ module.exports.run = async (bot, message, args, client) => {
     var noPermsEmbed = new Discord.MessageEmbed()
         .setDescription(`${Failure} Toggling the raid function requires you to have \`ADMINISTRATOR\` permissions.`)
         .setColor("#ff0000")
-      
-    var noPermsEmbedBot = new Discord.MessageEmbed()
-        .setDescription(`${Failure} Toggling the raid function requires me to have \`ADMINISTRATOR\` permissions.`)
-        .setColor("#ff0000")
-  
-    if (!message.guild.me.hasPermission("ADMINISTRATOR")) {
-      return message.channel.send(noPermsEmbedBot)
-    }
   
     if (!message.member.hasPermission("ADMINISTRATOR")) {
       return message.channel.send(noPermsEmbed);

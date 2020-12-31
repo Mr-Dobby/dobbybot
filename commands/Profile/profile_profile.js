@@ -20,12 +20,12 @@ module.exports.run = async (bot, message, args, client) => {
 //    let nxtLvl = 30 * (Math.pow(2, userProfile.globalLevel) - 1);
 //    let Difference = nxtLvl - curxp;
 
-    noProfile = new Discord.MessageEmbed()
+    let noProfile = new Discord.MessageEmbed()
         .setAuthor(`${message.author.tag} | Missing profile`, message.author.displayAvatarURL({ dynamic: true }))
         .setDescription(`${Failure} You have no profile yet! Create one with \`${currPrefix.prefix}new profile\``)
         .setColor("#ff4f4f")
 
-    noProfile1 = new Discord.MessageEmbed()
+    let noProfile1 = new Discord.MessageEmbed()
         .setAuthor(`${message.author.tag} | Missing profile`, message.author.displayAvatarURL({ dynamic: true }))
         .setDescription(`${Failure} ${member} doesn't have a profile yet!`)
         .setColor("#ff4f4f")
@@ -33,11 +33,16 @@ module.exports.run = async (bot, message, args, client) => {
         if (member.id === message.author.id && !userProfile) return message.channel.send(noProfile)
         if (!userProfile) return message.channel.send(noProfile1)
 
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
     var profileEmbed = new Discord.MessageEmbed()
         .setAuthor(`${userProfile.userName} | Profile`, member.user.displayAvatarURL({ dynamic: true }))
         .setThumbnail(userProfile.thumbnail)
-        .setDescription(`**Quote:** ${userProfile.quote}\n\n\n💖 Reputation Points: **${userProfile.globalReputation}**\n💸 Balance: **${userProfile.balance}**\n💯 Level: **${userProfile.globalLevel}**`)
-        .addField(`Items & Inventory`, userProfile.inventory, true)
+        .setDescription(`**Quote:** ${userProfile.quote}`)
+        .addField(`Statistics`, `💖 Reputation Points: **${userProfile.globalReputation}**\n💸 Balance: **${numberWithCommas(userProfile.balance)}**\n💯 Level: **${userProfile.globalLevel}**`, false)
+        .addField(`Items & Inventory`, userProfile.inventory, false)
         .setColor(userProfile.colour)
 
     await message.channel.send(profileEmbed)

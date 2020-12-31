@@ -16,7 +16,7 @@ module.exports.run = async (bot, message, args, client) => {
     const Sucess = bot.emojis.cache.get("697388354668462110");
 
     let currQuoteEmbed = new Discord.MessageEmbed()
-        .setAuthor(`${message.author.tag} | Profile Colour`, message.author.displayAvatarURL({ dynamic: true }))
+        .setAuthor(`${message.author.tag} | Profile Quote`, message.author.displayAvatarURL({ dynamic: true }))
         .setDescription(`Your current profile quote: **${userProfile.quote}**\nChange quote with: \`${currPrefix.prefix}quote <Quote>\`\nMin. length: **3** characters. Max length: **100** characters`)
 
     let newQuote = args.join(" ")
@@ -25,7 +25,7 @@ module.exports.run = async (bot, message, args, client) => {
     await Profile.findOneAndUpdate( { user: message.author.id }, { $set: { quote: newQuote }  } )
 
     let newColourEmbed = new Discord.MessageEmbed()
-        .setAuthor(`${message.author.tag} | Profile Colour`, message.author.displayAvatarURL({ dynamic: true }))
+        .setAuthor(`${message.author.tag} | Profile Quote`, message.author.displayAvatarURL({ dynamic: true }))
         .setDescription(`${Sucess} New profile quote set to: **${newQuote}**`)
         .setColor("#7aff7a")
 

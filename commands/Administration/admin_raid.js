@@ -190,6 +190,7 @@ module.exports.run = async (bot, message, args, client) => {
                     .setColor("#7aff7a")
 
                 return message.channel.send(ignoreChannelsEmbed)
+                
             } else {
 
                 let ignoreChannelsEmbed = new Discord.MessageEmbed()

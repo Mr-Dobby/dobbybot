@@ -121,7 +121,7 @@ module.exports.run = async (bot, message, args, client) => {
 \`${currPrefix.prefix}whoasked\`
 \`${currPrefix.prefix}wouldyourather\``, true)
       .addField(`Description`, `
-\`| Ask a question and let Dobby answer you.\`
+\`| Ask a question and let ${bot.user.username} answer you.\`
 \`| Put some text and see for yourself.\`
 \`| Fake ban someone.\`
 \`| Put some text and get it flipped.\`
@@ -133,7 +133,7 @@ module.exports.run = async (bot, message, args, client) => {
 \`| Memes.\`
 \`| More memes.\`
 \`| OwOify some text uwu\` 
-\`| Let Dobby Bot rate something for you.\`
+\`| Let ${bot.user.username} rate something for you.\`
 \`| Say something through the bot.\`
 \`| Gamble, and win TONS of DB.\`
 \`| ThisOrThat minigame.\`
@@ -254,15 +254,19 @@ module.exports.run = async (bot, message, args, client) => {
       .addField(`Command`, `
 \`${currPrefix.prefix}colour\`
 \`${currPrefix.prefix}daily\`
+\`${currPrefix.prefix}give\`
 \`${currPrefix.prefix}quote\`
 \`${currPrefix.prefix}rep\`
+\`${currPrefix.prefix}steal\`
 \`${currPrefix.prefix}thumbnail\`
 \`${currPrefix.prefix}profile\``, true)
       .addField(`Description`, `
 \`| Change colour of your profile.\`
 \`| Get daily rewards.\`
+\`| Give DB to another server member.\`
 \`| Change quote of your profile.\`
-\`| Give reputation point to another member.\`
+\`| Give reputation point to another server member.\`
+\`| Try to steal DB from another server member.\`
 \`| Change thumbnail of your profile.\`
 \`| Display your own or somebody else's profile.\``, true)
 

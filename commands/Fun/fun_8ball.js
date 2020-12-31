@@ -28,7 +28,7 @@ module.exports.run = async(client, message, args) => {
         '● Very doubtful',
         "● Chances aren't good",
         "● Most would say no, but I'd say it's a __Yes__",
-        "● Sounds like fun",
+        "● Sounds like a probability",
 
         // Yes
         "● Well... yeah. It's kinda obvious.",
@@ -80,7 +80,7 @@ module.exports.run = async(client, message, args) => {
 
     let question = args.join(" ")
     if (!question) return;
-    if (!question.endsWith("?")) return;
+    if (!question.endsWith("?")) return message.channel.send(`That's not a question. Questions finish with a \`?\``)
 
     var embed = new Discord.MessageEmbed()
     .setAuthor(`${message.author.tag} | 8ball`,'http://www.pngmart.com/files/3/8-Ball-Pool-PNG-Photos.png')

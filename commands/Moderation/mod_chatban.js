@@ -108,7 +108,7 @@ module.exports.run = async (bot, message, args, client) => {
         const AutoEmbed = new Discord.MessageEmbed()
             .setAuthor(`${member.user.tag} | Auto unchatban`, member.user.displayAvatarURL({ dynamic: true }))
             .setDescription(`\`${currPrefix.prefix}chatban <@User> [Reason]\``)
-            .setColor("#ff4f4f")
+            .setColor("#7aff7a")
             .addField("User:", `<@${member.user.id}>`, true)
             .addField("Reason", `Auto | Time Expired.`, true)
             .setFooter(`ID: ${member.user.id}`)

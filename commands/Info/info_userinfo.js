@@ -3,18 +3,7 @@ const moment = require("moment");
 
 module.exports.run = async (bot, message, args, client) => {
 
-  const Failure = bot.emojis.cache.get("697388354689433611");
-  const Sucess = bot.emojis.cache.get("697388354668462110");
-
-  var noPermsEmbedBot = new Discord.MessageEmbed()
-      .setDescription(`${Failure} To see all member info, I requires \`ADMINISTRATOR\` permissions.`)
-      .setColor("#ff0000")
-
-    if (!message.guild.me.hasPermission("ADMINISTRATOR")) {
-        return message.channel.send(noPermsEmbedBot)
-    }
-
-      let user = message.guild.member(message.mentions.users.last() || message.guild.members.cache.get(args[0]) || message.author);
+      let user = message.guild.member(message.mentions.users.first() || message.guild.members.cache.get(args[0]) || message.author);
 
         // The maths behind Account Creation & Joined Guild
         function checkDays(date) {

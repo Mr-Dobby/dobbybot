@@ -82,6 +82,9 @@ module.exports.run = async (bot, message, args, client) => {
           console.log(e.stack);
         }
         await Servers.findOneAndUpdate({ guildID: message.guild.id }, { $set: { muteRole: muterole.id } }, { new: true })
+        message.guild.channels.cache.forEach(channel => {
+          channel.updateOverwrite(muterole, { SEND_MESSAGES: false, ADD_REACTIONS: false, SPEAK: false });
+        });
       }
 
       let mutetime = args[1];

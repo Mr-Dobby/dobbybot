@@ -82,6 +82,9 @@ module.exports.run = async (bot, message, args, client) => {
         console.log(e.stack);
       }
       await Servers.findOneAndUpdate({ guildID: message.guild.id }, { $set: { chatbanRole: chatbanrole.id } }, { new: true })
+      message.guild.channels.cache.forEach(channel => {
+        channel.updateOverwrite(chatbanrole, { VIEW_CHANNEL: false });
+      });
     }
   
     let chatbantime = args[1];

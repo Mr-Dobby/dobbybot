@@ -12,3 +12,6 @@ Setup after downloading:
 4.1 It will most likely fail, simply install all the modules it fails on with; Open PowerShell/Terminal and type npm install PACKAGE_NAME
 4.2 If they fail to install, find the package name on https://www.npmjs.com/ and install them through their own guides.
 5. ez pez you good to go. Login to your MongoDB as localhost.
+
+
+Note: I LOVE custom emotes. You might want to change quite a bit for it to fit.

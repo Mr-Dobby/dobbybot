@@ -4,7 +4,7 @@ const Servers = require("../lib/mongodb");
 const Logs = require("../lib/logs");
 const colour = require('../storage/colours.json')
 
-bot.on("messageDelete", async (messageDelete) => {
+module.exports = async (bot, messageDelete) => {
 
     let currPrefix = await Servers.findOne( { guildID: messageDelete.guild.id } )
 
@@ -34,4 +34,4 @@ bot.on("messageDelete", async (messageDelete) => {
     
     await logchannel.send(messageDeleteEmbed).catch(error => console.log(error))
 
-});
+};

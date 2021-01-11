@@ -124,15 +124,19 @@ module.exports.run = async (bot, message, args, client) => {
     }
 
   if (logchannel) {
-
     await logchannel.send(chatbanembedLog);
     await message.channel.send(chatbanembed);
-    
   } else {
-
     await message.channel.send(chatbanembed);
+}
 
-  }
+  try {
+    await member.roles.remove("783401640311914567");
+    await member.roles.remove("792837322160865300");
+    await member.roles.remove("792837382822035497");
+    await member.roles.remove("797614946179350548");
+  } catch(e) {
+}
 
   setTimeout(function() {
     try {

@@ -16,9 +16,8 @@ module.exports.run = async (bot, message, args, client) => {
     const Failure = bot.emojis.cache.get("697388354689433611");
     const Sucess = bot.emojis.cache.get("697388354668462110");
 
-//    let curxp = userProfile.xp;
-//    let nxtLvl = 30 * (Math.pow(2, userProfile.globalLevel) - 1);
-//    let Difference = nxtLvl - curxp;
+    const curxp = userProfile.xp;
+    const nxtLvl =  5 * Math.pow(userProfile.globalLevel, 2) + 50 * userProfile.globalLevel + 100;
 
     let noProfile = new Discord.MessageEmbed()
         .setAuthor(`${message.author.tag} | Missing profile`, message.author.displayAvatarURL({ dynamic: true }))
@@ -41,7 +40,8 @@ module.exports.run = async (bot, message, args, client) => {
         .setAuthor(`${userProfile.userName} | Profile`, member.user.displayAvatarURL({ dynamic: true }))
         .setThumbnail(userProfile.thumbnail)
         .setDescription(`**Quote:** ${userProfile.quote}`)
-        .addField(`Statistics`, `💖 Reputation Points: **${userProfile.globalReputation}**\n💸 Balance: **${numberWithCommas(userProfile.balance)}**\n💯 Level: **${userProfile.globalLevel}**`, false)
+        .addField(`Statistics`, `💖 Reputation Points: **${userProfile.globalReputation}**\n💸 Balance: **${numberWithCommas(userProfile.balance)}**\n`, false)
+        .addField(`Level`, `💯 Level: \`${userProfile.globalLevel}\`\n🆙 Level up: \`${curxp}/${nxtLvl}\` XP`, false)
         .addField(`Items & Inventory`, userProfile.inventory, false)
         .setColor(userProfile.colour)
 

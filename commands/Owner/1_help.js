@@ -18,6 +18,7 @@ module.exports.run = async (bot, message, args, client) => {
 \`${currPrefix.prefix}help fun\`
 \`${currPrefix.prefix}help info\`
 \`${currPrefix.prefix}help mod\`
+\`${currPrefix.prefix}help music\`
 \`${currPrefix.prefix}help nsfw\`
 \`${currPrefix.prefix}help profile\`
 \`${currPrefix.prefix}help ticket\`
@@ -209,6 +210,41 @@ module.exports.run = async (bot, message, args, client) => {
 \`| Remove a member from their mute.\``, true)
       
       message.channel.send(embed)
+
+      break;
+    case 'music':
+
+      var embed = new Discord.MessageEmbed()
+      .setAuthor(`${message.author.tag} | Music Help`, message.author.displayAvatarURL({ dynamic: true }))
+      .setDescription(`List of musical commands.\n(Reqiures permission to join your voice channel)`)
+      .addField(`Command`, `
+\`${currPrefix.prefix}clearqueue\`
+\`${currPrefix.prefix}filter\`
+\`${currPrefix.prefix}loop\`
+\`${currPrefix.prefix}nowplaying\`
+\`${currPrefix.prefix}pause\`
+\`${currPrefix.prefix}play\`
+\`${currPrefix.prefix}queue\`
+\`${currPrefix.prefix}resume\`
+\`${currPrefix.prefix}search\`
+\`${currPrefix.prefix}shuffle\`
+\`${currPrefix.prefix}skip\`
+\`${currPrefix.prefix}stop\`
+\`${currPrefix.prefix}volume\`
+\`${currPrefix.prefix}wfilter\``, true)
+      .addField(`Description`, `
+\`| Clear the music queue.\`
+\`| Filter the music.\`
+\`| Loop the current playing song/queue.\`
+\`| Show what's currently playing.\`
+\`| Pause the music.\`
+\`| Play some music.\`
+\`| Reesume music when it's stopped.\`
+\`| Search for music without playing it.\`
+\`| Shuffle the queue of music.\` 
+\`| Skip to the next song in the queue.\`
+\`| Change the volume of the playing music.\`
+\`| Show enabled/disabled filters.\``, true)
 
       break;
     case 'nsfw':

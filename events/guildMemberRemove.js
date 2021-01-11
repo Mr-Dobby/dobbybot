@@ -3,7 +3,7 @@ const {bot} = require('../index');
 const Logs = require("../lib/logs")
 const colour = require('../storage/colours.json')
 
-bot.on("guildMemberRemove", async (member) => {
+module.exports = async (bot, member) => {
 
   var date = new Date();
   var hs = String(date.getHours()).padStart(2, '0');
@@ -32,4 +32,4 @@ bot.on("guildMemberRemove", async (member) => {
           logchannel.send(userLeftEmbed)
     }
 
-});
+};

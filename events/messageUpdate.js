@@ -3,7 +3,7 @@ const {bot} = require('../index');
 const Logs = require('../lib/logs');
 const colour = require('../storage/colours.json')
 
-bot.on("messageUpdate", async (oldMessage, newMessage) => {
+module.exports = async (bot, oldMessage, newMessage) => {
 
     if (oldMessage.content === newMessage.content) {
       return;
@@ -38,4 +38,4 @@ bot.on("messageUpdate", async (oldMessage, newMessage) => {
 
     await logchannel.send(messageUpdateEmbed)
 
-});
+};

@@ -4,7 +4,7 @@ const {bot} = require('../index');
 const Logs = require('../lib/logs');
 const colour = require('../storage/colours.json')
 
-bot.on("roleCreate", async (role) => {
+module.exports = async (bot, role) => {
 
   var date = new Date();
   var hs = String(date.getHours()).padStart(2, '0');
@@ -38,4 +38,4 @@ bot.on("roleCreate", async (role) => {
 
     await logchannel.send(roleCreateEmbed).catch(error => console.log(error))
 
-});
+};

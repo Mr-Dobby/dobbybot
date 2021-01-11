@@ -6,7 +6,7 @@ const Raid = require('../lib/raid');
 const Logs = require('../lib/logs');
 const Ticket = require('../lib/ticketsys');
 
-bot.on("guildCreate", async (guild) => {
+module.exports = async (bot, guild) => {
 
     if (!guild.available) {
       return;
@@ -99,4 +99,4 @@ bot.on("guildCreate", async (guild) => {
     
     //    guild.owner.send("Hello! I'm Dobby Bot.\nI is glad you chose me!")  //Send guild owner a DM when bot joins.
     
-});
+};

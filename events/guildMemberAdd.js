@@ -5,58 +5,9 @@ const Profile = require("../lib/profile");
 const Servers = require("../lib/mongodb");
 const Logs = require("../lib/logs");
 const colour = require('../storage/colours.json')
-//const Canvas = require("canvas");
-/*
-const applyText = (Canvas, text) => {
-	const ctx = Canvas.getContext('2d');
-	let fontSize = 80;
 
-	do {
-		ctx.font = `${fontSize -= 10}px impact`;
-	} while (ctx.measureText(text).width > Canvas.width - 300);
-
-	return ctx.font;
-};
-*/
-
-bot.on("guildMemberAdd", async (member) => {
-/*
-  const canvas = Canvas.createCanvas(750, 250);
-  const ctx = canvas.getContext('2d');
-
-  const background = await Canvas.loadImage('./storage/images/wallpaper.jpg');
-  ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-
-  ctx.strokeStyle = '#74037b';
-  ctx.strokeRect(0, 0, canvas.width, canvas.height);
-
-  ctx.font = '28px Berlin Sans FB';
-  ctx.fillStyle = '#ffffff';
-  ctx.fillText(`Welcome to ${member.guild.name},`, canvas.width / 3.1, canvas.height / 4.05);
-
-  ctx.font = applyText(canvas, `${member.user.username}!`);
-  ctx.fillStyle = '#ffffff'
-  ctx.fillText(`${member.user.username}!`, canvas.width / 2.8, canvas.height / 1.5);
-
-  ctx.font = '28px Arial';
-  ctx.fillStyle = '#ff35cb';
-  ctx.fillText(`Invite your friends & Boost!`, canvas.width / 2.5, canvas.height / 1.05);
-
-  ctx.beginPath();
-  ctx.arc(125, 125, 100, 0, Math.PI * 2, true);
-  ctx.closePath();
-  ctx.clip();
-
-  const avatar = await Canvas.loadImage(member.user.displayAvatarURL({ dynamic: true }));
-  ctx.drawImage(avatar, 25, 25, 200, 200);
-
-  const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
-/*
+module.exports = async (bot, member) => {
   
-    /*
-    const rulesChannel = member.guild.channels.get("574841403851538454");
-    const staffRole = member.guild.roles.cache.get("606043481709871104");
-    */
     const currPrefix = await Servers.findOne( { guildID: member.guild.id } )
     const fire = bot.emojis.cache.get("687436596391182344")
     const logName = await Logs.findOne( { guildID: member.guild.id } )
@@ -182,4 +133,4 @@ bot.on("guildMemberAdd", async (member) => {
       welcomeLogChannel.send(NewMembeEmbed)
     }
 
-});
+};

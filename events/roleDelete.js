@@ -3,7 +3,7 @@ const {bot} = require('../index');
 const Logs = require('../lib/logs')
 const colour = require('../storage/colours.json')
 
-bot.on("roleDelete", async (role) => {
+module.exports = async (bot, role) => {
 
   var date = new Date();
   var hs = String(date.getHours()).padStart(2, '0');
@@ -36,4 +36,4 @@ bot.on("roleDelete", async (role) => {
 
     await logchannel.send(roleDeleteEmbed).catch(error => console.log(error))
 
-});
+};

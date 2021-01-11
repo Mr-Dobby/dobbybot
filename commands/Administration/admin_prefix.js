@@ -28,6 +28,7 @@ module.exports.run = async (bot, message, args, client) => {
     let newPrefixEmbed = new Discord.MessageEmbed()
         .setAuthor(`${message.author.tag} | Prefix`, message.author.displayAvatarURL({ dynamic: true }))
         .setDescription(`${Sucess} Prefix has now been set to: \`${NP.prefix}\``)
+        .setColor("#7aff7a")
 
     message.channel.send(newPrefixEmbed)
 

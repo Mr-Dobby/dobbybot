@@ -1,10 +1,10 @@
 const Discord = require("discord.js");
-const {bot} = require('../index');
+const {bot} = require('../index.js');
 const Logs = require('../lib/logs');
 const Servers = require("../lib/mongodb");
 const colour = require('../storage/colours.json')
 
-bot.on("channelCreate", async (channel) => {
+module.exports = async (bot, channel) => {
 
   var date = new Date();
   var hs = String(date.getHours()).padStart(2, '0');
@@ -64,4 +64,4 @@ bot.on("channelCreate", async (channel) => {
       }
     } catch (e) { console.error(e) }
 
-});
+};

@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 const Warns = require("../../lib/warns");
 const mongoose = require('mongoose');
 const Servers = require("../../lib/mongodb");
-mongoose.connect('mongodb://localhost:27017/Dobby_Bot', {
+mongoose.connect('mongodb://localhost:27017/ITR', {
     useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }, (err) => {
         if (err) return console.error(err);
 });

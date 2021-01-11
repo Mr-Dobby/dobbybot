@@ -3,7 +3,7 @@ const {bot} = require('../index');
 const Logs = require('../lib/logs');
 const colour = require('../storage/colours.json')
 
-bot.on("channelUpdate", async (oldChannel, newChannel) => {
+module.exports = async (bot, oldChannel, newChannel) => {
 
     var date = new Date();
     var hs = String(date.getHours()).padStart(2, '0');
@@ -73,4 +73,4 @@ bot.on("channelUpdate", async (oldChannel, newChannel) => {
         
             }
     
-});
+};

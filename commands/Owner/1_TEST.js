@@ -30,7 +30,7 @@ try {
         let channelType = c[1].type;
         if (channelType === "text") {
             channelID = c[0];
-            break channelLoop;
+            break channelLoop;.play
         }
     }
     var channel = bot.channels.get(guild.systemChannelID || channelID);
@@ -41,26 +41,8 @@ try {
   console.log(e)
 }
 */
-let menu1 = new Discord.MessageEmbed()
-.setTitle(`Role menu for: Gender`)
-.setDescription(`♂️ | <@&792033845448278016>\n♀️ | <@&792033941871263744>\n⚧ | <@&792033986342944818>\n<:Dobby:702591726560346205> | <@&792034032699047936>`)
-.setColor("#f1c40f")
 
-let menu2 = new Discord.MessageEmbed()
-.setTitle(`Role menu for: Age`)
-.setDescription(`1️⃣ | <@&792032828526559244>\n2️⃣ | <@&792033330991857714>\n3️⃣ | <@&792032895547080754>\n4️⃣ | <@&792032970059153470>\n5️⃣ | <@&792033097671639060>\n6️⃣ | <@&792033396054032464>`)
-.setColor("#e67e22")
-
-let menu3 = new Discord.MessageEmbed()
-.setTitle(`Role menu for: Location`)
-.setDescription(`🇺🇸 | <@&792031879472611350>\n🇧🇷 | <@&792032006606422036>\n🇪🇺 | <@&792032198176800778>\n🇿🇦 | <@&792032243076956200>\n🇨🇳 | <@&792032385113915412>\n🇦🇺 | <@&792032422308347914>`)
-.setColor("#2ecc71")
-
-message.channel.send(menu1)
-message.channel.send(menu2)
-message.channel.send(menu3)
-
-
+message.channel.send(`Yes, I can talk.`)
 
 }
 

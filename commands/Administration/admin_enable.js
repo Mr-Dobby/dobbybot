@@ -28,7 +28,7 @@ module.exports.run = async (bot, message, args, client) => {
     switch (OnOrOff) {
         case 'lvlmsg':
 
-            await Servers.findOneAndUpdate({ guildID: message.guild.id }, { $set: { lvlmsg: false } }, { new: true })
+            await Servers.findOneAndUpdate({ guildID: message.guild.id }, { $set: { lvlmsg: true } }, { new: true })
 
             let disablelvlmsg = new Discord.MessageEmbed()
                 .setAuthor(`${message.author.tag} | Level Up Message`, message.author.displayAvatarURL({ dynamic: true }))

@@ -22,7 +22,7 @@ module.exports.run = async (bot, message, args, client) => {
       .setDescription(`${Failure} Creating new logs requires me to have \`MANAGE CHANNELS\` and \`MANAGE ROLES\` permissions.`)
       .setColor("#ff0000")
 
-  if (!message.guild.me.hasPermission("ADMINISTRATOR")) {
+  if (!message.guild.me.hasPermission("MANAGE_CHANNELS" && "MANAGE_ROLES")) {
     return message.channel.send(noPermsEmbedBot)
   }
 

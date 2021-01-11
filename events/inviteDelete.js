@@ -3,7 +3,7 @@ const {bot} = require('../index');
 const Logs = require('../lib/logs');
 const colour = require('../storage/colours.json')
 
-bot.on("inviteDelete", async (invite) => {
+module.exports = async (bot, invite) => {
 
   var date = new Date();
   var hs = String(date.getHours()).padStart(2, '0');
@@ -29,4 +29,4 @@ bot.on("inviteDelete", async (invite) => {
 
     await logchannel.send(channelCreateEmbed).catch(error => console.log(error))
 
-});
+};

@@ -29,6 +29,7 @@ module.exports.run = async (bot, message, args, client) => {
 \`| Get the Fun help section\`
 \`| Get the Info help section\`
 \`| Get the Mod help section\`
+\`| Get the Music help section\`
 \`| Get the NSFW help section\`
 \`| Get the Profile help section\`
 \`| Get the Ticket help section\`
@@ -257,17 +258,25 @@ module.exports.run = async (bot, message, args, client) => {
 \`${currPrefix.prefix}4k\`
 \`${currPrefix.prefix}anal\`
 \`${currPrefix.prefix}ass\`
+\`${currPrefix.prefix}bdsm\`
 \`${currPrefix.prefix}blowjob\`
 \`${currPrefix.prefix}boobs\`
+\`${currPrefix.prefix}cum\`
+\`${currPrefix.prefix}gangbang\`
 \`${currPrefix.prefix}hentai\`
 \`${currPrefix.prefix}holo\`
 \`${currPrefix.prefix}neko\`
+\`${currPrefix.prefix}orgy\`
 \`${currPrefix.prefix}pgif\`
 \`${currPrefix.prefix}pussy\`
 \`${currPrefix.prefix}tits\``, true)
       .addField(`Description`, `
 \`| Enable NSFW.\`
 \`| 4K quality pictures.\`
+\`| Command name says it all.\`
+\`| Command name says it all.\`
+\`| Don't, just don't.\`
+\`| Command name says it all.\`
 \`| Command name says it all.\`
 \`| Command name says it all.\`
 \`| Command name says it all.\`
@@ -400,7 +409,7 @@ module.exports.run = async (bot, message, args, client) => {
 
 module.exports.help = {
   name: "help",
-  aliases: ["h", "welp"]
+  aliases: ["welp"]
 }
 
 

@@ -12,14 +12,14 @@ module.exports.run = async (bot, message, args, client) => {
       .setColor("#ff0000")
     
   var noPermsEmbedBot = new Discord.MessageEmbed()
-      .setDescription(`${Failure} Creating new logs requires me to have \`MANAGE ROLES\` permissions.`)
+      .setDescription(`${Failure} Creating new logs requires me to have \`MANAGE CHANNELS\` and \`MANAGE ROLES\` permissions.`)
       .setColor("#ff0000")
 
   if (!message.guild.me.hasPermission("ADMINISTRATOR")) {
     return message.channel.send(noPermsEmbedBot)
   }
 
-  if (!message.member.hasPermission("MANAGE_ROLES")) {
+  if (!message.member.hasPermission(["MANAGE_ROLES" && "MANAGE_CHANNELS"])) {
     return message.channel.send(noPermsEmbed);
   }
 

@@ -7,6 +7,7 @@ module.exports.run = async (bot, message, args, client) => {
   let currPrefix = await Servers.findOne( { guildID: message.guild.id } )
   
     if (!message.channel.nsfw) return message.channel.send(`:underage: You need to be in an NSFW channel to use this command.\nCheck \`${currPrefix.prefix}nsfwhuh\``).then(message => message.delete({ timeout: 5000 }))
+    if (currPrefix.nsfw == false) return message.channel.send(`NSFW is disabled.`)
 
         superagent.get('https://nekobot.xyz/api/image')
         .query({ type: 'ass'})

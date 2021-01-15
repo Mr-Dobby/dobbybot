@@ -2,9 +2,6 @@ const Discord = require("discord.js");
 
 module.exports.run = async (bot, message, args) => {
 
-  if (!message.guild.me.hasPermission("ADMINISTRATOR")) {
-    return;
-}
 return;
 let roles = message.guild.roles.cache.filter(r => r.position !== 0).sort((a, b) => b.position - a.position).map(r => `${r.toString()} - ${r.id}`).map((r, i) => `${i + 1}. ${r}`);
 

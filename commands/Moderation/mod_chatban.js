@@ -83,7 +83,7 @@ module.exports.run = async (bot, message, args, client) => {
       }
       await Servers.findOneAndUpdate({ guildID: message.guild.id }, { $set: { chatbanRole: chatbanrole.id } }, { new: true })
       message.guild.channels.cache.forEach(channel => {
-        channel.updateOverwrite(chatbanrole, { VIEW_CHANNEL: false });
+        channel.updateOverwrite(chatbanrole, { VIEW_CHANNEL: false, READ_MESSAGE_HISTORY: false });
       });
     }
   

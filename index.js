@@ -5,11 +5,11 @@ const fs = require("fs");
 
 const { Player } = require('discord-player');
 
+bot.player = new Player(bot);
 bot.config = require('./config/bot.js')
 bot.commands = new Discord.Collection();
 bot.aliases = new Discord.Collection();
-bot.player = new Player(bot);
-bot.filters = bot.config.filter;
+bot.filters = bot.config.filters;
 
 fs.readdirSync('./commands').forEach(dirs => {
     const commands = fs.readdirSync(`./commands/${dirs}`).filter(files => files.endsWith('.js'));

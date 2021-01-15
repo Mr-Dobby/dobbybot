@@ -21,6 +21,7 @@ module.exports = async (bot, oldMessage, newMessage) => {
     let newMessages = newMessage.content
     if (!oldMessage.content) return;
     if (!newMessage.content) return;
+    if (oldMessage.length || newMessage.length >= 1020) return;
     let JumpToMsg = newMessage.url;
 
     let messageUpdateEmbed = new Discord.MessageEmbed()

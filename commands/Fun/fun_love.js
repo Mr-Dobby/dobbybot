@@ -26,7 +26,7 @@ module.exports.run = async (bot, message, args, client) => {
       "**100%** | :heart::heart::heart::heart::heart::heart::heart::heart::heart::heart: | **100%** \n\n\`So.. when is the wedding?\`",
 ];
 
-  var loveyourself = ["**101%** | :sparkling_heart::sparkling_heart::sparkling_heart::sparkling_heart::sparkling_heart::sparkling_heart::sparkling_heart::sparkling_heart::sparkling_heart::sparkling_heart: | **101%** \`MAXIMUM LOVE\`"]
+  var loveyourself = ["**101%** | :sparkling_heart::sparkling_heart::sparkling_heart::sparkling_heart::sparkling_heart::sparkling_heart::sparkling_heart::sparkling_heart::sparkling_heart::sparkling_heart: | **101%** \n\n\`MAXIMUM LOVE\`"]
 
   var loveyourselfEmbed = new Discord.MessageEmbed()
         .setThumbnail("https://media.discordapp.net/attachments/427168044528173056/436659295598280725/meterheart.png?width=344&height=344")
@@ -50,5 +50,5 @@ module.exports.run = async (bot, message, args, client) => {
 
 module.exports.help = {
     name: "love",
-    aliases: ["ship"]
+    aliases: []
 }

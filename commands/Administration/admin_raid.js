@@ -56,11 +56,11 @@ module.exports.run = async (bot, message, args, client) => {
         .setDescription(`${Failure} Toggling the raid function requires me to have \`BAN MEMBERS\`, \`MANAGE CHANNELS\` and \`MANAGE ROLES\` permissions.`)
         .setColor("#ff0000")
   
-    if (!message.guild.me.hasPermission("ADMINISTRATOR")) {
+    if (!message.guild.me.hasPermission(["BAN_MEMBERS" && "MANAGE_CHANNELS" && "MANAGE_ROLES"])) {
       return message.channel.send(noPermsEmbedBot)
     }
   
-    if (!message.member.hasPermission("BAN_MEMBERS" && "MANAGE_CHANNELS" && "MANAGE_ROLES")) {
+    if (!message.member.hasPermission("ADMINISTRATOR")) {
       return message.channel.send(noPermsEmbed);
     }
 

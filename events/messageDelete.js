@@ -16,6 +16,7 @@ module.exports = async (bot, messageDelete) => {
     let deletedMessage = messageDelete.content;
     if (!deletedMessage) return;
     if (deletedMessage.startsWith(currPrefix.prefix)) return;
+    if (deletedMessage.length >= 1020) return;
     let fire = bot.emojis.cache.get("687436596391182344")
     let logName = await Logs.findOne( { guildID: messageDelete.guild.id } )
     const logchannel = bot.channels.cache.get(logName.serverLog)

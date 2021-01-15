@@ -14,7 +14,7 @@ module.exports.run = async (bot, message, args) => {
           "Aren't they just adorable ❤️",
           "Lovely... just lovely..",
           "Better get them lips ready",
-          `Where are you kissing gonna ${member.username}? Lips perhaps?`,
+          `Where are you gonna kiss ${member.username}? Lips perhaps?`,
           "THAT. IS. SO. SWEET!"
         ]
 

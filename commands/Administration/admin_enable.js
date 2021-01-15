@@ -16,10 +16,10 @@ module.exports.run = async (bot, message, args, client) => {
     const Sucess = bot.emojis.cache.get("697388354668462110");
   
     var noPermsEmbed = new Discord.MessageEmbed()
-        .setDescription(`${Failure} Toggling the raid function requires you to have \`ADMINISTRATOR\` permissions.`)
+        .setDescription(`${Failure} Enabling any functions within the server requires you to have \`MANAGE GUILD\` or \`ADMINISTRATOR\` permissions`)
         .setColor("#ff0000")
   
-    if (!message.member.hasPermission("ADMINISTRATOR")) {
+    if (!message.member.hasPermission(["ADMINISTRATOR" || "MANAGE_GUILD"])) {
       return message.channel.send(noPermsEmbed);
     }
 
@@ -51,6 +51,19 @@ module.exports.run = async (bot, message, args, client) => {
             message.channel.send(enablelockdown)
 
     break;
+
+        case 'nsfw':
+
+            await Servers.findOneAndUpdate({ guildID: message.guild.id }, { $set: { nsfw: true } }, { new: true })
+
+            let enableNSFW = new Discord.MessageEmbed()
+                .setAuthor(`${message.author.tag} | NSFW`, message.author.displayAvatarURL({ dynamic: true }))
+                .setDescription(`${Sucess} Enabled NSFW for the server`)
+                .setColor(`#7aff7a`)
+
+            message.channel.send(enableNSFW)
+    
+    break;
         default: 
 
         let disableDefaultEmbed = new Discord.MessageEmbed()
@@ -58,7 +71,9 @@ module.exports.run = async (bot, message, args, client) => {
             .setDescription(`
 ${currPrefix.lvlmsg ? `${Sucess}` : `${Failure}`} | Level up message | \`${currPrefix.prefix}enable lvlmsg\`
 ${currPrefix.lockdown ? `${Sucess}` : `${Failure}`} | Lockdown during raid | \`${currPrefix.prefix}enable lockdown\`
+${currPrefix.nsfw ? `${Sucess}` : `${Failure}`} | NSFW for the server | \`${currPrefix.prefix}enable nsfw\`
                 `)
+            .addField(`Raid Function`, `Raid is currently: ${isRaid.raid ? `${Sucess}` : `${Failure}`}\nTo ${isRaid.raid ? `**disable**` : `**enable**`} the raid, check out: ${isRaid.raid ? `${currPrefix.prefix}raid off` : `${currPrefix.prefix}raid on`}`)
             .setFooter(`To disable functions, head over to: ${currPrefix.prefix}disable`)
             .setColor(`#5eff5e`)
 

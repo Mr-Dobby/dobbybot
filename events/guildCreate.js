@@ -58,7 +58,8 @@ module.exports = async (bot, guild) => {
                   muteRole: "",
                   chatbanRole: "",
                   lvlmsg: true,
-                  lockdown: false
+                  lockdown: false,
+                  nsfw: false
 
               });
 

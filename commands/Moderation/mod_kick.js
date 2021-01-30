@@ -36,6 +36,7 @@ module.exports.run = async (bot, message, args, client) => {
       .addField("**Example:**", `${currPrefix.prefix}kick @Mr.Dobby#0001 Spam`)
       .setFooter("<> = Required, [] = Optional")
 
+    if (!kUser) return message.channel.send(kickErrorEmbed);
     const kickPermErrorModEmbed = new Discord.MessageEmbed()
       .setColor("#ff0000")
       .setAuthor(`${message.author.tag} | Permission Error`, message.author.displayAvatarURL({ dynamic: true }))
@@ -51,21 +52,34 @@ module.exports.run = async (bot, message, args, client) => {
       .setAuthor(`${message.author.tag} | Stupidity Error`, message.author.displayAvatarURL({ dynamic: true }))
       .setDescription(`${Failure} This is the server owner, nice try tho.`)
 
+    const kickFail = new Discord.MessageEmbed()
+      .setColor("#ff0000")
+      .setAuthor(`${message.author.tag} | Unable to kick member`, message.author.displayAvatarURL({ dynamic: true }))
+      .setDescription(`${Failure} <@${kUser.id}> cannot be kicked due to permissions`)
+
     if (kUser === message.guild.me || kUser.id === message.author.id) {
       return;
     }
-    if (!kUser) return message.channel.send(kickErrorEmbed);
     if (kUser === message.guild.owner) return message.channel.send(kickPermErrorOwnerEmbed);
     if (kUser.hasPermission("ADMINISTRATOR")) return message.channel.send(kickPermErrorAdminEmbed);
     if (kUser.hasPermission(["KICK_MEMBERS" || "KICK_MEMBERS" || "MANAGE_MESSAGES" || "MANAGE_ROLES_OR_PERMISSIONS" || "MANAGE_CHANNELS" || "MUTE_MEMBERS" || "DEAFEN_MEMBERS" || "MOVE_MEMBERS"])) return message.channel.send(kickPermErrorModEmbed)
+    const memberPosition = kUser.roles.highest.position;
+		const moderationPosition = message.member.roles.highest.position;
+		if (message.member.ownerID !== message.author.id && !(moderationPosition > memberPosition)) {
+			return message.channel.send(kickFail)
+		}
 
-    let bReason = args.join(" ").slice(22);
-    if (!bReason) bReason = "No reason given.";
+		if (!kUser.kickable) {
+			return message.channel.send(kickFail)
+    }
+    
+    let kReason = args.join(" ").slice(22);
+    if (!kReason) kReason = "No reason given.";
 
     let kickEmbed = new Discord.MessageEmbed()
         .setColor("#7aff7a")
         .setAuthor('Successfully kicked!', kUser.user.displayAvatarURL({ dynamic: true }))
-        .setDescription(`${Sucess} <@${kUser.user.id}> has been kickned`)
+        .setDescription(`${Sucess} <@${kUser.user.id}> has been kicked`)
 
     let kickEmbedLog = new Discord.MessageEmbed()
         .setAuthor(`${kUser.user.tag} | Kick`, kUser.user.displayAvatarURL({ dynamic: true }))
@@ -73,12 +87,12 @@ module.exports.run = async (bot, message, args, client) => {
         .setColor("#ff0000")
         .addField("User", `<@${kUser.id}>`, true)
         .addField("Moderator", `<@${message.author.id}>`, true)
-        .addField("Reason", `${bReason}`, true)
+        .addField("Reason", `${kReason}`, true)
         .setFooter(`ID: ${kUser.user.id}`)
         .setTimestamp()
 
         await message.delete();
-        await message.guild.members.fetch(bUser.id).then(member => member.kick())
+        await message.guild.members.kick(kUser, { kReason } );
 
     if (logchannel) {
 

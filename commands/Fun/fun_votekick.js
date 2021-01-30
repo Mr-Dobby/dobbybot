@@ -42,48 +42,39 @@ module.exports.run = async (bot, message, args, client) => {
         .setAuthor(`${message.author.tag} | Vote Kick`, message.author.displayAvatarURL({ dynamic: true }))
         .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
         .setDescription(`VOTE KICK STARTED ON ${member}`)
-        .setFooter(`The time will expire in 15 seconds.`)
+        .setFooter(`The time will expire in 20 seconds.`)
 
     var VOTE_TEXT = await message.channel.send(VoteKickEmbed);
         await VOTE_TEXT.react(Sucess);
         await VOTE_TEXT.react(Failure);
+return
+    const reactions = await VOTE_TEXT.awaitReactions((reaction, user) => user.id !== message.author.id && (reaction.emoji.id == Sucess.id || reaction.emoji.id == Failure.id), { time: 5000 })
+  
+    const NO_Count = reactions.get(Failure.id).map(s => s.count);
+    const YES_Count = reactions.get(Sucess.id).map(s => s.count);
 
-    const reactions = await VOTE_TEXT.awaitReactions(reaction => reaction.emoji.id === Sucess.id || reaction.emoji.id === Failure.id, { time: 5000 } );
     VOTE_TEXT.delete();
-
-    var NO_Count = reactions.get(Failure.id);
-    var YES_Count = reactions.get(Sucess.id);
-  
-    if (YES_Count == undefined) {
-      var YES_Count = 1;
-        } else {
-      var YES_Count = reactions.get(Sucess.id).count;
-    }
-
-    if (NO_Count == undefined) {
-        var NO_Count = 1;
-          } else {
-        var NO_Count = reactions.get(Failure.id).count;
-    }
-  
     var ResultEmbed = new Discord.MessageEmbed()
             .setAuthor(`${member.user.tag} | Vote Kick`, member.user.displayAvatarURL({ dynamic: true }))
             .addField("Voting Finished:", "----------------------------------------\n" +
-                                          `Total votes (NO ${Failure}): ` + `${NO_Count - 1}\n` +
-                                          `Total votes (YES ${Sucess}): ` + `${YES_Count - 1}\n` +
+                                          `Total votes (NO ${Failure}): ` + `${NO_Count}\n` +
+                                          `Total votes (YES ${Sucess}): ` + `${YES_Count}\n` +
                                           "----------------------------------------\n", true)
             .setColor("000001")
   
     await message.channel.send(ResultEmbed);
-
-    if (YES_Count <= 2 && YES_Count > NO_Count) {
+//
+    if (YES_Count >= 2 && YES_Count > NO_Count) {
         // If enough Yes'es
-        await member.setVoiceChannel(null);
-        await message.channel.send(SuccessfullyDisconnected).then(message => message.delete({ timeout: 5000 }))
+        try {
+            await member.voice.connection.disconnect()
+            await message.channel.send(SuccessfullyDisconnected).then(message => message.delete({ timeout: 5000 }))
+        } catch (e) {
+            //message.channel.send(`I require permission to disconnect members for this to work.`)
+        }
             } else {
         // If not enough Yes'es
         await message.channel.send(voteFailed).then(message => message.delete({ timeout: 5000 }))
-        await message.channel.send("Oof")
     }
 }
 

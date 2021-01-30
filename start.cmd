@@ -1,0 +1,2 @@
+nodemon shard.js
+Pause

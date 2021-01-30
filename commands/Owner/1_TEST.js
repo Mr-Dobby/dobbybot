@@ -42,7 +42,8 @@ try {
 }
 */
 
-message.channel.send(`Yes, I can talk.`)
+
+  message.channel.send(`Yes, I can talk.`)
 
 }
 

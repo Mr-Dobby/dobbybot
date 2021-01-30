@@ -15,16 +15,17 @@ module.exports.run = async (bot, message, args, client) => {
             embed: {
                 color: 'RED',
                 author: { name: track.title },
+                description: `[YouTube Link](${track.url})`,
                 fields: [
                     { name: 'Channel', value: track.author, inline: true },
-                    { name: 'Requested by', value: track.requestedBy.username, inline: true },
-                    { name: 'From playlist', value: track.fromPlaylist ? 'Yes' : 'No', inline: true },
+                    { name: 'Requested by', value: track.requestedBy.toString(), inline: true },
+                    { name: 'Duration', value: track.duration, inline: true },
 
                     { name: 'Views', value: track.views, inline: true },
-                    { name: 'Duration', value: track.duration, inline: true },
                     { name: 'Filters activated', value: filters.length + '/' + bot.filters.length, inline: true },
+                    { name: 'From playlist', value: track.fromPlaylist ? 'Yes' : 'No', inline: true },
 
-                    { name: 'Volume', value: bot.player.getQueue(message).volume, inline: true },
+                    { name: 'Volume', value: bot.player.getQueue(message).volume + "%/100%", inline: true },
                     { name: 'Repeat mode', value: bot.player.getQueue(message).repeatMode ? 'Yes' : 'No', inline: true },
                     { name: 'Currently paused', value: bot.player.getQueue(message).paused ? 'Yes' : 'No', inline: true },
 

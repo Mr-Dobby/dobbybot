@@ -8,10 +8,10 @@ module.exports.run = async (bot, message, args, client) => {
   const Failure = bot.emojis.cache.get("697388354689433611");
 
   var noPermsEmbedBot = new Discord.MessageEmbed()
-      .setDescription(`${Failure} To see all server info, I requires \`ADMINISTRATOR\` permissions.`)
+      .setDescription(`${Failure} To see all server info, I requires \`MANAGE GUILD\` perrmissions.`)
       .setColor("#ff0000")
 
-    if (!message.guild.me.hasPermission("ADMINISTRATOR")) {
+    if (!message.guild.me.hasPermission("MANAGE_GUILD")) {
         return message.channel.send(noPermsEmbedBot)
     }
 
@@ -22,7 +22,7 @@ module.exports.run = async (bot, message, args, client) => {
         return days + (days == 1 ? " day" : " days") + " ago";
     };
 
-        let verifLevels = {
+      let verifLevels = {
         NONE:       'None\n(^.^)', 
         LOW:        'Low\n┬─┬ ノ( ゜-゜ノ)', 
         MEDIUM:     'Medium\nヽ(ຈل͜ຈ)ﾉ︵ ┻━┻ ', 
@@ -30,21 +30,21 @@ module.exports.run = async (bot, message, args, client) => {
         VERY_HIGH:  'Extreme\n┻━┻彡ヽ(ಠ益ಠ)ノ彡┻━┻'
       };
         let region = {
-            "brazil": ":flag_br: Brazil",
-            "eu-central": ":flag_eu: Central Europe",
-            "singapore": ":flag_sg: Singapore",
-            "us-central": ":flag_us: U.S. Central",
-            "sydney": ":flag_au: Sydney",
-            "us-east": ":flag_us: U.S. East",
-            "us-south": ":flag_us: U.S. South",
-            "us-west": ":flag_us: U.S. West",
-            "eu-west": ":flag_eu: Western Europe",
-            "vip-us-east": ":flag_us: VIP U.S. East",
-            "london": ":flag_gb: London",
-            "amsterdam": ":flag_nl: Amsterdam",
-            "hongkong": ":flag_hk: Hong Kong",
-            "russia": ":flag_ru: Russia",
-            "southafrica": ":flag_za: South Africa"
+            "brazil": ":flag_br: \nBrazil",
+            "eu-central": ":flag_eu: \nCentral Europe",
+            "singapore": ":flag_sg: \nSingapore",
+            "us-central": ":flag_us: \nU.S. Central",
+            "sydney": ":flag_au: \nSydney",
+            "us-east": ":flag_us: \nU.S. East",
+            "us-south": ":flag_us: \nU.S. South",
+            "us-west": ":flag_us: \nU.S. West",
+            "eu-west": ":flag_eu: \nWestern Europe",
+            "vip-us-east": ":flag_us: \nVIP U.S. East",
+            "london": ":flag_gb: \nLondon",
+            "amsterdam": ":flag_nl: \nAmsterdam",
+            "hongkong": ":flag_hk: \nHong Kong",
+            "russia": ":flag_ru: \nRussia",
+            "southafrica": ":flag_za: \nSouth Africa"
         };
 
         let Members = bot.emojis.cache.get("691958461885579304")
@@ -100,7 +100,7 @@ module.exports.run = async (bot, message, args, client) => {
     const serverInfoEmbed = new Discord.MessageEmbed()
         .setAuthor(`${message.guild.name} | Server Information`, message.guild.iconURL({ dynamic: true }))
         .setDescription(`Server Owner ${owner} ${message.guild.owner} | ${partneredGuild[message.guild.partnered]}`)
-        .addField("➞ Server info", `Region: \n${region[message.guild.region]}\nMod level: ${verifLevels[message.guild.verificationLevel]}`, true)
+        .addField("➞ Server info", `Region: ${region[message.guild.region]}\nMod level: ${verifLevels[message.guild.verificationLevel]}`, true)
         .addField(`➞ Members`, `${Members} \`${Total}\` ${Bot} \`${TotalBots}\` ${Online} \`${OnlineMembers}\`\n ${Idle} \`${IdleMembers}\` ${DnD} \`${DnDMembers}\` ${Offline} \`${OfflineMembers}\``, true)
         .addField("➞ Server Creation", `${time}\n${checkDays(message.channel.guild.createdAt)}`, true)
         .addField("➞ Roles", `🧝 Human \`${TotalRoles}\`\n🤖 Bot \`${message.guild.members.cache.filter((m) => m.user.bot).size}\``, true)

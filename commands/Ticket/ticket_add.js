@@ -20,7 +20,7 @@ module.exports.run = async (bot, message, args, client) => {
 
     let noLogs = new Discord.MessageEmbed()
         .setAuthor(`${message.author.tag} | No Log Channel`, message.author.displayAvatarURL({ dynamic: true }))
-        .setDescription(`${Failure} Reqiures a \`Server log\` or \`Action log\` channel. Set one with \`${currPrefix.prefix}set\``)
+        .setDescription(`${Failure} Reqiures a \`Server log\` channel. Set one with: \`${currPrefix.prefix}set\``)
         .setColor("#ff4f4f")
 
     if (!logchannel) return message.channel.send(noLogs)
@@ -28,7 +28,7 @@ module.exports.run = async (bot, message, args, client) => {
 
     let AMTicketEmbedError = new Discord.MessageEmbed()
         .setAuthor(`${message.author.tag} | Add Member to Ticket`, message.author.displayAvatarURL({ dynamic: true }))
-        .setDescription(`${Failure} Command usage: \`${currPrefix.prefix}add <Ticket ID> <User ID>\``)
+        .setDescription(`${Failure} Command usage: \`${currPrefix.prefix}add <Ticket ID> <User>\``)
         .setColor("#ffc500")
 
     const ticketNumber = args[0];
@@ -57,9 +57,8 @@ module.exports.run = async (bot, message, args, client) => {
                 id: member.id,
                 allow: ['VIEW_CHANNEL'],
             },
-        ],
-    )
-}
+        ])
+    }
     await message.delete()
     await logchannel.send(TicketEmbedLog)
     await ticketChannel.send(AMTicketEmbedSuccess)

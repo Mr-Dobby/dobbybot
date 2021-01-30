@@ -10,15 +10,8 @@ let owner = message.author;
     const Failure = bot.emojis.cache.get("697388354689433611");
     const Sucess = bot.emojis.cache.get("697388354668462110");
 
-    if (!args[0]) return message.channel.send("Input valid command to reload.")
-
-    let cmdName = args[0];
-
     try {
-      delete require.cache[require.resolve()];
-      bot.commands.delete(cmdName);
-      const pull = reqiure();
-      bot.commands.set(cmdName, pull)
+      bot.users.cache.delete()
       await message.react(Sucess)
     } catch (e) {
       await message.react(Failure)

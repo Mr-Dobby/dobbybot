@@ -36,6 +36,7 @@ module.exports.run = async (bot, message, args, client) => {
       .addField("**Example:**", `${currPrefix.prefix}ban @Mr.Dobby#0001 Spam`)
       .setFooter("<> = Required, [] = Optional")
 
+    if (!bUser) return message.channel.send(banErrorEmbed);
     const banPermErrorModEmbed = new Discord.MessageEmbed()
       .setColor("#ff0000")
       .setAuthor(`${message.author.tag} | Permission Error`, message.author.displayAvatarURL({ dynamic: true }))
@@ -51,13 +52,26 @@ module.exports.run = async (bot, message, args, client) => {
       .setAuthor(`${message.author.tag} | Stupidity Error`, message.author.displayAvatarURL({ dynamic: true }))
       .setDescription(`${Failure} This is the server owner, nice try tho.`)
 
+    const banFail = new Discord.MessageEmbed()
+      .setColor("#ff0000")
+      .setAuthor(`${message.author.tag} | Unable to kick member`, message.author.displayAvatarURL({ dynamic: true }))
+      .setDescription(`${Failure} <@${bUser.id}> cannot be kicked due to permissions`)
+
     if (bUser === message.guild.me || bUser.id === message.author.id) {
       return;
     }
-    if (!bUser) return message.channel.send(banErrorEmbed);
     if (bUser === message.guild.owner) return message.channel.send(banPermErrorOwnerEmbed);
     if (bUser.hasPermission("ADMINISTRATOR")) return message.channel.send(banPermErrorAdminEmbed);
     if (bUser.hasPermission(["KICK_MEMBERS" || "BAN_MEMBERS" || "MANAGE_MESSAGES" || "MANAGE_ROLES_OR_PERMISSIONS" || "MANAGE_CHANNELS" || "MUTE_MEMBERS" || "DEAFEN_MEMBERS" || "MOVE_MEMBERS"])) return message.channel.send(banPermErrorModEmbed)
+    const memberPosition = bUser.roles.highest.position;
+		const moderationPosition = message.member.roles.highest.position;
+		if (message.member.ownerID !== message.author.id && !(moderationPosition > memberPosition)) {
+			return message.channel.send(banFail)
+		}
+
+		if (!bUser.bannable) {
+			return message.channel.send(banFail)
+    }
 
     let bReason = args.join(" ").slice(22);
     if (!bReason) bReason = "No reason given.";
@@ -78,7 +92,7 @@ module.exports.run = async (bot, message, args, client) => {
         .setTimestamp()
 
         await message.delete();
-        await message.guild.members.fetch(bUser.id).then(member => member.ban())
+        await message.guild.members.ban(buser, { bReason } );
 
     if (logchannel) {
 

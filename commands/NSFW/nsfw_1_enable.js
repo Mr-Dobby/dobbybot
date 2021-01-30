@@ -1,5 +1,5 @@
-const Discord = require("discord.js");
-const Servers = require("../../lib/mongodb");
+const Discord = require(`discord.js`);
+const Servers = require(`../../lib/mongodb`);
 
 module.exports.run = async (bot, message, args, client) => {
 
@@ -9,10 +9,9 @@ module.exports.run = async (bot, message, args, client) => {
 
     const nsfwEmbed0 = new Discord.MessageEmbed()
       .setAuthor(`${message.author.tag} | NSFW Channels`, message.author.displayAvatarURL({ dynamic: true }))
-      .setDescription("**NSFW!!**")
-      .setFooter(`You need Manage Channel permissions!`)
-      .setTimestamp()
+      .setDescription(`**Server-wide NSFW!!**\n\nThis isn't a NSFW channel.\nYou can disable NSFW for the entire server with: \`${currPrefix.prefix}disable nsfw\``)
       .setImage('https://imgur.com/HmQ3ynK.png')
+      .setColor(`#ff1595`)
     
     message.channel.send(nsfwEmbed0)
 
@@ -20,10 +19,9 @@ module.exports.run = async (bot, message, args, client) => {
 
     const nsfwEmbed = new Discord.MessageEmbed()
       .setAuthor(`${message.author.tag} | NSFW Channels`, message.author.displayAvatarURL({ dynamic: true }))
-      .setDescription("**NSFW!!**")
-      .setFooter(`You need Manage Channel permissions!\nIt also seems that NSFW is diabled in this server: \`${currPrefix.prefix}enable nsfw\``)
-      .setTimestamp()
+      .setDescription(`**Server-wide NSFW!!**\n\nThis isn't a NSFW channel.\nIt also seems that NSFW is diabled for the server: \`${currPrefix.prefix}enable nsfw\``)
       .setImage('https://imgur.com/HmQ3ynK.png')
+      .setColor(`#ff1595`)
     
     message.channel.send(nsfwEmbed)
   
@@ -31,6 +29,6 @@ module.exports.run = async (bot, message, args, client) => {
 }
 
 module.exports.help = {
-  name: "nsfwhuh",
+  name: `nsfwhuh`,
   aliases: []
 }

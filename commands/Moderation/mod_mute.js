@@ -31,23 +31,18 @@ module.exports.run = async (bot, message, args, client) => {
 
     const mutePermErrorModEmbed = new Discord.MessageEmbed()
       .setColor("#ff0000")
-      .setAuthor("PERMISSION ERROR")
-      .setTitle(":x: **User is a Mod** :x:")
-
-    const AlreadyMutedEmbed = new Discord.MessageEmbed()
-      .setColor("#ff0000")
-      .setAuthor(`${member.user.tag} | Mute`, member.user.displayAvatarURL({ dynamic: true }))
-      .setDescription(`${member} is already muted`)
+      .setAuthor(`${message.author.tag} | Permission Error`, message.author.displayAvatarURL({ dynamic: true }))
+      .setDescription(`${Failure} Member is a Moderator.`)
 
     const mutePermErrorAdminEmbed = new Discord.MessageEmbed()
       .setColor("#ff0000")
-      .setAuthor("PERMISSION ERROR")
-      .setTitle(":x: **User is an Admin** :x:")
+      .setAuthor(`${message.author.tag} | Permission Error`, message.author.displayAvatarURL({ dynamic: true }))
+      .setDescription(`${Failure} Member is an Administrator.`)
 
     const mutePermErrorOwnerEmbed = new Discord.MessageEmbed()
       .setColor("#ff0000")
-      .setAuthor("PERMISSION ERROR")
-      .setTitle(":x: **You can't mute the owner** :x:")
+      .setAuthor(`${message.author.tag} | Stupidity Error`, message.author.displayAvatarURL({ dynamic: true }))
+      .setDescription(`${Failure} This is the server owner, nice try tho.`)
 
     const muteErrorEmbed = new Discord.MessageEmbed()
       .setColor("#ff4f4f")

@@ -84,23 +84,10 @@ module.exports.run = async (bot, message, args, client) => {
                 channels.forEach(async (channel) => {
                     if (!ignore.includes(channel.id)) {
                         if (channel.type === "text" && channel.type !== "voice" && channel.type !== "category") {
-                            await channel.overwritePermissions([
-                                {
-                                    id: message.guild.id,
-                                    deny: ['SEND_MESSAGES']
-                                }
-                            ])
+                            channel.updateOverwrite(message.guild.id, { SEND_MESSAGES: false });
                                 if (muterole && chatbanrole) {
-                                    await channel.overwritePermissions([
-                                        {
-                                            id: muterole.id,
-                                            deny: ['SEND_MESSAGES', 'ADD_REACTIONS']
-                                        },
-                                        {
-                                            id: chatbanrole.id,
-                                            deny: ['VIEW_CHANNEL', 'READ_MESSAGE_HISTORY']
-                                        }
-                                    ])
+                                    channel.updateOverwrite(muterole.id, { SEND_MESSAGES: false, ADD_REACTIONS: false });
+                                    channel.updateOverwrite(chatbanrole.id, { VIEW_CHANNEL: false, READ_MESSAGE_HISTORY: false });
                                 }
                                 if (!channel.name.endsWith('🔒')) {
                                     await channel.edit({ name: channel.name + '🔒' });
@@ -127,24 +114,11 @@ module.exports.run = async (bot, message, args, client) => {
                 channels.forEach(async (channel) => {
                     if (!ignore.includes(channel.id)) {
                         if (channel.type === "text" && channel.type !== "voice" && channel.type !== "category") {
-                            await channel.overwritePermissions([
-                                {
-                                    id: message.guild.id,
-                                    null: ['SEND_MESSAGES']
-                                }
-                            ])
-                                if (muterole && chatbanrole) {
-                                    await channel.overwritePermissions([
-                                        {
-                                            id: muterole.id,
-                                            deny: ['SEND_MESSAGES', 'ADD_REACTIONS']
-                                        },
-                                        {
-                                            id: chatbanrole.id,
-                                            deny: ['VIEW_CHANNEL', 'READ_MESSAGE_HISTORY']
-                                        }
-                                    ])
-                                }
+                            channel.updateOverwrite(message.guild.id, { SEND_MESSAGES: null });
+                            if (muterole && chatbanrole) {
+                                channel.updateOverwrite(muterole.id, { SEND_MESSAGES: false, ADD_REACTIONS: false });
+                                channel.updateOverwrite(chatbanrole.id, { VIEW_CHANNEL: false, READ_MESSAGE_HISTORY: false });
+                            }
                                 if (channel.name.endsWith('🔒')) {
                                     await channel.edit({ name: channel.name.replace(/\s*🔒/, '') });
                             }

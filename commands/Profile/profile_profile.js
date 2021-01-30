@@ -16,28 +16,22 @@ module.exports.run = async (bot, message, args, client) => {
     const Failure = bot.emojis.cache.get("697388354689433611");
     const Sucess = bot.emojis.cache.get("697388354668462110");
 
-    const curxp = userProfile.xp;
-    const nxtLvl =  5 * Math.pow(userProfile.globalLevel, 2) + 50 * userProfile.globalLevel + 100;
-
     let noProfile = new Discord.MessageEmbed()
-        .setAuthor(`${message.author.tag} | Missing profile`, message.author.displayAvatarURL({ dynamic: true }))
-        .setDescription(`${Failure} You have no profile yet! Create one with \`${currPrefix.prefix}new profile\``)
-        .setColor("#ff4f4f")
-
-    let noProfile1 = new Discord.MessageEmbed()
         .setAuthor(`${message.author.tag} | Missing profile`, message.author.displayAvatarURL({ dynamic: true }))
         .setDescription(`${Failure} ${member} doesn't have a profile yet!`)
         .setColor("#ff4f4f")
 
-        if (member.id === message.author.id && !userProfile) return message.channel.send(noProfile)
-        if (!userProfile) return message.channel.send(noProfile1)
+    if (!userProfile) return message.channel.send(noProfile)
 
-        function numberWithCommas(x) {
-            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        }
+    const curxp = userProfile.xp;
+    const nxtLvl =  5 * Math.pow(userProfile.globalLevel, 2) + 50 * userProfile.globalLevel + 100;
+
+    function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
 
     var profileEmbed = new Discord.MessageEmbed()
-        .setAuthor(`${userProfile.userName} | Profile`, member.user.displayAvatarURL({ dynamic: true }))
+        .setAuthor(`${member.user.username}'s profile`, member.user.displayAvatarURL({ dynamic: true }))
         .setThumbnail(userProfile.thumbnail)
         .setDescription(`**Quote:** ${userProfile.quote}`)
         .addField(`Statistics`, `💖 Reputation Points: **${userProfile.globalReputation}**\n💸 Balance: **${numberWithCommas(userProfile.balance)}**\n`, false)

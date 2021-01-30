@@ -20,7 +20,7 @@ module.exports.run = async (bot, message, args, client) => {
 
     let noLogs = new Discord.MessageEmbed()
         .setAuthor(`${message.author.tag} | No Log Channel`, message.author.displayAvatarURL({ dynamic: true }))
-        .setDescription(`${Failure} Reqiures a \`Server log\` or \`Action log\` channel. Set one with \`${currPrefix.prefix}set\``)
+        .setDescription(`${Failure} Reqiures a \`Server log\` channel. Set one with: \`${currPrefix.prefix}set\``)
         .setColor("#ff4f4f")
 
     if (!logchannel) return message.channel.send(noLogs)
@@ -28,7 +28,7 @@ module.exports.run = async (bot, message, args, client) => {
 
     let AMTicketEmbedError = new Discord.MessageEmbed()
         .setAuthor(`${message.author.tag} | Remove Member from Ticket`, message.author.displayAvatarURL({ dynamic: true }))
-        .setDescription(`${Failure} Command usage: \`${currPrefix.prefix}remove <Ticket ID> <User ID>\``)
+        .setDescription(`${Failure} Command usage: \`${currPrefix.prefix}remove <Ticket ID> <User>\``)
         .setColor("#ffc500")
 
     const ticketNumber = args[0];
@@ -47,19 +47,18 @@ module.exports.run = async (bot, message, args, client) => {
     if (!member) return message.channel.send(AMTicketEmbedError);
 
     let AMTicketEmbedSuccess = new Discord.MessageEmbed()
-        .setAuthor(`${message.author.tag} | Add Member from Ticket`, message.author.displayAvatarURL({ dynamic: true }))
+        .setAuthor(`${message.author.tag} | Remove Member from Ticket`, message.author.displayAvatarURL({ dynamic: true }))
         .setDescription(`${Sucess} <@${message.author.id}> removed <@${member.id}> from ticket \`#${ticketNumber}\`!`)
         .setColor("#ffc500")
 
-    if (member) {
-        await ticketChannel.overwritePermissions([
-            {
-                id: member.id,
-                deny: ['VIEW_CHANNEL'],
-            },
-        ],
-    )
-}
+        if (member) {
+            await ticketChannel.overwritePermissions([
+                {
+                    id: member.id,
+                    deny: ['VIEW_CHANNEL'],
+                },
+            ])
+        }
     await message.delete()
     await ticketChannel.send(AMTicketEmbedSuccess)
     await logchannel.send(TicketEmbedLog)
@@ -68,5 +67,5 @@ module.exports.run = async (bot, message, args, client) => {
 
 module.exports.help = {
   name: "remove",
-  aliases: ["rmticket"] //{Remove} {Member} (to) {Ticket} => rmticket
+  aliases: ["rmticket"] //{Remove} {Member} (from) {Ticket} => rmticket
 }

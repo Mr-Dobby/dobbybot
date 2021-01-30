@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const talkedRecently = new Set();
 const Profile = require('../../lib/profile');
 const Servers = require("../../lib/mongodb");
 const Duration = require('humanize-duration');
@@ -12,23 +11,23 @@ module.exports.run = async (bot, message, args) => {
   const Failure = bot.emojis.cache.get("697388354689433611");
   const Sucess = bot.emojis.cache.get("697388354668462110");
 
-  noArgs = new Discord.MessageEmbed()
+  const noArgs = new Discord.MessageEmbed()
     .setAuthor(`${message.author.tag} | Slot Machine`, message.author.displayAvatarURL({ dynamic: true }))
     .setDescription(`\`Command usage: ${currPrefix.prefix}slots <Amount> \`\n\nWin DC 💸 by gambling!\nYou can win up to **x10** as much as you bet!`)
     .setFooter(`You currently have ${userProfile.balance} DC 💸 to gamble with`)
     .setColor("#00bfe5")
 
-  noProfile = new Discord.MessageEmbed()
+  const noProfile = new Discord.MessageEmbed()
     .setAuthor(`${message.author.tag} | Missing profile`, message.author.displayAvatarURL({ dynamic: true }))
     .setDescription(`${Failure} You have no profile yet! Create one with \`-new profile\` to get DC 💸`)
     .setColor("#ff4f4f")
 
-  noAmount = new Discord.MessageEmbed()
+  const noAmount = new Discord.MessageEmbed()
     .setAuthor(`${message.author.tag} | Missing amount`, message.author.displayAvatarURL({ dynamic: true }))
     .setDescription(`${Failure} You need to specify how much you want to gamble. It can **only** be a number.`)
     .setColor("#ff4f4f")
 
-  notEnough = new Discord.MessageEmbed()
+  const notEnough = new Discord.MessageEmbed()
     .setAuthor(`${message.author.tag} | Missing DB 💸`, message.author.displayAvatarURL({ dynamic: true }))
     .setDescription(`${Failure} You only have **${userProfile.balance}** DC 💸 to bet for!`)
     .setColor("#ff4f4f")
@@ -50,7 +49,7 @@ module.exports.run = async (bot, message, args) => {
           .setColor("#ff4f4f")
 
         return message.channel.send(timeOutError)
-      
+
       } else {
 
     function randomNumber(min, max) {  
@@ -58,7 +57,10 @@ module.exports.run = async (bot, message, args) => {
       max = Math.floor(max); 
       return Math.floor(Math.random() * (max - min + 1)) + min; 
     }
-    let randomAmount = randomNumber(2, 10)
+    function numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    let randomAmount = randomNumber(2, 5)
     let winAmount = amount * randomAmount;
     let amountDB = userProfile.balance;
     if (amount > amountDB) return message.channel.send(notEnough)
@@ -72,10 +74,10 @@ module.exports.run = async (bot, message, args) => {
 
         let embed = new Discord.MessageEmbed()
             .setAuthor(`${message.author.tag} | Slot Machine`, message.author.displayAvatarURL({ dynamic: true }))  
-            .setDescription(`You won: **${winAmount}** DC 💸 \n\n**「** ${slots[result1]} **」「** ${slots[result2]} **」「** ${slots[result3]} **」**`)
-            .setFooter(`Your new balance: ${userProfile.balance + winAmount} DC 💸`)
+            .setDescription(`You won: **${numberWithCommas(winAmount)}** DC 💸 \n\n**「** ${slots[result1]} **」「** ${slots[result2]} **」「** ${slots[result3]} **」**`)
+            .setFooter(`Your new balance: ${numberWithCommas(userProfile.balance + winAmount)} DC 💸`)
             .setColor("#7aff7a")
-        message.channel.send({embed});
+        message.channel.send(embed);
 
         await Profile.updateOne( { user: message.author.id }, { $set: { balance: userProfile.balance + winAmount } } )
 
@@ -83,10 +85,10 @@ module.exports.run = async (bot, message, args) => {
 
         let embed = new Discord.MessageEmbed()
             .setAuthor(`${message.author.tag} | Slot Machine`, message.author.displayAvatarURL({ dynamic: true }))  
-            .setDescription(`You lost: **${amount}** DC 💸 \n\n**「** ${slots[result1]} **」「** ${slots[result2]} **」「** ${slots[result3]} **」**`)
-            .setFooter(`Your new balance: ${userProfile.balance - amount} DC 💸`)
+            .setDescription(`You lost: **${numberWithCommas(amount)}** DC 💸 \n\n**「** ${slots[result1]} **」「** ${slots[result2]} **」「** ${slots[result3]} **」**`)
+            .setFooter(`Your new balance: ${numberWithCommas(userProfile.balance - amount)} DC 💸`)
             .setColor("#ff4f4f")
-        message.channel.send({embed});
+        message.channel.send(embed);
 
         await Profile.updateOne( { user: message.author.id }, { $set: { balance: userProfile.balance - amount } } )
 

@@ -64,6 +64,7 @@ module.exports.run = async (bot, message, args, client) => {
             message.channel.send(enableNSFW)
     
     break;
+
         default: 
 
         let disableDefaultEmbed = new Discord.MessageEmbed()
@@ -73,7 +74,7 @@ ${currPrefix.lvlmsg ? `${Sucess}` : `${Failure}`} | Level up message | \`${currP
 ${currPrefix.lockdown ? `${Sucess}` : `${Failure}`} | Lockdown during raid | \`${currPrefix.prefix}enable lockdown\`
 ${currPrefix.nsfw ? `${Sucess}` : `${Failure}`} | NSFW for the server | \`${currPrefix.prefix}enable nsfw\`
                 `)
-            .addField(`Raid Function`, `Raid is currently: ${isRaid.raid ? `${Sucess}` : `${Failure}`}\nTo ${isRaid.raid ? `**disable**` : `**enable**`} the raid, check out: ${isRaid.raid ? `${currPrefix.prefix}raid off` : `${currPrefix.prefix}raid on`}`)
+            .addField(`Raid Function`, `Raid is currently: ${isRaid.raid ? `${Sucess}` : `${Failure}`}\nTo ${isRaid.raid ? `**disable**` : `**enable**`} the raid, check out: \`${isRaid.raid ? `${currPrefix.prefix}raid off` : `${currPrefix.prefix}raid on`}\``)
             .setFooter(`To disable functions, head over to: ${currPrefix.prefix}disable`)
             .setColor(`#5eff5e`)
 

@@ -57,7 +57,7 @@ module.exports.run = async (bot, message, args) => {
   
       return message.channel.send(giveEmbed)
 
-    } 
+    }
 
    if (isNaN(amount)) return message.channel.send(noAmount)
 

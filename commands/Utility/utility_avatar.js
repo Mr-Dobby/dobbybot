@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 
 module.exports.run = async (bot, message, args) => {
   
-  let member = message.mentions.users.last() || message.guild.members.cache.get(args[0])
+  let member = message.mentions.users.first() || bot.users.cache.get(args[0])
 /*
   const formats = ['png'];
   if (member.avatar) formats.push('jpg', 'webp');
@@ -21,8 +21,8 @@ if (!member) {
 } else {
 
   const embed = new Discord.MessageEmbed()
-        .setTitle(`${member.user.tag} | Avatar`)
-        .setImage(member.user.displayAvatarURL({ dynamic: true, size: 2048 }))
+        .setTitle(`${member.tag} | Avatar`)
+        .setImage(member.displayAvatarURL({ dynamic: true, size: 2048 }))
 
         message.channel.send(embed)
   }

@@ -8,22 +8,22 @@ module.exports.run = async (bot, message, args, client) => {
   const Sucess = bot.emojis.cache.get("697388354668462110");
 
   var noPermsEmbedBot = new Discord.MessageEmbed()
-      .setDescription(`${Failure} To see all roles, I requires \`ADMINISTRATOR\` permissions.`)
+      .setDescription(`${Failure} To see all roles, and their info, I requires \`MANAGE ROLES\` permissions.`)
       .setColor("#ff0000")
 
-    if (!message.guild.me.hasPermission("ADMINISTRATOR")) {
+    if (!message.guild.me.hasPermission("MANAGE_ROLES")) {
         return message.channel.send(noPermsEmbedBot)
     }
 
     let IDs = message.guild.roles.cache.filter(r => r.id !== message.guild.id)
-    .filter(r => r.permissions.has("SEND_MESSAGES"))
+//    .filter(r => r.permissions.has("SEND_MESSAGES"))
     .sort((a, b) => b.position - a.position)
     .map(i => i.id)
     .slice(0)
     .join("\n");
 
     let names = message.guild.roles.cache.filter(r => r.id !== message.guild.id)
-    .filter(r => r.permissions.has("SEND_MESSAGES"))
+//    .filter(r => r.permissions.has("SEND_MESSAGES"))
     .sort((a, b) => b.position - a.position)
     .map(role => role.toString())
     .slice(0)
@@ -53,9 +53,9 @@ const RandomColour = ("000000" + Math.random().toString(16).slice(2, 8).toUpperC
         .addField("IDs:", IDs, true)
 
         let role = args.join(" ");
-          if (!role && [message.guild.roles.cache.find(r => r.name === role) || message.guild.roles.cache.get(role.id)]) {
-              return message.channel.send(roleNames)
-          }
+        if (!role && [message.guild.roles.cache.find(r => r.name === role) || message.guild.roles.cache.get(role.id)]) {
+            return //message.channel.send(roleNames)
+        }
 
         let gRole = message.guild.roles.cache.find(r => r.name === role) || message.guild.roles.cache.get(role);
         if (!gRole) return message.channel.send(errorEmbed)
@@ -101,7 +101,7 @@ const RandomColour = ("000000" + Math.random().toString(16).slice(2, 8).toUpperC
         let roleemebed2 = new Discord.MessageEmbed()
         .setColor(hexColor)
         //.addField("Permissions0", permissions0)
-        .setDescription(`**Permissions for role ${gRole.toString()}**\n\n${permissions}`)
+        .setDescription(`**Permissions for role ${gRole.toString()}**\n\n\`${permissions}\``)
         .setFooter("Note: Permissions are only displayed if you've Moderator permissions yourself.")
 
         let user = message.guild.member(message.author)

@@ -36,8 +36,8 @@ module.exports.run = async (bot, message, args, client) => {
 
     const chatbanPermErrorAdminEmbed = new Discord.MessageEmbed()
       .setColor("#ff0000")
-      .setAuthor(`${message.author.tag} | Permission Error`)
-      .setDescription(`${Failure} Member is an Administrator.`, message.author.displayAvatarURL({ dynamic: true }))
+      .setAuthor(`${message.author.tag} | Permission Error`, message.author.displayAvatarURL({ dynamic: true }))
+      .setDescription(`${Failure} Member is an Administrator.`)
 
     const chatbanPermErrorOwnerEmbed = new Discord.MessageEmbed()
       .setColor("#ff0000")

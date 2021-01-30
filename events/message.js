@@ -97,7 +97,7 @@ module.exports = async (bot, message) => {
         coolDownXP.add(message.author.id);
         setTimeout(() => {
             coolDownXP.delete(message.author.id);
-        }, ms('5s'));
+        }, ms('10s'));
     }
 } else {
   

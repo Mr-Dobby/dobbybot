@@ -1,25 +1,18 @@
 const Discord = require("discord.js");
 const moment = require("moment");
+const { clientMap } = require('../../storage/config.json')
 
 module.exports.run = async (bot, message, args, client) => {
 
       let user = message.guild.member(message.mentions.users.first() || message.guild.members.cache.get(args[0]) || message.author);
 
         // The maths behind Account Creation & Joined Guild
-        function checkDays(date) {
-            let now = new Date();
-            let diff = now.getTime() - date.getTime();
-            let days = Math.floor(diff / 86400000);
-            return days + (days == 1 ? " day" : " days") + " ago";
-        };
-
-        function duration(ms) {
-            const sec = Math.floor((ms / 1000) % 60).toString()
-            const min = Math.floor((ms / (1000 * 60)) % 60).toString()
-            const hrs = Math.floor((ms / (1000 * 60 * 60)) % 60).toString()
-            const days = Math.floor((ms / (1000 * 60 * 60 * 24)) % 60).toString()
-            return `${days.padStart(1, '0')} days, ${hrs.padStart(2, '0')} hours, ${min.padStart(2, '0')} minutes`
-        };
+      function checkDays(date) {
+          let now = new Date();
+          let diff = now.getTime() - date.getTime();
+          let days = Math.floor(diff / 86400000);
+          return days + (days == 1 ? " day" : " days") + " ago";
+      };
 
       var permissions = [];
 
@@ -88,7 +81,7 @@ module.exports.run = async (bot, message, args, client) => {
       let status = {
             "online"   : `${Online} Online`,
             "idle"     : `${Idle} Idle/AFK`,
-            "dnd"      : `${DnD} DnD!`,
+            "dnd"      : `${DnD} DnD`,
             "offline"  : `${Offline} Offline`
       };
 
@@ -104,6 +97,12 @@ module.exports.run = async (bot, message, args, client) => {
         } else {
           serverPerms = "Member"
         }
+
+        const clients = Object.keys(
+          (user.user && user.user.presence.clientStatus) || {}
+        )
+          .map((client) => clientMap[client])
+          .join("");
 
       let userRoles = user.roles.cache.filter(r => r.id !== message.guild.id).sort((a, b) => b.position - a.position).map(g => g.toString()).join(" ");
       if (!userRoles) userRoles = `No roles assigned.`
@@ -129,17 +128,17 @@ module.exports.run = async (bot, message, args, client) => {
             color: 0x01000,
             fields: [
 
-              { name: `➞ Online Time`, value: `• ${duration(user.user.client.uptime)}`, inline: true },
-              { name: `➞ Status`, value: `• ${status[user.presence.status]}`, inline: true },
+              { name: `➞ Client Status`, value: `• ${clients}`, inline: true },
+              { name: `➞ Presence Status`, value: `• ${status[user.presence.status]}`, inline: true },
               { name: `➞ Server Position`, value: `• ${serverPerms}`, inline: true },
               { name: `➞ Account created`, value: `• ${created}\n• ${checkDays(user.user.createdAt)}\n`, inline: true },
               { name: `➞ Joined the server`, value: `• ${joined}\n• ${checkDays(user.joinedAt)}`, inline: true },
-              { name: `➞ Special Permissions`, value: `${permissions.join(', ')}`, inline: false }
+              { name: `➞ Special Permissions`, value: `\`${permissions.join(', ')}\``, inline: false }
 
           ]
         }
-     })
-     await message.channel.send(UREmbed)
+      })
+    await message.channel.send(UREmbed)
 
 }
 

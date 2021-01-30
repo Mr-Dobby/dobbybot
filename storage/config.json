@@ -1,3 +1,4 @@
 {
-  "prefix": "-"
+  "prefix": "-",
+  "clientMap": { "web": "🌐 Browser", "mobile": "📱 Mobile", "desktop": "💻 Desktop" }
 }

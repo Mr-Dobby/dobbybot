@@ -17,7 +17,7 @@ module.exports.run = async (bot, message, args, client) => {
 
     let noLogs = new Discord.MessageEmbed()
         .setAuthor(`${message.author.tag} | No Log Channel`, message.author.displayAvatarURL({ dynamic: true }))
-        .setDescription(`${Failure} Reqiures a \`Server log\` or \`Action log\` channel. Set one with \`${currPrefix.prefix}set\``)
+        .setDescription(`${Failure} Reqiures a \`Server log\` channel. Set one with: \`${currPrefix.prefix}set\``)
         .setColor("#ff4f4f")
 
     if (!logchannel) return message.channel.send(noLogs)

@@ -9,7 +9,7 @@ Mongodb
 
 ## Installation 🤖
 
-You need to install [Mongodb Local Server](https://www.mongodb.com/try/download/shell) and [Nodejs (v14+)](https://nodejs.org/en/). Once done, make a directory and open either a terminal or powershell. Type the following:
+You need to install [Mongodb Local Server](https://www.mongodb.com/try/download/shell), [Nodemon](https://www.npmjs.com/package/nodemon) [Nodejs (v14+)](https://nodejs.org/en/). Once done, make a directory and open either a terminal or powershell. Type the following:
 
 ```shell
 git clone https://github.com/Mr-Dobby/dobbybot.git

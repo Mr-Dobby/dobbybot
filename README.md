@@ -19,5 +19,4 @@ Setup after downloading .zip:
 
 • 5. ez pez you good to go. Login to your MongoDB as localhost.
 
-Or just invite this, with 99%% uptime: https://bit.ly/2KzZSbV
-Note: I LOVE custom emotes. You might want to change quite a bit for it to fit.
+Or just invite this, with 99%% uptime: https://bit.ly/2KzZSbV | Note: I LOVE custom emotes. You might want to change quite a bit for it to fit.

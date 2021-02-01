@@ -30,7 +30,7 @@ module.exports.run = async (bot, message, args, client) => {
 
     const banErrorEmbed = new Discord.MessageEmbed()
       .setColor("#ff0000")
-      .setTitle(`\`Command: ${currPrefix.prefix}ban\``)
+      .setTitle(`\`Command: ${currPrefix.prefix}softban\``)
       .addField("**Description:**", "Softban a user from the server.")
       .addField("**Command usage:**", `${currPrefix.prefix}ban <@User> [Reason]`)
       .addField("**Example:**", `${currPrefix.prefix}ban @Mr.Dobby#0001 Spam`)
@@ -65,7 +65,7 @@ module.exports.run = async (bot, message, args, client) => {
     let banEmbed = new Discord.MessageEmbed()
         .setColor("#7aff7a")
         .setAuthor('Successfully softbanned!', bUser.user.displayAvatarURL({ dynamic: true }))
-        .setDescription(`${Sucess} <@${bUser.user.id}> has been banned`)
+        .setDescription(`${Sucess} <@${bUser.user.id}> has been softbanned`)
 
     let banEmbedLog = new Discord.MessageEmbed()
         .setAuthor(`${bUser.user.tag} | Softban`, bUser.user.displayAvatarURL({ dynamic: true }))

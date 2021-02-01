@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
-const Servers = require("../../lib/mongodb");
 const ms = require("ms");
+const Servers = require("../../lib/mongodb");
 const Logs = require("../../lib/logs");
 
 module.exports.run = async (bot, message, args, client) => {
@@ -93,8 +93,8 @@ module.exports.run = async (bot, message, args, client) => {
         .setDescription(`${Sucess} <@${member.user.id}> has been muted`)
 
       const muteLogEmbed = new Discord.MessageEmbed()
-        .setAuthor(`${member.user.tag} | Chatban`, member.user.displayAvatarURL({ dynamic: true }))
-        .setDescription(`\`${currPrefix.prefix}chatban <@User> [Reason]\``)
+        .setAuthor(`${member.user.tag} | Mute`, member.user.displayAvatarURL({ dynamic: true }))
+        .setDescription(`\`${currPrefix.prefix}mute <@User> [Reason]\``)
         .setColor("#ff4f4f")
         .addField("User:", `<@${member.user.id}>`, true)
         .addField("Moderator", `<@${message.author.id}>`, true)

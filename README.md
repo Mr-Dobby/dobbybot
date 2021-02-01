@@ -1,17 +1,74 @@
-# Setup
-Dobby bot source code
+# Dobby Bot Set Up Guide
 
-First all-in-one Discord bot (made by me) with database included.
+Made with:   
+discord.js@12.5.1  
+Nodejs@14.4  
+Mongodb
 
-Feel like trying? Feel free to. Still under development for whenever I feel like killing time.
-Setup after downloading:
-1. Make sure you got MongoDB local server installed: https://www.mongodb.com/try/download/shell
-2. Make sure you have NodeJS installed: https://nodejs.org/en/
-3. Create a new file in the same directory called ".env" and type in "TOKEN=YOUR-BOTS-TOKEN" - Get your bot token on dev portal.
-4. Double click 'Start_Bot.cmd' - Edit this file to your desired OS if you're not on Windows (.sh).
-4.1 It will most likely fail, simply install all the modules it fails on with; Open PowerShell/Terminal and type npm install PACKAGE_NAME
-4.2 If they fail to install, find the package name on https://www.npmjs.com/ and install them through their own guides.
-5. ez pez you good to go. Login to your MongoDB as localhost.
+> [Invite](https://bit.ly/2KzZSbV) a permanent running version of this bot, with 99% uptime.
 
+## Installation 🤖
 
-Note: I LOVE custom emotes. You might want to change quite a bit for it to fit.
+You need to install [Mongodb Local Server](https://www.mongodb.com/try/download/shell) and [Nodejs (v14+)](https://nodejs.org/en/). Once done, make a directory and open either a terminal or powershell. Type the following:
+
+```shell
+git clone https://github.com/Mr-Dobby/dobbybot.git
+cd .\dobbybot\
+npm install
+```
+
+## Configuration ⚙️
+
+Make a new file in the root directory called `.env`  
+Fill in `TOKEN=YOUR_BOT_TOKEN` - Bot token can be found on the Discord dev portal  
+All configurations and permanent data are stored in dobbybot/storage
+###### Fill out the two config.json and colours.json
+config.json - Put default prefix here
+```json
+{
+  "prefix": "-",
+  "owner": "YOUR USER ID",
+  "clientMap": { "web": "🌐 Browser", "mobile": "📱 Mobile", "desktop": "💻 Desktop" }
+}
+```
+colours.json - Colours for logs. Default once are already put
+```json
+{
+    "channels"  :   "#45ff8f",
+    "roles"     :   "#f5ff45",
+    "members"   :   "#dd45ff",
+    "messages"  :   "#45bbff",
+    "bans"      :   "#ff4545",
+    "invites"   :   "#15028c"   
+}
+```
+
+## Features & Commands 📝
+
+> Default prefix is `-`  
+> Change this in the config.json, in Mongodb or use `-prefix <new prefix>`
+
+### Music 🎶
+* -play <Song title or YouTube link>
+
+Using discord-player. Code taken and modifed from [Here](https://github.com/ZerioDev/Music-bot)
+
+### Administration 🛡️
+
+* -enable <server function>  
+* -disable <server function>  
+* -raid <on/off>  
+* -set <log type> <channel id>  
+
+Powerful administration commands to keep your server secure, and running smoothly.
+
+### Moderation ⚔️
+
+* -ban <user id/@>  
+* -mute <user id/@>  
+* -chatban <user id/@>  
+
+And the commands to undo these actions  
+*And much more . . .*
+
+![Text](https://cdn.discordapp.com/attachments/565456894819434497/805837960263893063/unknown.png)

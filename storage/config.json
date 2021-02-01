@@ -1,4 +1,5 @@
 {
-  "prefix": "-",
-  "clientMap": { "web": "🌐 Browser", "mobile": "📱 Mobile", "desktop": "💻 Desktop" }
+  "prefix"    : "-",
+  "owners"    : "441478072559075328",
+  "clientMap" : { "web": "🌐 Browser", "mobile": "📱 Mobile", "desktop": "💻 Desktop" }
 }

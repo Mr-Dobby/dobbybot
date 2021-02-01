@@ -27,7 +27,6 @@ config.json - Put default prefix here
 ```json
 {
   "prefix": "-",
-  "owner": "YOUR USER ID",
   "clientMap": { "web": "🌐 Browser", "mobile": "📱 Mobile", "desktop": "💻 Desktop" }
 }
 ```

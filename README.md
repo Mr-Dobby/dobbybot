@@ -26,8 +26,9 @@ All configurations and permanent data are stored in dobbybot/storage
 config.json - Put default prefix here
 ```json
 {
-  "prefix": "-",
-  "clientMap": { "web": "🌐 Browser", "mobile": "📱 Mobile", "desktop": "💻 Desktop" }
+  "prefix"    : "-",
+  "owners"    : "YOU USER ID",
+  "clientMap" : { "web": "🌐 Browser", "mobile": "📱 Mobile", "desktop": "💻 Desktop" }
 }
 ```
 colours.json - Colours for logs. Default once are already put

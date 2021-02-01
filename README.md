@@ -48,7 +48,8 @@ colours.json - Colours for logs. Default once are already put
 > Change this in the config.json, in Mongodb or use `-prefix <new prefix>`
 
 ### Music 🎶
-* -play <Song title or YouTube link>  
+* -play <Song title or YouTube link>
+
 Using discord-player. Code taken and modifed from [Here](https://github.com/ZerioDev/Music-bot)
 
 ### Administration 🛡️

@@ -69,6 +69,6 @@ Powerful administration commands to keep your server secure, and running smoothl
 * -chatban <user id/@>  
 
 And the commands to undo these actions  
-*And much more . . .*
+*And so much more . . .*
 
 ![Text](https://cdn.discordapp.com/attachments/565456894819434497/805837960263893063/unknown.png)

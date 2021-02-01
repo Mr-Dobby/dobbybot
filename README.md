@@ -2,9 +2,8 @@
 Dobby bot source code
 
 First all-in-one Discord bot (made by me) with database included.
-
-Feel like trying? Feel free to. Still under development for whenever I feel like killing time.
-Setup after downloading:
+This is under development for whenever I feel like killing time.
+Setup after downloading .zip:
 
 • 1. Make sure you got MongoDB local server installed: https://www.mongodb.com/try/download/shell
 
@@ -21,5 +20,4 @@ Setup after downloading:
 • 5. ez pez you good to go. Login to your MongoDB as localhost.
 
 Or just invite this, with 99%% uptime: https://bit.ly/2KzZSbV
-
 Note: I LOVE custom emotes. You might want to change quite a bit for it to fit.

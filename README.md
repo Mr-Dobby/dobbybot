@@ -13,5 +13,6 @@ Setup after downloading:
 4.2 If they fail to install, find the package name on https://www.npmjs.com/ and install them through their own guides.
 5. ez pez you good to go. Login to your MongoDB as localhost.
 
+Or just invite this, with 99%% uptime: https://discord.com/oauth2/authorize?client_id=786264014682324992&permissions=290843734&scope=bot
 
 Note: I LOVE custom emotes. You might want to change quite a bit for it to fit.

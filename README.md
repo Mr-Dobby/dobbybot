@@ -55,7 +55,7 @@ Using discord-player. Code taken and modifed from [Here](https://github.com/Zeri
 
 ### Administration 🛡️
 
-* > -enable <server function  
+* > -enable <server function>  
 * > -disable <server function>  
 * > -raid <on/off>  
 * > -set <log type> <channel id>  

@@ -55,10 +55,10 @@ Using discord-player. Code taken and modifed from [Here](https://github.com/Zeri
 
 ### Administration 🛡️
 
-* > -enable <server-function>  
-* > -disable <server-function>  
+* > -enable <server_function>  
+* > -disable <server_function>  
 * > -raid <on/off>  
-* > -set <log-type> <channel_id>  
+* > -set <log_type> <channel_id>  
 
 Powerful administration commands to keep your server secure, and running smoothly.
 

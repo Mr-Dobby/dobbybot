@@ -49,24 +49,24 @@ colours.json - Colours for logs. Default once are already put
 > Change this in the config.json, in Mongodb or use `-prefix <new prefix>`
 
 ### Music 🎶
-* > -play <Song title or YouTube link>
+* > -play <Song title / YouTube link>
 
 Using discord-player. Code taken and modifed from [Here](https://github.com/ZerioDev/Music-bot)
 
 ### Administration 🛡️
 
-* > -enable <server function>  
-* > -disable <server function>  
+* > -enable <server-function>  
+* > -disable <server-function>  
 * > -raid <on/off>  
-* > -set <log type> <channel id>  
+* > -set <log-type> <channel_id>  
 
 Powerful administration commands to keep your server secure, and running smoothly.
 
 ### Moderation ⚔️
 
-* > -ban <user id/@>  
-* > -mute <user id/@>  
-* > -chatban <user id/@>  
+* > -ban <user_id/@>  
+* > -mute <user_id/@>  
+* > -chatban <user_id/@>  
 
 And the commands to undo these actions  
 *And so much more . . .*

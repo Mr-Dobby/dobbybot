@@ -13,8 +13,8 @@ module.exports.run = async (bot, message, args, client) => {
   const userProfile = await Profile.findOne( { user: message.author.id } )
   if (!userProfile) { return; }
   const oldInventory = userProfile.inventory;
-  const Failure = bot.emojis.cache.get("697388354689433611");
-  const Sucess = bot.emojis.cache.get("697388354668462110");
+  const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+  const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
 
   FailEmbed = new Discord.MessageEmbed()
   .setAuthor(`${message.author.tag} | Purchase item`, message.author.displayAvatarURL({ dynamic: true }))
@@ -35,14 +35,14 @@ module.exports.run = async (bot, message, args, client) => {
             if (userProfile.inventory.match(`Nothing has been purchased or given to your inventory yet.`)) {
                 await Profile.updateOne( { user: message.author.id }, { $set: { balance: userProfile.balance - 10 } } )
                 await Profile.updateOne( { user: message.author.id }, { $set: { inventory: `🎂; ` } } )
-                SuccessEmbed.setDescription(`${Sucess} <@${message.author.id}> You successfully purchased a **🎂 Cake** for **10 DC** 💸`)
+                SuccessEmbed.setDescription(`${Success} <@${message.author.id}> You successfully purchased a **🎂 Cake** for **10 DC** 💸`)
                 await message.channel.send(SuccessEmbed)
                     return;
             }
 
             await Profile.updateOne( { user: message.author.id }, { $set: { balance: userProfile.balance - 10 } } )
             await Profile.updateOne( { user: message.author.id }, { $set: { inventory: oldInventory + `🎂; ` } } )
-                SuccessEmbed.setDescription(`${Sucess} <@${message.author.id}> You successfully purchased a **🎂 Cake** for **10 DC** 💸`)
+                SuccessEmbed.setDescription(`${Success} <@${message.author.id}> You successfully purchased a **🎂 Cake** for **10 DC** 💸`)
                 await message.channel.send(SuccessEmbed)
                     return;
     break;
@@ -54,14 +54,14 @@ module.exports.run = async (bot, message, args, client) => {
             if (userProfile.inventory.match(`Nothing has been purchased or given to your inventory yet.`)) {
                 await Profile.updateOne( { user: message.author.id }, { $set: { balance: userProfile.balance - 2 } } )
                 await Profile.updateOne( { user: message.author.id }, { $set: { inventory: `🍪; ` } } )
-                SuccessEmbed.setDescription(`${Sucess} <@${message.author.id}> You successfully purchased a **🎂 Cake** for **10 DB** 💸`)
+                SuccessEmbed.setDescription(`${Success} <@${message.author.id}> You successfully purchased a **🎂 Cake** for **10 DB** 💸`)
                 await message.channel.send(SuccessEmbed)
                     return;
             }
 
             await Profile.updateOne( { user: message.author.id }, { $set: { balance: userProfile.balance - 2 } } )
             await Profile.updateOne( { user: message.author.id }, { $set: { inventory: oldInventory + `🍪; ` } } )
-                SuccessEmbed.setDescription(`${Sucess} <@${message.author.id}> You successfully purchased a **🍪 Cookie** for **2 DB** 💸`)
+                SuccessEmbed.setDescription(`${Success} <@${message.author.id}> You successfully purchased a **🍪 Cookie** for **2 DB** 💸`)
                 await message.channel.send(SuccessEmbed)
     break;
         default: 

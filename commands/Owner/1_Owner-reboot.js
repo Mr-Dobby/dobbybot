@@ -8,12 +8,12 @@ module.exports.run = async (bot, message, args, client) => {
     if (owner.id !== owners.owners) return message.channel.send("You found an **owner only command** somehow!\nGuess you're not my developer, so I won't allow you to use this command!")
         .then(message => message.delete({ timeout: 5000 }));
 
-    const Failure = bot.emojis.cache.get("697388354689433611");
-    const Sucess = bot.emojis.cache.get("697388354668462110");
+  const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+  const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
 
     try {
       bot.users.cache.delete()
-      await message.react(Sucess)
+      await message.react(Success)
     } catch (e) {
       await message.react(Failure)
       console.error(e)

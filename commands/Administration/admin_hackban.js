@@ -8,8 +8,8 @@ module.exports.run = async (bot, message, args, client) => {
 
   let logName = await Logs.findOne( { guildID: message.guild.id } )
   const logchannel = bot.channels.cache.get(logName.incidentLog)
-  const Failure = bot.emojis.cache.get("697388354689433611");
-  const Sucess = bot.emojis.cache.get("697388354668462110");
+  const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+  const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
 
   var noPermsEmbed = new Discord.MessageEmbed()
       .setDescription(`${Failure} Hackban requires you to have \`ADMINISTRATOR\` permissions.`)
@@ -43,7 +43,7 @@ module.exports.run = async (bot, message, args, client) => {
   let hackbanEmbed = new Discord.MessageEmbed()
       .setColor("#ff0000")
       .setAuthor(`Successfully hackbanned`)
-      .setDescription(`${Sucess} Hackbanned \`${banid}\``)
+      .setDescription(`${Success} Hackbanned \`${banid}\``)
 
   if (banid === "570525775351119872") {
     return message.channel.send("Not gonna harm myself with this command, fella.")
@@ -144,7 +144,7 @@ const bannedUser = await message.guild.fetchBan(banid);
 let hackbanEmbed = new Discord.MessageEmbed()
     .setColor("#ff0000")
     .setAuthor(`Successfully hackbanned`, bannedUser.user.displayAvatarURL({ dynamic: true }))
-    .setDescription(`${Sucess} Hackbanned <@${bannedUser.user.id}>`)
+    .setDescription(`${Success} Hackbanned <@${bannedUser.user.id}>`)
 
 let hackbanEmbedLog = new Discord.MessageEmbed()
     .setAuthor(`${bannedUser.user.tag} | Hackban`, bannedUser.user.displayAvatarURL({ dynamic: true }))

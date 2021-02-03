@@ -12,8 +12,8 @@ module.exports.run = async (bot, message, args, client) => {
     let currPrefix = await Servers.findOne( { guildID: message.guild.id } )
     let userProfile = await Profile.findOne( { user: message.author.id } )
     if (!userProfile) { return; }
-    const Failure = bot.emojis.cache.get("697388354689433611");
-    const Sucess = bot.emojis.cache.get("697388354668462110");
+    const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+    const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
 
     let currThumbEmbed = new Discord.MessageEmbed()
         .setAuthor(`${message.author.tag} | Profile Thumbnail`, message.author.displayAvatarURL({ dynamic: true }))
@@ -27,7 +27,7 @@ module.exports.run = async (bot, message, args, client) => {
 
     let newThumbnailEmbed = new Discord.MessageEmbed()
         .setAuthor(`${message.author.tag} | Profile Thumbnail`, message.author.displayAvatarURL({ dynamic: true }))
-        .setDescription(`${Sucess} New profile thumbnail set to: **[link](${newThumbnail})**`)
+        .setDescription(`${Success} New profile thumbnail set to: **[link](${newThumbnail})**`)
         .setThumbnail(newThumbnail)
         .setColor("#7aff7a")
 

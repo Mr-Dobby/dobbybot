@@ -2,20 +2,17 @@ const Discord = require("discord.js");
 const Warns = require("../../lib/warns");
 const mongoose = require('mongoose');
 const Servers = require("../../lib/mongodb");
-mongoose.connect('mongodb://localhost:27017/ITR', {
-    useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }, (err) => {
-        if (err) return console.error(err);
-});
 
 module.exports.run = async (bot, message, args, client) => {
 
   let currPrefix = await Servers.findOne( { guildID: message.guild.id } )
 
+  return;
     if (!message.member.hasPermission("MANAGE_MESSAGES")) {
       return message.channel.send('You need `MANAGE MESSAGES` permission')
     }
 
-    const Failure = bot.emojis.cache.get("697388354689433611");
+    const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure);
 
     const warningsErrorEmbed = new Discord.MessageEmbed()
         .setColor("#ff4f4f")

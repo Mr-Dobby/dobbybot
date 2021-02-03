@@ -5,8 +5,8 @@ const Logs = require("../../lib/logs");
 module.exports.run = async (bot, message, args, client) => {
 
     var currPrefix = await Servers.findOne( { guildID: message.guild.id } )
-    const Failure = bot.emojis.cache.get("697388354689433611");
-    const Sucess = bot.emojis.cache.get("697388354668462110");
+    const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+    const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
   
     var noPermsEmbed = new Discord.MessageEmbed()
         .setDescription(`${Failure} Nuking new members requires you to have \`ADMINISTRATOR\` permissions.`)
@@ -41,7 +41,7 @@ module.exports.run = async (bot, message, args, client) => {
         .setColor("#ff0000")
 
     var LaunchedEmbed = new Discord.MessageEmbed()
-        .setDescription(`${Sucess} Nuke has been launched`)
+        .setDescription(`${Success} Nuke has been launched`)
         .setColor("#7aff7a")
 
     var logName = await Logs.findOne( { guildID: message.guild.id } )
@@ -101,7 +101,7 @@ module.exports.run = async (bot, message, args, client) => {
             if (promises.length % 5 === 0) {
 
                 var LaunchedEmbed = new Discord.MessageEmbed()
-                    .setDescription(`${Sucess} Launching nuke. (${Math.round(promises.length / members.size * 100)}%)...`)
+                    .setDescription(`${Success} Launching nuke. (${Math.round(promises.length / members.size * 100)}%)...`)
                     .setColor("#7aff7a")
 
                 statusMsg2.edit(LaunchedEmbed);

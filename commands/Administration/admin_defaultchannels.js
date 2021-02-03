@@ -5,14 +5,14 @@ module.exports.run = async (bot, message, args, client) => {
 
     let currPrefix = await Servers.findOne( { guildID: message.guild.id } )
 
-    const Failure = bot.emojis.cache.get("697388354689433611");
-    const Sucess = bot.emojis.cache.get("697388354668462110");
+    const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+    const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
   
     var noPermsEmbed = new Discord.MessageEmbed()
         .setDescription(`${Failure} Resetting channel permissions requires you to have \`ADMINISTRATOR\` permissions.`)
         .setColor("#ff0000")
     
-        var noPermsEmbedBot = new Discord.MessageEmbed()
+    var noPermsEmbedBot = new Discord.MessageEmbed()
         .setDescription(`${Failure} Resetting channel permissions requires me to have \`MANAGE CHANNELS\` permissions.`)
         .setColor("#ff0000")
   
@@ -60,7 +60,7 @@ module.exports.run = async (bot, message, args, client) => {
             
             let changeChannelPerms1 = new Discord.MessageEmbed()
                 .setAuthor(`${message.author.tag} | Set Default Channel Permissions`, message.author.displayAvatarURL({ dynamic: true }))
-                .setDescription(`${Sucess} All channels have been reset with permissions.`)
+                .setDescription(`${Success} All channels have been reset with permissions.`)
                 .setColor(`#7aff7a`)
         
             message.channel.send(changeChannelPerms1)
@@ -80,7 +80,7 @@ module.exports.run = async (bot, message, args, client) => {
 
         let changeChannelPerms2 = new Discord.MessageEmbed()
             .setAuthor(`${message.author.tag} | Set Default Channel Permissions`, message.author.displayAvatarURL({ dynamic: true }))
-            .setDescription(`${Sucess} All channels have been updated with permissions.`)
+            .setDescription(`${Success} All channels have been updated with permissions.`)
             .setColor(`#7aff7a`)
 
         message.channel.send(changeChannelPerms2)

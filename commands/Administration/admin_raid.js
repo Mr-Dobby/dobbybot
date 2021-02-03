@@ -3,33 +3,6 @@ const Servers = require("../../lib/mongodb");
 const Raid = require("../../lib/raid");
 const mongoose = require('mongoose');
 
-/*const IGNORED = new Set([
-    "565456894819434497",
-    "597058198712746005",
-    "548440071733248001",
-    "630373520177758228",
-    "702430212851236965",
-    "570705027824353293",
-    "639389690407026698",
-    "619047834062159882",
-    "717810963834994759",
-    "574841403851538454",
-    "616947219790037014",
-    "593930390612475926",
-    "672111923344572429",
-    "676790155444748310",
-    "746711088275390565",
-    "743579819916394638",
-    "747187965146431659",
-    "705123297846886430",
-    "691650704330326077",
-    "691650738916425728",
-    "687695988110000166",
-    "690570030127120455",
-    "706919593612017704"
-  ]);
-*/
-//(ow && ow.READ_MESSAGES !== false && ow.SEND_MESSAGES !== false)
 module.exports.run = async (bot, message, args, client) => {
 
     let currPrefix = await Servers.findOne( { guildID: message.guild.id } );
@@ -43,8 +16,8 @@ module.exports.run = async (bot, message, args, client) => {
 
     const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'x', 'y', 'z']
 
-    const Failure = bot.emojis.cache.get("697388354689433611");
-    const Sucess = bot.emojis.cache.get("697388354668462110");
+    const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+    const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
     var muterole = message.guild.roles.cache.get(currPrefix.muteRole);
     var chatbanrole = message.guild.roles.cache.get(currPrefix.chatbanRole);
   
@@ -74,7 +47,7 @@ module.exports.run = async (bot, message, args, client) => {
 
             let RaidON = new Discord.MessageEmbed()
                 .setAuthor(`${message.author.tag} | Raid Protection`, message.author.displayAvatarURL({ dynamic: true }))
-                .setDescription(`${Sucess} Raid mode set to: **true**\nAnyone joining the server will now get banned.`)
+                .setDescription(`${Success} Raid mode set to: **true**\nAnyone joining the server will now get banned.`)
                 .setColor(`#ff0000`)
 
             message.channel.send(RaidON)
@@ -104,7 +77,7 @@ module.exports.run = async (bot, message, args, client) => {
             
             let RaidOFF = new Discord.MessageEmbed()
                 .setAuthor(`${message.author.tag} | Raid Protection`, message.author.displayAvatarURL({ dynamic: true }))
-                .setDescription(`${Sucess} Raid mode set to: **false**\nIt is now safe to join the server.`)
+                .setDescription(`${Success} Raid mode set to: **false**\nIt is now safe to join the server.`)
                 .setColor(`#5eff5e`)
 
             message.channel.send(RaidOFF)
@@ -184,7 +157,7 @@ module.exports.run = async (bot, message, args, client) => {
 
             let ignoreChannelsEmbed = new Discord.MessageEmbed()
                 .setAuthor(`${message.author.tag} | Raid Protection`, message.author.displayAvatarURL({ dynamic: true }))
-                .setDescription(`${Sucess} **Successfully cleared the channel ignore list.**`)
+                .setDescription(`${Success} **Successfully cleared the channel ignore list.**`)
                 .setColor("#7aff7a")
 
             return message.channel.send(ignoreChannelsEmbed)
@@ -197,7 +170,7 @@ module.exports.run = async (bot, message, args, client) => {
 
             let ignoreChannelsEmbed = new Discord.MessageEmbed()
                 .setAuthor(`${message.author.tag} | Raid Protection`, message.author.displayAvatarURL({ dynamic: true }))
-                .setDescription(`${Sucess} **Successfully ignoring:**\n<#${channels2ignore.replace(/, /g, ">\n <#") + ">"}`)
+                .setDescription(`${Success} **Successfully ignoring:**\n<#${channels2ignore.replace(/, /g, ">\n <#") + ">"}`)
                 .setFooter(`Clear the list with: ${currPrefix.prefix}raid ignore clear`)
                 .setColor("#7aff7a")
                 

@@ -12,8 +12,7 @@ module.exports.run = async (bot, message, args, client) => {
     let currPrefix = await Servers.findOne( { guildID: message.guild.id } )
     let userProfile = await Profile.findOne( { user: message.author.id } )
     if (!userProfile) { return; }
-    const Failure = bot.emojis.cache.get("697388354689433611");
-    const Sucess = bot.emojis.cache.get("697388354668462110");
+    const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
 
     let currQuoteEmbed = new Discord.MessageEmbed()
         .setAuthor(`${message.author.tag} | Profile Quote`, message.author.displayAvatarURL({ dynamic: true }))
@@ -26,7 +25,7 @@ module.exports.run = async (bot, message, args, client) => {
 
     let newColourEmbed = new Discord.MessageEmbed()
         .setAuthor(`${message.author.tag} | Profile Quote`, message.author.displayAvatarURL({ dynamic: true }))
-        .setDescription(`${Sucess} New profile quote set to: **${newQuote}**`)
+        .setDescription(`${Success} New profile quote set to: **${newQuote}**`)
         .setColor("#7aff7a")
 
     message.channel.send(newColourEmbed)

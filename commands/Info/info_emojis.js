@@ -8,14 +8,14 @@ if (!emojis.size) return message.channel.send(`This server has no custom emojis.
 return message.channel.send(emojis.map(emoji => emoji.toString()).sort().join(' '), { split: { char: ' ' } });
 */
 
-const Failure = bot.emojis.cache.get("697388354689433611");
-const Sucess = bot.emojis.cache.get("697388354668462110");
+const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
 
 var noPermsEmbedBot = new Discord.MessageEmbed()
-    .setDescription(`${Failure} To see all emojis, I requires \`ADMINISTRATOR\` permissions.`)
+    .setDescription(`${Failure} To see all emojis, I requires \`MANAGE EMOJIS\` permissions.`)
     .setColor("#ff0000")
 
-    if (!message.guild.me.hasPermission("ADMINISTRATOR")) {
+    if (!message.guild.me.hasPermission("MANAGE_EMOJIS")) {
         return message.channel.send(noPermsEmbedBot)
     }
 

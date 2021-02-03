@@ -9,8 +9,8 @@ module.exports.run = async (bot, message, args, client) => {
   let logName = await Logs.findOne( { guildID: message.guild.id } )
   const logchannel = bot.channels.cache.get(logName.incidentLog)
 
-  const Failure = bot.emojis.cache.get("697388354689433611");
-  const Sucess = bot.emojis.cache.get("697388354668462110");
+  const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+  const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
 
   var noPermsEmbed = new Discord.MessageEmbed()
       .setDescription(`${Failure} Unhackbanning members requires you to have \`BAN MEMBERS\` permissions.`)
@@ -49,7 +49,7 @@ module.exports.run = async (bot, message, args, client) => {
       let unhackbanEmbed = new Discord.MessageEmbed()
       .setColor("#7aff7a")
       .setAuthor(`Successfully unhackbanned`)
-      .setDescription(`${Sucess} Unhackbanned \`${banid}\``)
+      .setDescription(`${Success} Unhackbanned \`${banid}\``)
 
       await bot.users.fetch(banid).then(async () => {
         await message.guild.members.unban(banid).catch(err => {
@@ -98,7 +98,7 @@ module.exports.run = async (bot, message, args, client) => {
       let unhackbanEmbed = new Discord.MessageEmbed()
       .setColor("#7aff7a")
       .setAuthor(`Successfully unhackbanned`, bannedUser.user.displayAvatarURL({ dynamic: true }))
-      .setDescription(`${Sucess} Unhackbanned <@${bannedUser.user.id}>`)
+      .setDescription(`${Success} Unhackbanned <@${bannedUser.user.id}>`)
   
       let unhackBanEmbedLog = new Discord.MessageEmbed()
       .setAuthor(`${bannedUser.user.tag} | Unhackban`, bannedUser.user.displayAvatarURL({ dynamic: true }))

@@ -11,8 +11,8 @@ async function report() {
 
   let target = message.guild.member(message.mentions.users.last() || message.mentions.users.first());
   let reason = args.slice(1).join(' ');
-  const Failure = bot.emojis.cache.get("697388354689433611");
-  const Sucess = bot.emojis.cache.get("697388354668462110");
+  const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+  const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
 
   if (!target) return message.channel.send(`Please mention a member to report!\nExample: \`${currPrefix.prefix}report @user\``);
   if (!reason) return message.channel.send(`Please specify a reason for this report!\nExample: \`${currPrefix.prefix}report @user Spam\``);
@@ -64,13 +64,13 @@ async function report() {
         .setFooter(`Reported by: ${message.author.tag}`, message.author.displayAvatarURL({ dynamic: true }))
         .setTimestamp()
 
-    message.channel.send(`${Sucess} Report has been accepted, and sent to the staff team.`).then(message => {message.delete(5000)})
+    message.channel.send(`${Success} Report has been accepted, and sent to the staff team.`).then(message => {message.delete(5000)})
     return logchannel.send(reportEmbedLog);
 
   };
 
     message.delete();
-    message.channel.send(`${Sucess} Report has been accepted, and sent to the staff team.`).then(message => {message.delete(5000)})
+    message.channel.send(`${Success} Report has been accepted, and sent to the staff team.`).then(message => {message.delete(5000)})
     reportschannel.send(reportEmbed);
 
   }

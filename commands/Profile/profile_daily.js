@@ -18,8 +18,8 @@ module.exports.run = async (bot, message, args, client) => {
 
     let currPrefix = await Servers.findOne( { guildID: message.guild.id } )
     let userProfile = await Profile.findOne( { user: message.author.id } )
-    const Failure = bot.emojis.cache.get("697388354689433611");
-    const Sucess = bot.emojis.cache.get("697388354668462110");
+    const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+    const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
 
     noProfile = new Discord.MessageEmbed()
     .setAuthor(`${message.author.tag} | Missing profile`, message.author.displayAvatarURL({ dynamic: true }))
@@ -28,7 +28,7 @@ module.exports.run = async (bot, message, args, client) => {
 
     dailyEmbed = new Discord.MessageEmbed()
     .setAuthor(`${message.author.tag} | Daily DC`, message.author.displayAvatarURL({ dynamic: true }))
-    .setDescription(`${Sucess} <@${message.author.id}> You have been given **${numberWithCommas(randomAmount)}** DC 💸`)
+    .setDescription(`${Success} <@${message.author.id}> You have been given **${numberWithCommas(randomAmount)}** DC 💸`)
     .setColor("#7aff7a")
 
     if (!userProfile) return message.channel.send(noProfile)

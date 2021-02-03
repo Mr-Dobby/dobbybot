@@ -9,8 +9,8 @@ module.exports.run = async (bot, message, args, client) => {
   let logName = await Logs.findOne( { guildID: message.guild.id } )
   const logchannel = bot.channels.cache.get(logName.incidentLog)
   let kUser = message.guild.members.cache.get(args[0]) || message.mentions.members.first();
-  const Failure = bot.emojis.cache.get("697388354689433611");
-  const Sucess = bot.emojis.cache.get("697388354668462110");
+  const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+  const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
 
   var noPermsEmbed = new Discord.MessageEmbed()
       .setDescription(`${Failure} Kicking members requires you to have \`KICK MEMBERS\` permissions.`)
@@ -79,7 +79,7 @@ module.exports.run = async (bot, message, args, client) => {
     let kickEmbed = new Discord.MessageEmbed()
         .setColor("#7aff7a")
         .setAuthor('Successfully kicked!', kUser.user.displayAvatarURL({ dynamic: true }))
-        .setDescription(`${Sucess} <@${kUser.user.id}> has been kicked`)
+        .setDescription(`${Success} <@${kUser.user.id}> has been kicked`)
 
     let kickEmbedLog = new Discord.MessageEmbed()
         .setAuthor(`${kUser.user.tag} | Kick`, kUser.user.displayAvatarURL({ dynamic: true }))

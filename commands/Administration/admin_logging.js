@@ -11,8 +11,8 @@ module.exports.run = async (bot, message, args, client) => {
 
   let currPrefix = await Servers.findOne( { guildID: message.guild.id } );
   let logName = await Logs.findOne( { guildID: message.guild.id } );
-  const Failure = bot.emojis.cache.get("697388354689433611");
-  const Sucess = bot.emojis.cache.get("697388354668462110");
+  const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+  const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
 
   var noPermsEmbed = new Discord.MessageEmbed()
       .setDescription(`${Failure} Creating new logs requires you to have \`ADMINISTRATOR\` permissions.`)
@@ -38,26 +38,25 @@ let AreYouSureBoutDat = new Discord.MessageEmbed()
 .setColor("#ff4f4f")
 .setDescription("**You have __20 seconds__ to respond. This will create 3 new channels.**\nTo accept the creation of logs, type `Y`.\nTo decline the creation of logs, type `N`.")
 .setFooter(`If you already have log channels set up, you can set logs to those channels with ${currPrefix.prefix}set`)
-.setTimestamp()
 
 let LogsCreatedIncident = new Discord.MessageEmbed()
 .setAuthor(`${message.author.tag} | #incident-logs successfully created`, `${message.author.displayAvatarURL({ dynamic: true })}`)
 .setColor("#4fff7f")
-.setDescription(`${Sucess} This is the incident logging channel. All moderative command usages, used via me, will be logged to this channel. ${fire}\n
+.setDescription(`${Success} This is the incident logging channel. All moderative command usages, used via me, will be logged to this channel. ${fire}\n
 You can set a new channel to be logging with \`${currPrefix.prefix}set\``)
 .setFooter(`This channel has been saved in the database, you can now change the channels name.`)
      
 let LogsCreatedServer = new Discord.MessageEmbed()
 .setAuthor(`${message.author.tag} | #server-logs successfully created`, `${message.author.displayAvatarURL({ dynamic: true })}`)
 .setColor("#4fff7f")
-.setDescription(`${Sucess} This is the server logging channel. All server changes, member updates, roles update etc., will be logged to this channel. ${fire}\n
+.setDescription(`${Success} This is the server logging channel. All server changes, member updates, roles update etc., will be logged to this channel. ${fire}\n
 You can set a new channel to be logging with \`${currPrefix.prefix}set\``)
 .setFooter(`This channel has been saved in the database, you can now change the channels name.`)
 
 let LogsCreatedRaid = new Discord.MessageEmbed()
 .setAuthor(`${message.author.tag} | #raid-logs successfully created`, `${message.author.displayAvatarURL({ dynamic: true })}`)
 .setColor("#4fff7f")
-.setDescription(`${Sucess} This is the raid logging channel. All members banned upon joining when the raid function is enabled, will be logged to this channel. ${fire}\n
+.setDescription(`${Success} This is the raid logging channel. All members banned upon joining when the raid function is enabled, will be logged to this channel. ${fire}\n
 You can set a new channel to be logging with \`${currPrefix.prefix}set\``)
 .setFooter(`This channel has been saved in the database, you can now change the channels name.`)
 

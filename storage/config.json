@@ -1,5 +1,13 @@
 {
-  "prefix"    : "-",
-  "owners"    : "441478072559075328",
-  "clientMap" : { "web": "🌐 Browser", "mobile": "📱 Mobile", "desktop": "💻 Desktop" }
+  "prefix" : "-",
+  "owner" : "441478072559075328",
+  "emojis" : {
+    "Success" : "697388354668462110",
+    "Failure" : "697388354689433611"
+  },
+  "clientMap" : { 
+    "web"     : "🌐 Browser", 
+    "mobile"  : "📱 Mobile", 
+    "desktop" : "💻 Desktop" 
+  }
 }

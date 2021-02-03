@@ -8,8 +8,8 @@ module.exports.run = async (bot, message, args, client) => {
     if (owner.id !== owners.owners) return message.channel.send("You found an **owner only command** somehow!\nGuess you're not my developer, so I won't allow you to use this command!")
         .then(message => message.delete({ timeout: 5000 }));
 
-    const Failure = bot.emojis.cache.get("697388354689433611");
-    const Sucess = bot.emojis.cache.get("697388354668462110");
+  const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+  const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
 
     let member = message.guild.member(message.mentions.users.first() || message.guild.members.cache.get(args[0]));
     let amount = args[1];
@@ -18,7 +18,7 @@ module.exports.run = async (bot, message, args, client) => {
 
     try {
         await Profile.updateOne( { user: member.id }, { $set: { balance: amount } } );
-        message.react(Sucess)
+        message.react(Success)
     } catch(e) {
         message.react(Failure)
     }

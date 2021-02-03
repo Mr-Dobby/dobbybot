@@ -6,7 +6,7 @@ const fs = require("fs");
 const { Player } = require('discord-player');
 
 bot.player = new Player(bot);
-bot.config = require('./storage/config.js')
+bot.config = require('./storage/filters.js')
 bot.commands = new Discord.Collection();
 bot.aliases = new Discord.Collection();
 bot.filters = bot.config.filters;

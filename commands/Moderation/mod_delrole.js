@@ -9,8 +9,7 @@ module.exports.run = async (bot, message, args, client) => {
   let logName = await Logs.findOne( { guildID: message.guild.id } )
   const logchannel = bot.channels.get(logName.incidentLog)
 
-  const Failure = bot.emojis.cache.get("697388354689433611");
-  const Sucess = bot.emojis.cache.get("697388354668462110");
+  const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure);
 
   var noPermsEmbed = new Discord.MessageEmbed()
       .setDescription(`${Failure} Deleting roles requires you to have \`MANAGE ROLES\` and \`MANAGE CHANNELS\` permissions.`)

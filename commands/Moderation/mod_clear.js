@@ -9,8 +9,7 @@ module.exports.run = async (bot, message, args, client) => {
   let logName = await Logs.findOne( { guildID: message.guild.id } )
   const logchannel = bot.channels.cache.get(logName.incidentLog)
 
-  const Failure = bot.emojis.cache.get("697388354689433611");
-  const Sucess = bot.emojis.cache.get("697388354668462110");
+  const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure);
 
   var noPermsEmbed = new Discord.MessageEmbed()
       .setDescription(`${Failure} Clearing messages requires you to have \`MANAGE MESSAGES\` permissions.`)
@@ -50,7 +49,12 @@ module.exports.run = async (bot, message, args, client) => {
         deleteCount = parseInt(args[0]);
     }
 
-    let MemberOrChannel = bot.users.cache.get(args[1]) || bot.channels.cache.get(args[1]) || message.guild.member(message.mentions.users.first()) || message.guild.channels.cache.get(args[1]) || message.channel.id;
+    var tooManyMessages = new Discord.MessageEmbed()
+    .setDescription(`${Failure} I can only clear a maximum of **100** messages due to the Discord API.`)
+    .setColor("#ff0000")
+
+    let MemberOrChannel = bot.users.cache.get(args[1]) || bot.channels.cache.get(args[1]) || message.guild.member(message.mentions.users.first()) || message.guild.channels.cache.get(args[1]) || message.channel;
+  //  if (!MemberOrChannel) { MemberOrChannel == bot.channels.cache.get(message.channel.id); }
 
     let clearEmbed = new Discord.MessageEmbed()
     .setAuthor(`${message.author.tag} | Clear`, message.author.displayAvatarURL({ dynamic: true }))
@@ -60,30 +64,31 @@ module.exports.run = async (bot, message, args, client) => {
     .setFooter(`ID: ${message.author.id}`)
     .setTimestamp();
 
-    message.delete()
-
     try {
       if (bot.guilds.cache.get(message.guild.id).member(MemberOrChannel)) {
         message.channel.messages.fetch({ limit: 100 }).then(messages => {
           const filter = MemberOrChannel ? MemberOrChannel.id : bot.user.id;
           messages = messages.filter(m => m.author.id == filter).array().slice(0, deleteCount);
-          message.channel.bulkDelete(messages + 1, true).catch(e => {
-            message.channel.send(`Something went wrong: ${e}`)
+          message.channel.bulkDelete(messages, true).catch(e => {
+            message.channel.send(tooManyMessages)
           })
         })
         clearEmbed.setDescription(`\`${currPrefix.prefix}clear <number> <@user>\``).addField(`Member`, `${MemberOrChannel.toString()}`, true)
         logchannel.send(clearEmbed)
       } else {
         if (message.channel.type == "text") {
-          message.channel.bulkDelete(deleteCount + 2, true).catch(e => {
-            message.channel.send(`Something went wrong: ${e}`)
+          message.channel.messages.fetch({ limit: 100 }).then(messages => {
+            messages = messages.array().slice(0, deleteCount);
+            message.channel.bulkDelete(messages, true).catch(e => {
+              message.channel.send(tooManyMessages)
+            })
           })
         }
-        clearEmbed.setDescription(`\`${currPrefix.prefix}clear <number> <#channel>\``).addField(`Channel`, `<#${MemberOrChannel}>`, true)
+        clearEmbed.setDescription(`\`${currPrefix.prefix}clear <number> <#channel>\``).addField(`Channel`, `${MemberOrChannel}`, true)
         logchannel.send(clearEmbed)
       }
     } catch (e) {
-      message.channel.send(`Something went wrong: ${e}`)
+      message.channel.send(tooManyMessages)
     }
 
   } else {

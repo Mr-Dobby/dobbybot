@@ -9,8 +9,8 @@ module.exports.run = async (bot, message, args) => {
   let member = message.guild.member(message.mentions.users.first() || message.guild.members.cache.get(args[0]));
   let userProfile = await Profile.findOne( { user: message.author.id } );
   let currPrefix = await Servers.findOne( { guildID: message.guild.id } );
-  const Failure = bot.emojis.cache.get("697388354689433611");
-  const Sucess = bot.emojis.cache.get("697388354668462110");
+  const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+  const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
 
   let noArgs = new Discord.MessageEmbed()
     .setAuthor(`${message.author.tag} | Filthy Thief`, message.author.displayAvatarURL({ dynamic: true }))
@@ -63,7 +63,7 @@ module.exports.run = async (bot, message, args) => {
 
         let stealEmbed = new Discord.MessageEmbed()
         .setAuthor(`${message.author.tag} | Steal DC 💸`, message.author.displayAvatarURL({ dynamic: true }))
-        .setDescription(`${Sucess} You stole **${numberWithCommas(availableAmountToSteal)}** DC 💸 from <@${member.id}>!`)
+        .setDescription(`${Success} You stole **${numberWithCommas(availableAmountToSteal)}** DC 💸 from <@${member.id}>!`)
         .setColor("#7aff7a")
 
         message.channel.send(stealEmbed)

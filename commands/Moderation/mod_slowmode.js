@@ -10,8 +10,8 @@ module.exports.run = async (bot, message, args, client) => {
   let logName = await Logs.findOne( { guildID: message.guild.id } )
   const logchannel = bot.channels.cache.get(logName.incidentLog)
 
-  const Failure = bot.emojis.cache.get("697388354689433611");
-  const Sucess = bot.emojis.cache.get("697388354668462110");
+  const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+  const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
 
   var noPermsEmbed = new Discord.MessageEmbed()
       .setDescription(`${Failure} Slowmoding a channel requires you to have \`MANAGE MESSAGE\` permissions.`)
@@ -55,12 +55,12 @@ module.exports.run = async (bot, message, args, client) => {
     const slowmodeSuccess = new Discord.MessageEmbed()
         .setColor("#7aff7a")
         .setAuthor(`${message.author.tag} | Channel slowmode on`, message.author.displayAvatarURL({ dynamic: true }))
-        .setDescription(`${Sucess} ${channel} has recieved a slowmode.`)
+        .setDescription(`${Success} ${channel} has recieved a slowmode.`)
 
     const slowmodelifted = new Discord.MessageEmbed()
         .setColor("#7aff7a")
         .setAuthor(`${message.author.tag} | Channel slowmode off`, message.author.displayAvatarURL({ dynamic: true }))
-        .setDescription(`${Sucess} ${channel} no longer has slowmode enabled.`)
+        .setDescription(`${Success} ${channel} no longer has slowmode enabled.`)
 
     const slowmodeembedLog = new Discord.MessageEmbed()
         .setAuthor(`${message.author.tag} | Slowmode`, message.author.displayAvatarURL({ dynamic: true }))
@@ -120,12 +120,12 @@ module.exports.run = async (bot, message, args, client) => {
     const slowmodeSuccess = new Discord.MessageEmbed()
         .setColor("#7aff7a")
         .setAuthor(`${message.author.tag} | Channel slowmoded`, message.author.displayAvatarURL({ dynamic: true }))
-        .setDescription(`${Sucess} ${channel} has recieved a slowmode.`)
+        .setDescription(`${Success} ${channel} has recieved a slowmode.`)
 
     const slowmodelifted = new Discord.MessageEmbed()
         .setColor("#7aff7a")
         .setAuthor(`${message.author.tag} | Channel slowmode off`, message.author.displayAvatarURL({ dynamic: true }))
-        .setDescription(`${Sucess} ${channel} no longer has slowmode enabled.`)
+        .setDescription(`${Success} ${channel} no longer has slowmode enabled.`)
 
     try {
         if (channel.type == 'text') {

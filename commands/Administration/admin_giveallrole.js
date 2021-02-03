@@ -5,8 +5,9 @@ const Logs = require(`../../lib/logs`);
 
 module.exports.run = async (bot, message, args, client) => {
 
-  const Failure = bot.emojis.cache.get(`697388354689433611`);
-  const Sucess = bot.emojis.cache.get(`697388354668462110`);
+  const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+  const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
+  
   var noPermsEmbed = new Discord.MessageEmbed()
       .setDescription(`${Failure} Creating new logs requires you to have \`ADMINISTRATOR\` permissions.`)
       .setColor("#ff0000")
@@ -55,7 +56,7 @@ module.exports.run = async (bot, message, args, client) => {
 
       let successEmbed = new Discord.MessageEmbed()
         .setAuthor(`${message.author.tag} | Give All Role`, message.author.displayAvatarURL({ dynamic: true }))
-        .setDescription(`${Sucess} Successfully added everyone to the ${roleByID.toString()} role.`)
+        .setDescription(`${Success} Successfully added everyone to the ${roleByID.toString()} role.`)
         .setColor("#7aff7a")
 
       await message.channel.send(successEmbed)

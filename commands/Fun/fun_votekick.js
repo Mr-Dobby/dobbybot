@@ -4,9 +4,9 @@ const Servers = require("../../lib/mongodb");
 module.exports.run = async (bot, message, args, client) => {
 
     let currPrefix = await Servers.findOne( { guildID: message.guild.id } )
-    const Failure = bot.emojis.cache.get("697388354689433611");
-    const Sucess = bot.emojis.cache.get("697388354668462110");
-
+    const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+    const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
+    
     noMember = new Discord.MessageEmbed()
         .setAuthor(`${message.author.tag} | Vote Kick`, message.author.displayAvatarURL({ dynamic: true }))
         .setDescription(`Vote kick a member out of the Voice Channel!\n\nUsage: \`${currPrefix.prefix}votekick <@Member>\``)
@@ -30,12 +30,12 @@ module.exports.run = async (bot, message, args, client) => {
 
     voteFailed = new Discord.MessageEmbed()
         .setAuthor(`${message.author.tag} | Vote Kick`, message.author.displayAvatarURL({ dynamic: true }))
-        .setDescription(`${Failure} Not enough reacted with ${Sucess} to disconnect ${member}`)
+        .setDescription(`${Failure} Not enough reacted with ${Success} to disconnect ${member}`)
         .setColor("#ff4f4f")
 
     SuccessfullyDisconnected = new Discord.MessageEmbed()
         .setAuthor(`${message.author.tag} | Vote Kick`, message.author.displayAvatarURL({ dynamic: true }))
-        .setDescription(`${Sucess} ${member} Was successfully disconnected!`)
+        .setDescription(`${Success} ${member} Was successfully disconnected!`)
         .setColor("#7aff7a")
 
     VoteKickEmbed = new Discord.MessageEmbed()
@@ -45,20 +45,20 @@ module.exports.run = async (bot, message, args, client) => {
         .setFooter(`The time will expire in 20 seconds.`)
 
     var VOTE_TEXT = await message.channel.send(VoteKickEmbed);
-        await VOTE_TEXT.react(Sucess);
+        await VOTE_TEXT.react(Success);
         await VOTE_TEXT.react(Failure);
 return
-    const reactions = await VOTE_TEXT.awaitReactions((reaction, user) => user.id !== message.author.id && (reaction.emoji.id == Sucess.id || reaction.emoji.id == Failure.id), { time: 5000 })
+    const reactions = await VOTE_TEXT.awaitReactions((reaction, user) => user.id !== message.author.id && (reaction.emoji.id == Success.id || reaction.emoji.id == Failure.id), { time: 5000 })
   
     const NO_Count = reactions.get(Failure.id).map(s => s.count);
-    const YES_Count = reactions.get(Sucess.id).map(s => s.count);
+    const YES_Count = reactions.get(Success.id).map(s => s.count);
 
     VOTE_TEXT.delete();
     var ResultEmbed = new Discord.MessageEmbed()
             .setAuthor(`${member.user.tag} | Vote Kick`, member.user.displayAvatarURL({ dynamic: true }))
             .addField("Voting Finished:", "----------------------------------------\n" +
                                           `Total votes (NO ${Failure}): ` + `${NO_Count}\n` +
-                                          `Total votes (YES ${Sucess}): ` + `${YES_Count}\n` +
+                                          `Total votes (YES ${Success}): ` + `${YES_Count}\n` +
                                           "----------------------------------------\n", true)
             .setColor("000001")
   

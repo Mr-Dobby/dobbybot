@@ -10,8 +10,8 @@ module.exports.run = async (bot, message, args, client) => {
     const logName = await Logs.findOne( { guildID: message.guild.id } );
     if (!logName) { return; }
     const logchannel = bot.channels.cache.get(logName.serverLog);
-    const Failure = bot.emojis.cache.get("697388354689433611");
-    const Sucess = bot.emojis.cache.get("697388354668462110");
+    const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+    const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
 
     let OnlyStaff = new Discord.MessageEmbed()
         .setAuthor(`${message.author.tag} | Remove Member from Ticket`, message.author.displayAvatarURL({ dynamic: true }))
@@ -48,7 +48,7 @@ module.exports.run = async (bot, message, args, client) => {
 
     let AMTicketEmbedSuccess = new Discord.MessageEmbed()
         .setAuthor(`${message.author.tag} | Remove Member from Ticket`, message.author.displayAvatarURL({ dynamic: true }))
-        .setDescription(`${Sucess} <@${message.author.id}> removed <@${member.id}> from ticket \`#${ticketNumber}\`!`)
+        .setDescription(`${Success} <@${message.author.id}> removed <@${member.id}> from ticket \`#${ticketNumber}\`!`)
         .setColor("#ffc500")
 
         if (member) {

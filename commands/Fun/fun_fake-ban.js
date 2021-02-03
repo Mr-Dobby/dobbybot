@@ -5,9 +5,9 @@ const Logs = require("../../lib/logs");
 module.exports.run = async (bot, message, args, client) => {
 
   let currPrefix = await Servers.findOne( { guildID: message.guild.id } )
-    const Failure = bot.emojis.cache.get("697388354689433611");
-    const Sucess = bot.emojis.cache.get("697388354668462110");
-    const Troll = bot.emojis.cache.get("723559450153189456");
+  const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+  const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
+  const Troll = bot.emojis.cache.get("723559450153189456");
 
     const banErrorEmbed = new Discord.MessageEmbed()
           .setColor("#ff0000")
@@ -46,7 +46,7 @@ module.exports.run = async (bot, message, args, client) => {
     let banEmbed = new Discord.MessageEmbed()
         .setColor("#ff0000")
         .setAuthor('Successfully banned!', bUser.user.displayAvatarURL({ dynamic: true }))
-        .setDescription(`${Sucess} <@${bUser.user.id}> has been banned`)
+        .setDescription(`${Success} <@${bUser.user.id}> has been banned`)
 
     let BuhByeEmbed = new Discord.MessageEmbed()
         .setAuthor(`${bUser.user.username}, you were \`fake\` banned`, bUser.user.displayAvatarURL({ dynamic: true }))

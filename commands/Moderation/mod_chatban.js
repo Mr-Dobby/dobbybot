@@ -10,8 +10,8 @@ module.exports.run = async (bot, message, args, client) => {
   let logName = await Logs.findOne( { guildID: message.guild.id } )
   const logchannel = bot.channels.cache.get(logName.incidentLog)
   let member = message.guild.members.cache.get(args[0]) || message.mentions.members.first();
-  const Failure = bot.emojis.cache.get("697388354689433611");
-  const Sucess = bot.emojis.cache.get("697388354668462110");
+  const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+  const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
 
   var noPermsEmbed = new Discord.MessageEmbed()
       .setDescription(`${Failure} Chatbanning members requires you to have \`MANAGE MESSAGES\` and \`MUTE MEMBERS\` permissions.`)
@@ -95,7 +95,7 @@ module.exports.run = async (bot, message, args, client) => {
         const chatbanembed = new Discord.MessageEmbed()
             .setColor("#7aff7a")
             .setAuthor('Successfully chatbanned!', member.user.displayAvatarURL({ dynamic: true }))
-            .setDescription(`${Sucess} <@${member.user.id}> has been chatbanned`)
+            .setDescription(`${Success} <@${member.user.id}> has been chatbanned`)
   
         const chatbanembedLog = new Discord.MessageEmbed()
             .setAuthor(`${member.user.tag} | Chatban`, member.user.displayAvatarURL({ dynamic: true }))

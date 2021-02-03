@@ -5,8 +5,8 @@ module.exports.run = async (bot, message, args, client) => {
 
     let currPrefix = await Servers.findOne( { guildID: message.guild.id } )
 
-    const Failure = bot.emojis.cache.get("697388354689433611");
-    const Sucess = bot.emojis.cache.get("697388354668462110");
+    const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+    const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
   
     var noPermsEmbed = new Discord.MessageEmbed()
         .setDescription(`${Failure} Setting new prefix requires you to have \`ADMINISTRATOR\` permissions.`)
@@ -27,7 +27,7 @@ module.exports.run = async (bot, message, args, client) => {
 
     let newPrefixEmbed = new Discord.MessageEmbed()
         .setAuthor(`${message.author.tag} | Prefix`, message.author.displayAvatarURL({ dynamic: true }))
-        .setDescription(`${Sucess} Prefix has now been set to: \`${NP.prefix}\``)
+        .setDescription(`${Success} Prefix has now been set to: \`${NP.prefix}\``)
         .setColor("#7aff7a")
 
     message.channel.send(newPrefixEmbed)

@@ -6,7 +6,7 @@ const Servers = require("../../lib/mongodb");
 module.exports.run = async (bot, message, args, client) => {
 
   let currPrefix = await Servers.findOne( { guildID: message.guild.id } )
-
+  return;
   await mongoose.connect('mongodb://localhost:27017/Dobby_Bot', {
     useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }, (err) => {
       if (err) return console.error(err)
@@ -20,8 +20,8 @@ module.exports.run = async (bot, message, args, client) => {
     return message.channel.send('You need `MANAGE MESSAGES` permission')
   }
 
-  const Failure = bot.emojis.cache.get("697388354689433611");
-  const Sucess = bot.emojis.cache.get("697388354668462110");
+  const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+  const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
 
   let member = message.guild.member(message.mentions.users.last() || message.mentions.users.first() || message.guild.members.cache.get(args[0]));
   let reason = args.slice(1).join(" ");

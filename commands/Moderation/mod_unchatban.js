@@ -10,9 +10,9 @@ module.exports.run = async (bot, message, args, client) => {
   const logchannel = bot.channels.cache.get(logName.incidentLog)
   let chatbanrole = message.guild.roles.cache.get(currPrefix.chatbanRole)
   if (!chatbanrole) { return; }
-  const Failure = bot.emojis.cache.get("697388354689433611");
-  const Sucess = bot.emojis.cache.get("697388354668462110");
-
+  const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+  const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
+  
   var noPermsEmbed = new Discord.MessageEmbed()
       .setDescription(`${Failure} Unchatbanning a member requires you to have \`MANAGE ROLES\` and \`MUTE MEMBERS\` permissions.`)
       .setColor("#ff0000")
@@ -46,7 +46,7 @@ let NotEvenChatbannedEmbed = new Discord.MessageEmbed()
 let unchatbanEmbed = new Discord.MessageEmbed()
       .setColor("#7aff7a")
       .setAuthor('Successfully unchatbanned!', member.user.displayAvatarURL({ dynamic: true }))
-      .setDescription(`${Sucess} <@${member.user.id}> has been unchatbanned`)
+      .setDescription(`${Success} <@${member.user.id}> has been unchatbanned`)
 
       if (!member) return message.channel.send(unchatbanErrorEmbed);
       let reason = args.slice(1).join(" ");

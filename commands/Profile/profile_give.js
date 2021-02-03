@@ -9,8 +9,8 @@ module.exports.run = async (bot, message, args) => {
   let userProfile = await Profile.findOne( { user: message.author.id } );
   let currPrefix = await Servers.findOne( { guildID: message.guild.id } );
   let amountDB = userProfile.balance;
-  const Failure = bot.emojis.cache.get("697388354689433611");
-  const Sucess = bot.emojis.cache.get("697388354668462110");
+  const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+  const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
 
   let noArgs = new Discord.MessageEmbed()
     .setAuthor(`${message.author.tag} | Generosity`, message.author.displayAvatarURL({ dynamic: true }))
@@ -46,7 +46,7 @@ module.exports.run = async (bot, message, args) => {
 
    let giveEmbed = new Discord.MessageEmbed()
     .setAuthor(`${message.author.tag} | Given DC 💸`, message.author.displayAvatarURL({ dynamic: true }))
-    .setDescription(`${Sucess} You have given **${numberWithCommas(amount)}** DC 💸 to <@${member.user.id}>!`)
+    .setDescription(`${Success} You have given **${numberWithCommas(amount)}** DC 💸 to <@${member.user.id}>!`)
     .setColor("#7aff7a")
 
     if (amount.toLowerCase() === "all") {

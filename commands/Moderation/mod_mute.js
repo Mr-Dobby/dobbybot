@@ -10,8 +10,8 @@ module.exports.run = async (bot, message, args, client) => {
   let logName = await Logs.findOne( { guildID: message.guild.id } )
   const logchannel = bot.channels.cache.get(logName.incidentLog)
   let member = message.guild.members.cache.get(args[0]) || message.mentions.members.first();
-  const Failure = bot.emojis.cache.get("697388354689433611");
-  const Sucess = bot.emojis.cache.get("697388354668462110");
+  const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+  const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
 
   var noPermsEmbed = new Discord.MessageEmbed()
       .setDescription(`${Failure} Muting a member requires you to have \`MANAGE MESSAGE\` and \`MUTE MEMBERS\` permissions.`)
@@ -90,7 +90,7 @@ module.exports.run = async (bot, message, args, client) => {
       const muteembed = new Discord.MessageEmbed()
         .setColor("#7aff7a")
         .setAuthor('Successfully muted!', member.user.displayAvatarURL({ dynamic: true }))
-        .setDescription(`${Sucess} <@${member.user.id}> has been muted`)
+        .setDescription(`${Success} <@${member.user.id}> has been muted`)
 
       const muteLogEmbed = new Discord.MessageEmbed()
         .setAuthor(`${member.user.tag} | Mute`, member.user.displayAvatarURL({ dynamic: true }))

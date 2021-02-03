@@ -11,8 +11,8 @@ mongoose.connect('mongodb://localhost:27017/Dobby_Bot', {
 module.exports.run = async (bot, message, args, client) => {
 
     let currPrefix = await Servers.findOne( { guildID: message.guild.id } )
-    const Failure = bot.emojis.cache.get("697388354689433611");
-    const Sucess = bot.emojis.cache.get("697388354668462110");
+    const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+    const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
   
     var noPermsEmbed = new Discord.MessageEmbed()
         .setDescription(`${Failure} Setting up the logs and ticket system requires you to have \`ADMINISTRATOR\` permissions.`)
@@ -99,7 +99,7 @@ module.exports.run = async (bot, message, args, client) => {
 
             let incidentSuccess = new Discord.MessageEmbed()
                 .setAuthor(`${message.author.tag} | Setup Incident Logging`, message.author.displayAvatarURL({ dynamic: true }))
-                .setDescription(`${Sucess} <@${message.author.id}> Successfully set the **<#${newLog}>** channel as the incident log.`)
+                .setDescription(`${Success} <@${message.author.id}> Successfully set the **<#${newLog}>** channel as the incident log.`)
                 .setColor("#7aff7a")
 
             return message.channel.send(incidentSuccess)
@@ -115,7 +115,7 @@ module.exports.run = async (bot, message, args, client) => {
 
             let serverSuccess = new Discord.MessageEmbed()
                 .setAuthor(`${message.author.tag} | Setup Server Logging`, message.author.displayAvatarURL({ dynamic: true }))
-                .setDescription(`${Sucess} <@${message.author.id}> Successfully set the **<#${newLog}>** channel as the server log.`)
+                .setDescription(`${Success} <@${message.author.id}> Successfully set the **<#${newLog}>** channel as the server log.`)
                 .setColor("#7aff7a")
 
             return message.channel.send(serverSuccess)
@@ -131,7 +131,7 @@ module.exports.run = async (bot, message, args, client) => {
 
             let raidSuccess = new Discord.MessageEmbed()
                 .setAuthor(`${message.author.tag} | Setup Raid Logging`, message.author.displayAvatarURL({ dynamic: true }))
-                .setDescription(`${Sucess} <@${message.author.id}> Successfully set the **<#${newLog}>** channel as the raid log.`)
+                .setDescription(`${Success} <@${message.author.id}> Successfully set the **<#${newLog}>** channel as the raid log.`)
                 .setColor("#7aff7a")
 
             return message.channel.send(raidSuccess)
@@ -146,7 +146,7 @@ module.exports.run = async (bot, message, args, client) => {
 
             let welcomeSuccess = new Discord.MessageEmbed()
                 .setAuthor(`${message.author.tag} | Setup Welcome Logging`, message.author.displayAvatarURL({ dynamic: true }))
-                .setDescription(`${Sucess} <@${message.author.id}> Successfully set the **<#${newLog}>** channel as the welcome log.`)
+                .setDescription(`${Success} <@${message.author.id}> Successfully set the **<#${newLog}>** channel as the welcome log.`)
                 .setColor("#7aff7a")
 
             return message.channel.send(welcomeSuccess)
@@ -163,7 +163,7 @@ module.exports.run = async (bot, message, args, client) => {
 
         let ticketsysSuccess = new Discord.MessageEmbed()
             .setAuthor(`${message.author.tag} | Setup Ticket System`, message.author.displayAvatarURL({ dynamic: true }))
-            .setDescription(`${Sucess} <@${message.author.id}> Successfully set the **<#${categoryid}>** category as the ticket system root.`)
+            .setDescription(`${Success} <@${message.author.id}> Successfully set the **<#${categoryid}>** category as the ticket system root.`)
             .setColor("#7aff7a")
 
         await Ticket.findOneAndUpdate( { guildID: message.guild.id }, { $set: { categoryID: categoryid } } )

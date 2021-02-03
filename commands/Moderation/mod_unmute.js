@@ -10,8 +10,8 @@ module.exports.run = async (bot, message, args, client) => {
   const logchannel = bot.channels.cache.get(logName.incidentLog)
   let muterole = message.guild.roles.cache.get(currPrefix.muteRole)
   if (!muterole) { return; }
-  const Failure = bot.emojis.cache.get("697388354689433611");
-  const Sucess = bot.emojis.cache.get("697388354668462110");
+  const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+  const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
 
   var noPermsEmbed = new Discord.MessageEmbed()
       .setDescription(`${Failure} Unmute a member requires you to have \`MANAGE ROLES\` and \`MUTE MEMBERS\` permissions.`)
@@ -46,7 +46,7 @@ let NotEvenMutedEmbed = new Discord.MessageEmbed()
 let unmuteEmbed = new Discord.MessageEmbed()
       .setColor("#7aff7a")
       .setAuthor('Successfully unmuted!', member.user.displayAvatarURL({ dynamic: true }))
-      .setDescription(`${Sucess} <@${member.user.id}> has been unmutened`)
+      .setDescription(`${Success} <@${member.user.id}> has been unmutened`)
 
       if (!member) return message.channel.send(unmuteErrorEmbed);
       let reason = args.slice(1).join(" ");

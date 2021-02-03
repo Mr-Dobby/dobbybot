@@ -10,8 +10,7 @@ module.exports.run = async (bot, message, args, client) => {
 
     if (!args[0]) return;
 
-  const Failure = bot.emojis.cache.get("697388354689433611"); 
-  const Sucess = bot.emojis.cache.get("697388354668462110");
+  const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure);
 
   try {
     

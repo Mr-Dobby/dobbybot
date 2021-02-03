@@ -8,8 +8,7 @@ module.exports.run = async (bot, message, args) => {
 
   let userProfile = await Profile.findOne( { user: message.author.id } );
   let currPrefix = await Servers.findOne( { guildID: message.guild.id } );
-  const Failure = bot.emojis.cache.get("697388354689433611");
-  const Sucess = bot.emojis.cache.get("697388354668462110");
+  const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure);
 
   const noArgs = new Discord.MessageEmbed()
     .setAuthor(`${message.author.tag} | Slot Machine`, message.author.displayAvatarURL({ dynamic: true }))

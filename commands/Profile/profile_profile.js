@@ -11,8 +11,7 @@ module.exports.run = async (bot, message, args, client) => {
     let member = message.guild.member(message.mentions.users.first() || message.guild.members.cache.get(args[0]) || message.author);
 
     let userProfile = await Profile.findOne( { user: member.id } )
-    const Failure = bot.emojis.cache.get("697388354689433611");
-    const Sucess = bot.emojis.cache.get("697388354668462110");
+    const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure);
 
     let noProfile = new Discord.MessageEmbed()
         .setAuthor(`${message.author.tag} | Missing profile`, message.author.displayAvatarURL({ dynamic: true }))

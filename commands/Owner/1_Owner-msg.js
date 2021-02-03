@@ -9,8 +9,8 @@ module.exports.run = async (bot, message, args, client) => {
 
   var member2message = bot.users.cache.get(args[0]);
   var msgContent = args.slice(1).join(" ");
-  const Failure = bot.emojis.cache.get("697388354689433611");
-  const Sucess = bot.emojis.cache.get("697388354668462110");
+  const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+  const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
 
   var embed = new Discord.MessageEmbed()
       .setTitle(`I've got something to tell you . . .`)
@@ -19,7 +19,7 @@ module.exports.run = async (bot, message, args, client) => {
 
   var SuccessEmbed = new Discord.MessageEmbed()
       .setAuthor(`${message.author.tag} | Message users`, message.author.displayAvatarURL({ dynamic: true }))
-      .setDescription(`${Sucess} Delivered your message to ${member2message}.`)
+      .setDescription(`${Success} Delivered your message to ${member2message}.`)
       .setColor("#7aff7a")
 
   var FailureEmbed = new Discord.MessageEmbed()

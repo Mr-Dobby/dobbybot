@@ -10,8 +10,8 @@ module.exports.run = async (bot, message, args, client) => {
   let logName = await Logs.findOne( { guildID: message.guild.id } )
   const logchannel = bot.channels.cache.get(logName.incidentLog)
 
-  const Failure = bot.emojis.cache.get("697388354689433611");
-  const Sucess = bot.emojis.cache.get("697388354668462110");
+  const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+  const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
 
   var noPermsEmbed = new Discord.MessageEmbed()
       .setDescription(`${Failure} Locking a channel requires you to have \`MANAGE CHANNELS\` and \`MANAGE MESSAGES\` permissions.`)
@@ -77,7 +77,7 @@ if (validUnlocks.includes(time)) {
 }
           let liftedemb = new Discord.MessageEmbed()
               .setAuthor(`${message.author.tag} | Unlock`, message.author.displayAvatarURL({ dynamic: true }))
-              .setDescription(`${Sucess} Lockdown lifted via the unlock command. Everyone can now chat again.\n(Locked channel: ${channel})`)
+              .setDescription(`${Success} Lockdown lifted via the unlock command. Everyone can now chat again.\n(Locked channel: ${channel})`)
               .setColor("#7aff7a")
           channel.send(liftedemb)
           logchannel.send(liftedemb)
@@ -111,7 +111,7 @@ if (validUnlocks.includes(time)) {
     }
     let successemb = new Discord.MessageEmbed()
         .setAuthor(`${message.author.tag} | Lockdown`, message.author.displayAvatarURL({ dynamic: true }))
-        .setDescription(`${Sucess} Channel Locked down for **${ms(ms(time), { long: true })}**. \n(Locked channel: ${channel})`)
+        .setDescription(`${Success} Channel Locked down for **${ms(ms(time), { long: true })}**. \n(Locked channel: ${channel})`)
         .setColor("#7aff7a")
           channel.send(successemb)
           logchannel.send(successemb)
@@ -124,7 +124,7 @@ if (validUnlocks.includes(time)) {
                       }
                     ])
                           let liftedemb2 = new Discord.MessageEmbed()
-                              .setDescription(`${Sucess} Lockdown lifted via timeout. Everyone can now chat again.\n (Locked channel: ${channel})`)
+                              .setDescription(`${Success} Lockdown lifted via timeout. Everyone can now chat again.\n (Locked channel: ${channel})`)
                               .setColor("#7aff7a")
                               .setFooter(`Opened up again for everyone ❤️`, message.guild.iconURL({ dynamic: true }))
                               .setTimestamp()

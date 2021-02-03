@@ -25,7 +25,7 @@ module.exports.run = async (bot, message, args, client) => {
           .setFooter(`↳ Want to support this project? Simply just be a nice human being (:`)
           .setColor("#f1c40f")
 
-            message.channel.send(changeLog)
+      message.channel.send(changeLog)
 
 }
 

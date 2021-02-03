@@ -6,8 +6,8 @@ module.exports.run = async (bot, message, args, client) => {
 
   let currPrefix = await Servers.findOne( { guildID: message.guild.id } )
 
-    const Failure = bot.emojis.cache.get("697388354689433611");
-    const Sucess = bot.emojis.cache.get("697388354668462110");
+  const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+  const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
 
     const ticketNumber = args[0];
     const ticketChannel = message.guild.channels.cache.find(c => c.name == `ticket-${ticketNumber}`);
@@ -32,7 +32,7 @@ module.exports.run = async (bot, message, args, client) => {
 
     let TicketClosedEmbed = new Discord.MessageEmbed()
         .setAuthor(`${message.author.tag} | Close Ticket`, message.author.displayAvatarURL({ dynamic: true }))
-        .setDescription(`${Sucess} <@${message.author.id}> you successfully closed \`ticket #${ticketNumber}\`!`)
+        .setDescription(`${Success} <@${message.author.id}> you successfully closed \`ticket #${ticketNumber}\`!`)
         .setColor("#ffc500")
 
     let CloseTicketErrorEmbed = new Discord.MessageEmbed()

@@ -11,8 +11,8 @@ const CoolDown = new Map();
 
 module.exports.run = async (bot, message, args, client) => {
 
-    const Failure = bot.emojis.cache.get("697388354689433611");
-    const Sucess = bot.emojis.cache.get("697388354668462110");
+    const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+    const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
 
     let member = message.guild.member(message.mentions.users.first() || message.guild.members.cache.get(args[0]));
     if (!member) return;
@@ -26,7 +26,7 @@ module.exports.run = async (bot, message, args, client) => {
 
     RepEmbed = new Discord.MessageEmbed()
         .setAuthor(`${message.author.tag} | Reputation Point`, message.author.displayAvatarURL({ dynamic: true }))
-        .setDescription(`${Sucess} You've given a reputation point to ${member}`)
+        .setDescription(`${Success} You've given a reputation point to ${member}`)
         .setColor("#7aff7a")
 
         let userProfile = await Profile.findOne( { user: member.id } )

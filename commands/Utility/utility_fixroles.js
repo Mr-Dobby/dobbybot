@@ -6,8 +6,8 @@ module.exports.run = async (bot, message, args, client) => {
     if (message.guild.id !== "521602207406227476") return;
     let userProfile = await Profile.findOne( { user: message.author.id } )
     let member = message.guild.member(message.mentions.users.last() || message.guild.members.cache.get(args[0]) || message.author);
-    const Failure = bot.emojis.cache.get("697388354689433611");
-    const Sucess = bot.emojis.cache.get("697388354668462110");
+    const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+    const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
     //The starter roles:
     const Dobbylanders_Role = message.guild.roles.cache.get("548430923478204426")
     const Heart_Role = message.guild.roles.cache.get("570889625711804416")
@@ -45,7 +45,7 @@ module.exports.run = async (bot, message, args, client) => {
 
     var successEmbed = new Discord.MessageEmbed()
         .setAuthor(`${member.user.tag} | Fix Member Roles.`, member.user.displayAvatarURL({ dynamic: true }))
-        .setDescription(`${Sucess} ${member} has been given the roles they needed.`)
+        .setDescription(`${Success} ${member} has been given the roles they needed.`)
         .setColor("#7aff7a")
 
     var failureEmbed = new Discord.MessageEmbed()

@@ -12,9 +12,9 @@ module.exports.run = async (bot, message, args, client) => {
           if (err) return console.error(err)
     });
 
-    const Failure = bot.emojis.cache.get("697388354689433611");
-    const Sucess = bot.emojis.cache.get("697388354668462110");
-  
+    const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+    const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
+    
     var noPermsEmbed = new Discord.MessageEmbed()
         .setDescription(`${Failure} Disabling any functions within the server requires you to have \`MANAGE GUILD\` or \`ADMINISTRATOR\` permissions`)
         .setColor("#ff0000")
@@ -32,7 +32,7 @@ module.exports.run = async (bot, message, args, client) => {
 
             let disablelvlmsg = new Discord.MessageEmbed()
                 .setAuthor(`${message.author.tag} | Level Up Message`, message.author.displayAvatarURL({ dynamic: true }))
-                .setDescription(`${Sucess} Disabled level up message for the server`)
+                .setDescription(`${Success} Disabled level up message for the server`)
                 .setColor(`#7aff7a`)
 
             message.channel.send(disablelvlmsg)
@@ -45,7 +45,7 @@ module.exports.run = async (bot, message, args, client) => {
 
             let disablelockdown = new Discord.MessageEmbed()
                 .setAuthor(`${message.author.tag} | Lockdown During Raid`, message.author.displayAvatarURL({ dynamic: true }))
-                .setDescription(`${Sucess} Disabled the lockdown function for the server`)
+                .setDescription(`${Success} Disabled the lockdown function for the server`)
                 .setColor(`#7aff7a`)
 
             message.channel.send(disablelockdown)
@@ -58,7 +58,7 @@ module.exports.run = async (bot, message, args, client) => {
 
             let enableNSFW = new Discord.MessageEmbed()
                 .setAuthor(`${message.author.tag} | NSFW`, message.author.displayAvatarURL({ dynamic: true }))
-                .setDescription(`${Sucess} Disabled NSFW for the server`)
+                .setDescription(`${Success} Disabled NSFW for the server`)
                 .setColor(`#7aff7a`)
 
             message.channel.send(enableNSFW)
@@ -70,11 +70,11 @@ module.exports.run = async (bot, message, args, client) => {
         let disableDefaultEmbed = new Discord.MessageEmbed()
             .setAuthor(`${message.author.tag} | Disable Server Functions`, message.author.displayAvatarURL({ dynamic: true }))
             .setDescription(`
-${currPrefix.lvlmsg ? `${Sucess}` : `${Failure}`} | Level up message | \`${currPrefix.prefix}disable lvlmsg\`
-${currPrefix.lockdown ? `${Sucess}` : `${Failure}`} | Lockdown during raid | \`${currPrefix.prefix}disable lockdown\`
-${currPrefix.nsfw ? `${Sucess}` : `${Failure}`} | NSFW for the server | \`${currPrefix.prefix}disable nsfw\`
+${currPrefix.lvlmsg ? `${Success}` : `${Failure}`} | Level up message | \`${currPrefix.prefix}disable lvlmsg\`
+${currPrefix.lockdown ? `${Success}` : `${Failure}`} | Lockdown during raid | \`${currPrefix.prefix}disable lockdown\`
+${currPrefix.nsfw ? `${Success}` : `${Failure}`} | NSFW for the server | \`${currPrefix.prefix}disable nsfw\`
                 `)
-            .addField(`Raid Function`, `Raid is currently: ${isRaid.raid ? `${Sucess}` : `${Failure}`}\nTo ${isRaid.raid ? `**disable**` : `**enable**`} the raid, check out: \`${isRaid.raid ? `${currPrefix.prefix}raid off` : `${currPrefix.prefix}raid on`}\``)
+            .addField(`Raid Function`, `Raid is currently: ${isRaid.raid ? `${Success}` : `${Failure}`}\nTo ${isRaid.raid ? `**disable**` : `**enable**`} the raid, check out: \`${isRaid.raid ? `${currPrefix.prefix}raid off` : `${currPrefix.prefix}raid on`}\``)
             .setFooter(`To enable functions, head over to: ${currPrefix.prefix}enable`)
             .setColor(`#5eff5e`)
 

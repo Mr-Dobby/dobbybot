@@ -8,8 +8,8 @@ const bug = require("../../lib/bugs");
 module.exports.run = async (bot, message, args, client) => {
 
   let currPrefix = await Servers.findOne( { guildID: message.guild.id } );
-  const Failure = bot.emojis.cache.get("697388354689433611");
-  const Sucess = bot.emojis.cache.get("697388354668462110");
+  const Failure = bot.emojis.cache.get(require("../../storage/config.json").emojis.Failure); 
+  const Success = bot.emojis.cache.get(require("../../storage/config.json").emojis.Success);
   const logName = await Logs.findOne( { guildID: message.guild.id } );
   const logchannel = bot.channels.cache.get(logName.incidentLog);
 
@@ -44,7 +44,7 @@ module.exports.run = async (bot, message, args, client) => {
 
     let newTicketEmbed = new Discord.MessageEmbed()
     .setAuthor(`${message.author.tag} | New Ticket`, message.author.displayAvatarURL({ dynamic: true }))
-    .setDescription(`${Sucess} <@${message.author.id}> you have successfully created a new ticket.\nPlease explain your complaints in details.`)
+    .setDescription(`${Success} <@${message.author.id}> you have successfully created a new ticket.\nPlease explain your complaints in details.`)
     .setColor("#ffc500")
     .setFooter(`Thank you for creating a ticket! Please await staff respond.`)
     .setTimestamp()
@@ -88,7 +88,7 @@ module.exports.run = async (bot, message, args, client) => {
       if (confirm !== `-y`) return message.channel.send(doYouConfirm)
       var newProfileEmbed = new Discord.MessageEmbed()
           .setAuthor(`${message.author.tag} | Profile Created`, message.author.displayAvatarURL({ dynamic: true }))
-          .setDescription(`${Sucess} <@${message.author.id}> Your old profile is noe COMPLETELY gone, but replaced with a new one.`)
+          .setDescription(`${Success} <@${message.author.id}> Your old profile is noe COMPLETELY gone, but replaced with a new one.`)
           .setColor("#7aff7a")
 
           Profile.findOneAndDelete( { user: message.author.id } );

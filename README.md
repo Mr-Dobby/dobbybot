@@ -9,7 +9,7 @@ Mongodb
 
 ## Installation 🤖
 
-You need to install [Mongodb Local Server](https://www.mongodb.com/try/download/shell) and [Nodejs (v14+)](https://nodejs.org/en/). Once done, make a directory and open either a terminal or powershell. Type the following:
+You need to install [Mongodb Local Server](https://www.mongodb.com/try/download/shell) and [Nodejs (v14+)](https://nodejs.org/en/). In this, I use [Nodemon](https://www.npmjs.com/package/nodemon) for easier editing and autorestart when files are saved. Once done, make a directory and open either a terminal or powershell. Type the following:
 
 ```shell
 git clone https://github.com/Mr-Dobby/dobbybot.git
@@ -23,7 +23,7 @@ Make a new file in the root directory called `.env`
 Fill in `TOKEN=YOUR_BOT_TOKEN` - Bot token can be found on the Discord dev portal  
 All configurations and permanent data are stored in dobbybot/storage
 ###### Fill out the two config.json and colours.json
-config.json - Put default prefix here
+config.json - Put default prefix here and/or emojis.
 ```json
 {
   "prefix" : "-",

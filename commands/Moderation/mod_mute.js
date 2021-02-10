@@ -52,6 +52,11 @@ module.exports.run = async (bot, message, args, client) => {
       .addField("**Example:**", `${currPrefix.prefix}mute @Mr.Dobby#0001 1m`)
       .setFooter("Default mute time: 30 min. | <> = Required, [] = Optional")
 
+    const AlreadyMutedEmbed = new Discord.MessageEmbed()
+      .setColor("#ff0000")
+      .setAuthor(`${member.user.tag} | Mute`, member.user.displayAvatarURL({ dynamic: true }))
+      .setDescription(`${Failure} ${member} is already muted`)
+
       if (member === message.guild.me || member.id === message.author.id) {
         return;
       }
@@ -135,6 +140,10 @@ module.exports.run = async (bot, message, args, client) => {
           if (member.voice.channel) {
             member.setMute(false);
           }
+          delete bot.muted[toMute.id];
+          fs.writeFileSync("../../storage/muted.json", JSON.stringify(bot.muted, null, 4), error => {
+            if (error) { console.log(error) }
+          })
           logchannel.send(AutoEmbed)
         } catch (e) {
           console.log(e)

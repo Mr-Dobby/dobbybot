@@ -50,21 +50,20 @@ module.exports.run = async (bot, message, args, client) => {
     }
 
     var tooManyMessages = new Discord.MessageEmbed()
-    .setDescription(`${Failure} I can only clear a maximum of **100** messages due to the Discord API.`)
-    .setColor("#ff0000")
+      .setDescription(`${Failure} I can only clear a maximum of **100** messages due to the Discord API.`)
+      .setColor("#ff0000")
 
     let MemberOrChannel = bot.users.cache.get(args[1]) || bot.channels.cache.get(args[1]) || message.guild.member(message.mentions.users.first()) || message.guild.channels.cache.get(args[1]) || message.channel;
   //  if (!MemberOrChannel) { MemberOrChannel == bot.channels.cache.get(message.channel.id); }
 
     let clearEmbed = new Discord.MessageEmbed()
-    .setAuthor(`${message.author.tag} | Clear`, message.author.displayAvatarURL({ dynamic: true }))
-    .setColor("#4fff7f")
-    .addField("Cleared", `${deleteCount} messages`, true)
-    .addField("Moderator", `<@${message.author.id}>`, true)
-    .setFooter(`ID: ${message.author.id}`)
-    .setTimestamp();
+      .setAuthor(`${message.author.tag} | Clear`, message.author.displayAvatarURL({ dynamic: true }))
+      .setColor("#4fff7f")
+      .setFooter(`ID: ${message.author.id}`)
+      .setTimestamp();
 
     try {
+      message.delete()
       if (bot.guilds.cache.get(message.guild.id).member(MemberOrChannel)) {
         message.channel.messages.fetch({ limit: 100 }).then(messages => {
           const filter = MemberOrChannel ? MemberOrChannel.id : bot.user.id;
@@ -73,7 +72,10 @@ module.exports.run = async (bot, message, args, client) => {
             message.channel.send(tooManyMessages)
           })
         })
-        clearEmbed.setDescription(`\`${currPrefix.prefix}clear <number> <@user>\``).addField(`Member`, `${MemberOrChannel.toString()}`, true)
+        clearEmbed
+          .setDescription(`\`${currPrefix.prefix}clear <number> <@user>\``)
+          .addField(`Action`, `Cleared **${deleteCount}** messages for ${MemberOrChannel.toString()}\nIn channel ${message.channel.toString()}`, true)
+          .addField("Moderator", `<@${message.author.id}>`, true)
         logchannel.send(clearEmbed)
       } else {
         if (message.channel.type == "text") {
@@ -84,7 +86,10 @@ module.exports.run = async (bot, message, args, client) => {
             })
           })
         }
-        clearEmbed.setDescription(`\`${currPrefix.prefix}clear <number> <#channel>\``).addField(`Channel`, `${MemberOrChannel}`, true)
+        clearEmbed
+          .setDescription(`\`${currPrefix.prefix}clear <number> <#channel>\``)
+          .addField(`Action`, `Cleared **${deleteCount}** messages in channel ${MemberOrChannel}`, true)
+          .addField("Moderator", `<@${message.author.id}>`, true)
         logchannel.send(clearEmbed)
       }
     } catch (e) {
@@ -94,21 +99,21 @@ module.exports.run = async (bot, message, args, client) => {
   } else {
 
     let clearErrorEmbed = new Discord.MessageEmbed()
-    .setColor("#ff4f4f")
-    .setTitle(`\`Command: ${currPrefix.prefix}clear\` | Alias: \`purge\``)
-    .addField("**Description:**", "Deletes message in this channel. Max 100, newer than 2 weeks.")
-    .addField("**Command usage:**", `${currPrefix.prefix}clear <Number>`)
-    .addField("**Example:**", `${currPrefix.prefix}clear 69`)
-    .setFooter("<> = Required, [] = Optional")
+      .setColor("#ff4f4f")
+      .setTitle(`\`Command: ${currPrefix.prefix}clear\` | Alias: \`purge\``)
+      .addField("**Description:**", "Deletes message in this channel. Max 100, newer than 2 weeks.")
+      .addField("**Command usage:**", `${currPrefix.prefix}clear <Number>`)
+      .addField("**Example:**", `${currPrefix.prefix}clear 69`)
+      .setFooter("<> = Required, [] = Optional")
 
  
     var noPermsEmbed = new Discord.MessageEmbed()
-        .setDescription(`${Failure} Clearing messages requires you to have \`MANAGE MESSAGES\` permissions.`)
-        .setColor("#ff0000")
+      .setDescription(`${Failure} Clearing messages requires you to have \`MANAGE MESSAGES\` permissions.`)
+      .setColor("#ff0000")
   
     var noPermsEmbedBot = new Discord.MessageEmbed()
-        .setDescription(`${Failure} Clearing messages requires me to have \`MANAGE MESSAGES\` permissions.`)
-        .setColor("#ff0000")
+      .setDescription(`${Failure} Clearing messages requires me to have \`MANAGE MESSAGES\` permissions.`)
+      .setColor("#ff0000")
 
     if (!message.guild.me.hasPermission("MANAGE_MESSAGES")) {
       return message.channel.send(noPermsEmbedBot)

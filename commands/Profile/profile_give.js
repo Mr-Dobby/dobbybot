@@ -49,7 +49,7 @@ module.exports.run = async (bot, message, args) => {
     .setDescription(`${Success} You have given **${numberWithCommas(amount)}** DC 💸 to <@${member.user.id}>!`)
     .setColor("#7aff7a")
 
-    if (amount.toLowerCase() === "all") {
+    if (amount.toLowerCase() === "all" || amount === "0") {
 
       let targetUserProfile = await Profile.findOne( { user: member.id } );
       await Profile.updateOne( { user: message.author.id }, { $set: { balance: 0 } } );

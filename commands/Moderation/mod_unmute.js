@@ -63,13 +63,9 @@ let unmuteEmbedLog = new Discord.MessageEmbed()
       .setTimestamp()
 
       if (member.roles.cache.has(muterole.id)) {
-
-      await(member.roles.remove(muterole));
-
+        await member.roles.remove(muterole);
       } else {
-
-      return message.channel.send(NotEvenMutedEmbed);
-      
+        return message.channel.send(NotEvenMutedEmbed);
       }
 
       if (logchannel) {

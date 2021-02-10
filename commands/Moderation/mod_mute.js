@@ -140,10 +140,6 @@ module.exports.run = async (bot, message, args, client) => {
           if (member.voice.channel) {
             member.setMute(false);
           }
-          delete bot.muted[toMute.id];
-          fs.writeFileSync("../../storage/muted.json", JSON.stringify(bot.muted, null, 4), error => {
-            if (error) { console.log(error) }
-          })
           logchannel.send(AutoEmbed)
         } catch (e) {
           console.log(e)

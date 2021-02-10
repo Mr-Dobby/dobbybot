@@ -51,17 +51,11 @@ module.exports = async (bot, channel) => {
     if (!chatbanrole) { return; }
     try {
       if (channel.type === "text") {
-        await channel.overwritePermissions([
-            {
-                id: chatbanrole,
-                deny: ['VIEW_CHANNEL', 'SEND_MESSAGES', 'ADD_REACTIONS', 'READ_MESSAGE_HISTORY']
-            },
-            {
-                id: muterole,
-                deny: ['SEND_MESSAGES', 'ADD_REACTIONS']
-            }
-        ])
-      }
-    } catch (e) { console.error(e) }
-
+        channel.guild.channels.cache.forEach(async (channel) => {
+          await channel.updateOverwrite(chatbanrole, { VIEW_CHANNEL: false, READ_MESSAGE_HISTORY: false });
+          await channel.updateOverwrite(muterole, { SEND_MESSAGES: false, ADD_REACTIONS: false, SPEAK: false, STREAM: false });
+//          await channel.updateOverwrite(channel.guild.roles.everyone, { SEND_MESSAGES: null, VIEW_CHANNEL: null });
+      });
+    }
+  } catch (e) { console.error(e) }
 };

@@ -21,56 +21,43 @@ module.exports = async (bot, oldChannel, newChannel) => {
     if (!logchannel.permissionsFor(oldChannel.guild.me).has('SEND_MESSAGES')) return;
     if (!logchannel.permissionsFor(oldChannel.guild.me).has('EMBED_LINKS')) return;
 
-    const ignoreChannels = [
-            '667335552558956554', 
-            '667335645894541331', 
-            '667337560179343374', 
-            '687333146613776424', 
-            '687333066934714490', 
-            '687332936936063033',
-            '723638087929823233'
-        ];
-            // Get stat channel IDs
-            if (ignoreChannels.includes(oldChannel.id)) return;
-            // Ignore these channels
-    
-            let oldCategory = oldChannel.parent;
-            let newCategory = newChannel.parent;
-            if (!newCategory) newCategory = "None";
-            let types = {
-                "text"      : "Text channel",
-                "voice"     : "Voice channel",
-                "category"  : "Category",
-                "news"      : "Announcement",
-                "store"     : "Store"
-            };
+    let oldCategory = oldChannel.parent;
+    let newCategory = newChannel.parent;
+    if (!newCategory) newCategory = "None";
+    let types = {
+        "text"      : "Text channel",
+        "voice"     : "Voice channel",
+        "category"  : "Category",
+        "news"      : "Announcement",
+        "store"     : "Store"
+    };
 
-            if (oldChannel.name !== newChannel.name) {
+    if (oldChannel.name !== newChannel.name) {
     
-                let channelNameUpdateEmbed = new Discord.MessageEmbed()
-                .setColor(colour.channels)
-                .setAuthor(`${oldChannel.guild.name} | Channel update`, newChannel.guild.iconURL({ dynamic: true }))
-                .setDescription(`${newChannel.toString()} updated name ${fire}`)
-                .addField("Old name", `${oldChannel.name}`, true)
-                .addField("New name", `__**${newChannel.name}**__`, true)
-                .setFooter(`Channel ID: ${newChannel.id} • ${hs}:${min}:${sec}`)
+        let channelNameUpdateEmbed = new Discord.MessageEmbed()
+        .setColor(colour.channels)
+        .setAuthor(`${oldChannel.guild.name} | Channel update`, newChannel.guild.iconURL({ dynamic: true }))
+        .setDescription(`${newChannel.toString()} updated name ${fire}`)
+        .addField("Old name", `${oldChannel.name}`, true)
+        .addField("New name", `__**${newChannel.name}**__`, true)
+        .setFooter(`Channel ID: ${newChannel.id} • ${hs}:${min}:${sec}`)
         
-                logchannel.send(channelNameUpdateEmbed).catch()
+        logchannel.send(channelNameUpdateEmbed).catch()
     
-            }
+    }
     
-            if (oldChannel.parent !== newChannel.parent && oldChannel.parent !== null && newChannel.parent !== null) {
+    if (oldChannel.parent !== newChannel.parent && oldChannel.parent !== null && newChannel.parent !== null) {
     
-                let channelParentUpdateEmbed = new Discord.MessageEmbed()
-                .setColor(colour.channels)
-                .setAuthor(`${oldChannel.guild.name} | Channel update`, newChannel.guild.iconURL({ dynamic: true }))
-                .setDescription(`${newChannel.toString()} updated category ${fire}`)
-                .addField("Old category", `${oldCategory}`, true)
-                .addField("New category", `__**${newCategory}**__`, true)
-                .setFooter(`Channel ID: ${newChannel.id} • ${hs}:${min}:${sec}`)
+        let channelParentUpdateEmbed = new Discord.MessageEmbed()
+        .setColor(colour.channels)
+        .setAuthor(`${oldChannel.guild.name} | Channel update`, newChannel.guild.iconURL({ dynamic: true }))
+        .setDescription(`${newChannel.toString()} updated category ${fire}`)
+        .addField("Old category", `${oldCategory}`, true)
+        .addField("New category", `__**${newCategory}**__`, true)
+        .setFooter(`Channel ID: ${newChannel.id} • ${hs}:${min}:${sec}`)
         
-                logchannel.send(channelParentUpdateEmbed).catch()
+        logchannel.send(channelParentUpdateEmbed).catch()
         
-            }
+    }
     
 };

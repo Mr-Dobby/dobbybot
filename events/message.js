@@ -60,26 +60,26 @@ module.exports = async (bot, message) => {
                     max = Math.floor(max); 
                     return Math.floor(Math.random() * (max - min + 1)) + min; 
                 }
-        
+
                 let randomAmount = randomNumber(450, 650)
-        
-                await Profile.findOneAndUpdate( { user: message.author.id }, { $set: { globalLevel: userProfile.globalLevel + 1 } }, { new: true } )
+
                 await Profile.findOneAndUpdate( { user: message.author.id }, { $set: { xp: 0 } }, { new: true } )
+                await Profile.findOneAndUpdate( { user: message.author.id }, { $set: { globalLevel: userProfile.globalLevel + 1 } }, { new: true } )
                 await Profile.findOneAndUpdate( { user: message.author.id }, { $set: { balance: userProfile.balance + randomAmount } }, { new: true } )
-        
+
                 if (currPrefix.lvlmsg === true) {
-        
+
                     let lvlUpEmbed = new Discord.MessageEmbed()
                         .setAuthor(`${message.author.tag} | Level up!`, message.author.displayAvatarURL({ dynamic: true }))
-                        .setDescription(`**Congratulations** <@${message.author.id}>, you have leveled up!\nYou are now level ${userProfile.globalLevel + 1}, and you earned ${randomAmount} DC 💸 for reaching it!`)
+                        .setDescription(`**Congratulations** <@${message.author.id}>, you have leveled up!\n\nNew Level: **${userProfile.globalLevel + 1}**\nDC: **+ ${randomAmount} DC** 💸`)
                         .setThumbnail("https://cdn.discordapp.com/attachments/682717976771821646/705125856455950496/Levelup.png")
                         .setFooter(`Disable this message for all members within the server with: ${currPrefix.prefix}disable lvlmsg`)
                         .setColor("#00cbe5")
-        
+
                     message.channel.send(lvlUpEmbed).then(message => message.delete({ timeout: 10000 }))
-        
+
                 }
-            }
+            } else {
 
             function generateXP() {
                 var min = 10;
@@ -87,12 +87,13 @@ module.exports = async (bot, message) => {
                 return Math.floor(Math.random() * (max - min + 1)) + min;
             }
 
-            await Profile.findOneAndUpdate( { user: message.author.id }, { $set: { xp: currXp + generateXP() } }, { new: true } )
-
-            coolDownXP.add(message.author.id);
+            await Profile.findOneAndUpdate( { user: message.author.id }, { $set: { xp: userProfile.xp + generateXP() } }, { new: true } )
+        
+        }
+        coolDownXP.add(message.author.id);
         setTimeout(() => {
             coolDownXP.delete(message.author.id);
-        }, ms('10s'));
+        }, ms('30s'));
     }
 
 } else {

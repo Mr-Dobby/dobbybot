@@ -29,8 +29,8 @@ config.json - Put default prefix here and/or emojis.
   "prefix" : "-",
   "owner" : "INSERT YOUR USER ID HERE",
   "emojis" : {
-    "Success" : "✅", // Emoji IDs also work.
-    "Failure" : "❌", // Emoji IDs also work.
+    "Success" : "✅", 
+    "Failure" : "❌", 
   },
   "clientMap" : { 
     "web"     : "🌐 Browser", 

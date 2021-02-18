@@ -4,7 +4,6 @@ mongoose.connect('mongodb://localhost:27017/Dobby_Bot', {
         if (err) return console.error(err);
 });
 
-
 module.exports = async (bot) => {
 
     console.log(`\n${bot.user.tag} IS ONLINE`)

@@ -7,6 +7,8 @@ const Logs = require("../lib/logs");
 const colour = require('../storage/colours.json')
 
 module.exports = async (bot, member) => {
+
+  if (member.id == bot.user.id) { return; }
   
     const currPrefix = await Servers.findOne( { guildID: member.guild.id } )
     const fire = bot.emojis.cache.get("687436596391182344")

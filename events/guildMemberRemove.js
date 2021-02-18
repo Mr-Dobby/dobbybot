@@ -5,6 +5,7 @@ const colour = require('../storage/colours.json')
 
 module.exports = async (bot, member) => {
 
+  if (member.id == bot.user.id) { return; }
   var date = new Date();
   var hs = String(date.getHours()).padStart(2, '0');
   var min = String(date.getMinutes()).padStart(2, '0');

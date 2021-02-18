@@ -53,7 +53,7 @@ module.exports.run = async (bot, message, args, client) => {
       .setDescription(`${Failure} I can only clear a maximum of **100** messages due to the Discord API.`)
       .setColor("#ff0000")
 
-    let MemberOrChannel = bot.users.cache.get(args[1]) || bot.channels.cache.get(args[1]) || message.guild.member(message.mentions.users.first()) || message.guild.channels.cache.get(args[1]) || message.channel;
+    let MemberOrChannel = bot.users.cache.get(args[1]) || bot.channels.cache.get(args[1]) || message.guild.member(message.mentions.users.first()) || message.guild.channels.cache.get(args[1]) || message.mentions.channels.first() || message.channel;
   //  if (!MemberOrChannel) { MemberOrChannel == bot.channels.cache.get(message.channel.id); }
 
     let clearEmbed = new Discord.MessageEmbed()
@@ -71,27 +71,27 @@ module.exports.run = async (bot, message, args, client) => {
           message.channel.bulkDelete(messages, true).catch(e => {
             message.channel.send(tooManyMessages)
           })
-        })
         clearEmbed
           .setDescription(`\`${currPrefix.prefix}clear <number> <@user>\``)
-          .addField(`Action`, `Cleared **${deleteCount}** messages for ${MemberOrChannel.toString()}\nIn channel ${message.channel.toString()}`, true)
+          .addField(`Action`, `Cleared **${messages.length}** messages for ${MemberOrChannel.toString()}\nIn channel ${message.channel.toString()}`, true)
           .addField("Moderator", `<@${message.author.id}>`, true)
         logchannel.send(clearEmbed)
-      } else {
-        if (message.channel.type == "text") {
-          message.channel.messages.fetch({ limit: 100 }).then(messages => {
-            messages = messages.array().slice(0, deleteCount);
-            message.channel.bulkDelete(messages, true).catch(e => {
-              message.channel.send(tooManyMessages)
-            })
+      })
+    } else {
+      if (MemberOrChannel.type == "text") {
+        MemberOrChannel.messages.fetch({ limit: 100 }).then(messages => {
+          messages = messages.array().slice(0, deleteCount);
+          MemberOrChannel.bulkDelete(messages, true).catch(e => {
+            message.channel.send(tooManyMessages)
           })
-        }
         clearEmbed
           .setDescription(`\`${currPrefix.prefix}clear <number> <#channel>\``)
-          .addField(`Action`, `Cleared **${deleteCount}** messages in channel ${MemberOrChannel}`, true)
+          .addField(`Action`, `Cleared **${messages.length}** messages in channel ${MemberOrChannel}`, true)
           .addField("Moderator", `<@${message.author.id}>`, true)
         logchannel.send(clearEmbed)
-      }
+      })
+    }
+  }
     } catch (e) {
       message.channel.send(tooManyMessages)
     }

@@ -7,8 +7,7 @@ module.exports.run = async (bot, message, args, client) => {
 
     let currPrefix = await Servers.findOne( { guildID: message.guild.id } );
     let isRaid = await Raid.findOne( { guildID: message.guild.id } );
-    let igcha = await Raid.findOne( { guildID: message.guild.id } );
-    let ignore = igcha.ignoredChannels;
+    let ignore = isRaid.ignoredChannels;
     await mongoose.connect('mongodb://localhost:27017/Dobby_Bot', {
         useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }, (err) => {
           if (err) return console.error(err)
